@@ -28883,11 +28883,11 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "nav"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "nav-wraper"
+        className: "container nav-wraper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "nav-logo"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "Blog")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "nav-links"
+        className: "nav-logo float-left"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", null, "Blog")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "nav-links float-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
         className: "nav-link"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
