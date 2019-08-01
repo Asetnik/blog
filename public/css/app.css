@@ -11145,10 +11145,16 @@ li {
   padding: 0;
 }
 
+.page {
+  display: grid;
+  grid-template-columns: auto 300px;
+  margin-top: 40px;
+}
+
 .nav {
-  width: 100vw;
+  width: 100%;
   height: 80px;
-  box-shadow: 0px 10px 19px -11px #8f8f8f;
+  box-shadow: 0px 0px 10px 0px #8f8f8f;
 }
 
 .nav .nav-wraper {
@@ -11179,5 +11185,9 @@ li {
 .nav .nav-link a:hover {
   text-decoration: none;
   color: #4aa951;
+}
+
+.sidebar {
+  height: 1500px;
 }
 
