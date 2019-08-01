@@ -1,0 +1,43 @@
+@font-face {
+    font-family: 'Brandon Text Italic';
+    src: url('BrandonText-RegularItalic.eot');
+    src: local('Brandon Text Regular Italic'), local('BrandonText-RegularItalic'),
+    url('BrandonText-RegularItalic.eot?#iefix') format('embedded-opentype'),
+    url('BrandonText-RegularItalic.woff') format('woff'),
+    url('BrandonText-RegularItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Brandon Text Thin';
+    src: url('BrandonText-Thin.eot');
+    src: local('Brandon Text Thin'), local('BrandonText-Thin'),
+    url('BrandonText-Thin.eot?#iefix') format('embedded-opentype'),
+    url('BrandonText-Thin.woff') format('woff'),
+    url('BrandonText-Thin.ttf') format('truetype');
+    font-weight: 100;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Brandon Text Bold';
+    src: url('BrandonText-Bold.eot');
+    src: local('Brandon Text Bold'), local('BrandonText-Bold'),
+    url('BrandonText-Bold.eot?#iefix') format('embedded-opentype'),
+    url('BrandonText-Bold.woff') format('woff'),
+    url('BrandonText-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Brandon Text Regular';
+    src: url('BrandonText-Regular.eot');
+    src: local('Brandon Text Regular'), local('BrandonText-Regular'),
+    url('BrandonText-Regular.eot?#iefix') format('embedded-opentype'),
+    url('BrandonText-Regular.woff') format('woff'),
+    url('BrandonText-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
