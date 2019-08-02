@@ -8,11 +8,15 @@
 @import '~bootstrap/scss/bootstrap';
 
 //Components scss
+@import 'base';
 @import '../js/components/App/App';
 @import '../js/components/Header/Header';
 @import '../js/components/Sidebar/Sidebar';
 @import '../js/components/PageContent/PageContent';
+@import '../js/components/Post/Post';
 @import '../js/components/Post/PostFolded/PostFolded';
+@import '../js/components/Post/PostFull/PostFull';
 @import '../js/components/Category/Category';
 @import '../js/components/Profile/Profile';
 @import '../js/components/UserPage/UserPage';
+@import '../js/components/Comment/Comment';

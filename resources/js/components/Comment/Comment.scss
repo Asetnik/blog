@@ -1,0 +1,41 @@
+.comment{
+
+    .author-wrapper{
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-column-gap: 10px;
+        align-items: center;
+        margin-bottom: 15px;
+
+        img{
+            height: 60px;
+            width: 60px;
+            border-radius: 60px;
+        }
+
+        .author-info{
+
+            .author-name{
+                font-size: 22px;
+            }
+
+            p{
+                color: $lightgray;
+                font-size: 14px;
+            }
+
+        }
+    }
+
+    .comment-content{
+
+        p{
+            font-size: 14px;
+            color: $black;
+        }
+    }
+
+    hr{
+        color: $lightgray;
+    }
+}

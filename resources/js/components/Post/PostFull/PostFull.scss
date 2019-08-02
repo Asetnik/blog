@@ -1,0 +1,23 @@
+.post-full{
+
+    .post-content{
+        margin-bottom: 35px;
+
+        p{
+            font-size: 14px;
+            color: $black;
+        }
+    }
+
+    .comments{
+        margin-top: 35px;
+
+        h4{
+            margin-bottom: 20px;
+        }
+
+        .comment:not(:last-child){
+            margin-bottom: 20px;
+        }
+    }
+}

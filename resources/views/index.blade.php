@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Blog</title>
-    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
+
     <link href="{{asset('css/font-awesome.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
+
 </head>
 <body>
 <div id="root"></div>

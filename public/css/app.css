@@ -6116,13 +6116,13 @@ a.badge-dark.focus {
   font-size: 1.35rem;
   font-weight: 700;
   line-height: 1;
-  color: #000;
+  color: #000000;
   text-shadow: 0 1px 0 #ffffff;
   opacity: 0.5;
 }
 
 .close:hover {
-  color: #000;
+  color: #000000;
   text-decoration: none;
 }
 
@@ -6311,7 +6311,7 @@ a.close.disabled {
   z-index: 1040;
   width: 100vw;
   height: 100vh;
-  background-color: #000;
+  background-color: #000000;
 }
 
 .modal-backdrop.fade {
@@ -6477,7 +6477,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=top] .arrow::before {
   top: 0;
   border-width: 0.4rem 0.4rem 0;
-  border-top-color: #000;
+  border-top-color: #000000;
 }
 
 .bs-tooltip-right,
@@ -6496,7 +6496,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=right] .arrow::before {
   right: 0;
   border-width: 0.4rem 0.4rem 0.4rem 0;
-  border-right-color: #000;
+  border-right-color: #000000;
 }
 
 .bs-tooltip-bottom,
@@ -6513,7 +6513,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=bottom] .arrow::before {
   bottom: 0;
   border-width: 0 0.4rem 0.4rem;
-  border-bottom-color: #000;
+  border-bottom-color: #000000;
 }
 
 .bs-tooltip-left,
@@ -6532,7 +6532,7 @@ a.close.disabled {
 .bs-tooltip-auto[x-placement^=left] .arrow::before {
   left: 0;
   border-width: 0.4rem 0 0.4rem 0.4rem;
-  border-left-color: #000;
+  border-left-color: #000000;
 }
 
 .tooltip-inner {
@@ -6540,7 +6540,7 @@ a.close.disabled {
   padding: 0.25rem 0.5rem;
   color: #ffffff;
   text-align: center;
-  background-color: #000;
+  background-color: #000000;
   border-radius: 0.25rem;
 }
 
@@ -11094,7 +11094,7 @@ a.text-dark:focus {
   }
 
   .badge {
-    border: 1px solid #000;
+    border: 1px solid #000000;
   }
 
   .table {
@@ -11126,6 +11126,33 @@ a.text-dark:focus {
     color: inherit;
     border-color: #dee2e6;
   }
+}
+
+.btn {
+  border: solid 2px #4aa951;
+  padding: 10px 15px;
+  font-size: 16px;
+  background-color: #ffffff;
+  color: #4aa951;
+  outline: none;
+}
+
+.btn:hover {
+  background-color: #4aa951;
+  color: #ffffff;
+  box-shadow: 0px 0px 15px 3px #4f5050;
+  transition: 0.5s;
+}
+
+.text-link {
+  color: #4f5050;
+  cursor: pointer;
+}
+
+.text-link:hover {
+  color: #4aa951;
+  text-decoration: none;
+  transition: 0.5s;
 }
 
 h1,
@@ -11185,22 +11212,18 @@ li {
   color: #4aa951;
 }
 
-.sidebar {
-  height: 1500px;
-}
-
-.post-folded {
+.post {
   padding: 35px;
   margin-bottom: 35px;
   box-shadow: 0px 0px 10px 0px #8f8f8f;
 }
 
-.post-folded .head-wrapper {
+.post .head-wrapper {
   display: grid;
   grid-template-columns: auto auto;
 }
 
-.post-folded .head-wrapper .author-wrapper {
+.post .head-wrapper .author-wrapper {
   display: grid;
   grid-template-columns: -webkit-max-content auto;
   grid-template-columns: max-content auto;
@@ -11210,97 +11233,130 @@ li {
   margin-bottom: 15px;
 }
 
-.post-folded .head-wrapper .author-wrapper img {
+.post .head-wrapper .author-wrapper img {
   height: 60px;
   width: 60px;
   border-radius: 60px;
 }
 
-.post-folded .head-wrapper .author-wrapper .author-info .author-name {
+.post .head-wrapper .author-wrapper .author-info .author-name {
   font-size: 22px;
 }
 
-.post-folded .head-wrapper .author-wrapper .author-info p {
+.post .head-wrapper .author-wrapper .author-info p {
   color: #4f5050;
   font-size: 14px;
 }
 
-.post-folded .head-wrapper .category-wrapper span {
+.post .head-wrapper .category-wrapper span {
   font-size: 14px;
 }
 
-.post-folded .post-info .post-title {
-  color: #4aa951;
+.post .post-info {
+  margin-top: 10px;
 }
 
-.post-folded .post-info .post-description {
+.post .post-info .post-title {
+  color: #4aa951;
+  margin-bottom: 5px;
+}
+
+.post .post-info .post-description {
   font-size: 16px;
   font-weight: bold;
   color: #4f5050;
 }
 
-.post-folded .post-info img {
+.post .post-info img {
   max-width: 100%;
   margin: 15px 0;
 }
 
-.post-folded .post-tags-comments {
+.post .post-footer {
   display: grid;
   grid-template-columns: auto -webkit-max-content;
   grid-template-columns: auto max-content;
   -webkit-align-items: center;
           align-items: center;
-  margin-bottom: 20px;
 }
 
-.post-folded .post-tags-comments .tags-wrapper .tag {
+.post .post-footer .tags-wrapper .tag {
   margin-left: 10px;
   font-size: 12px;
 }
 
-.post-folded .post-tags-comments .tags-wrapper .tag:first-child {
+.post .post-footer .tags-wrapper .tag:first-child {
   margin-left: 0;
 }
 
-.post-folded .post-tags-comments .comments-wrapper {
+.post .post-footer .icons-wrapper {
   justify-self: right;
 }
 
-.post-folded .post-tags-comments .comments-wrapper a {
+.post .post-footer .icons-wrapper p {
+  float: left;
+  margin-left: 15px;
   font-size: 15px;
 }
 
 .post-folded .read-more-wrapper {
   display: grid;
+  -webkit-justify-content: center;
+          justify-content: center;
 }
 
-.post-folded .read-more-wrapper .read-more-btn {
-  justify-self: center;
+.post-full .post-content {
+  margin-bottom: 35px;
 }
 
-.btn {
-  border: solid 2px #4aa951;
-  padding: 10px 15px;
-  font-size: 16px;
-  background-color: #ffffff;
-  color: #4aa951;
-  outline: none;
+.post-full .post-content p {
+  font-size: 14px;
+  color: #000000;
 }
 
-.btn:hover {
-  background-color: #4aa951;
-  color: #ffffff;
-  box-shadow: 0px 0px 15px 3px #4f5050;
-  transition: 0.5s;
+.post-full .comments {
+  margin-top: 35px;
 }
 
-.text-link {
+.post-full .comments h4 {
+  margin-bottom: 20px;
+}
+
+.post-full .comments .comment:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.comment .author-wrapper {
+  display: grid;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  grid-column-gap: 10px;
+  -webkit-align-items: center;
+          align-items: center;
+  margin-bottom: 15px;
+}
+
+.comment .author-wrapper img {
+  height: 60px;
+  width: 60px;
+  border-radius: 60px;
+}
+
+.comment .author-wrapper .author-info .author-name {
+  font-size: 22px;
+}
+
+.comment .author-wrapper .author-info p {
   color: #4f5050;
+  font-size: 14px;
 }
 
-.text-link:hover {
-  color: #4aa951;
-  text-decoration: none;
-  transition: 0.5s;
+.comment .comment-content p {
+  font-size: 14px;
+  color: #000000;
+}
+
+.comment hr {
+  color: #4f5050;
 }
 
