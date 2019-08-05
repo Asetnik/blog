@@ -4,26 +4,29 @@ import TagTile from "../../TagTile/TagTile";
 
 class PostFolded extends Component {
 
+    constructor(props) {
+        super(props);
+    }
+
     render() {
         return (
             <div className="post post-folded">
                 <div className="head-wrapper">
                     <div className="author-wrapper">
-                        <a href="#"><img src="https://pp.userapi.com/c834303/v834303529/1a2f00/LYdM358ybhA.jpg?ava=1" alt=""/></a>
+                        <a href="#"><img src={this.props.avatar} alt={this.props.name + " " + this.props.surname}/></a>
                         <div className="author-info">
-                            <a href="#" className="text-link author-name">Павел Асетник</a>
-                            <p>15 минут назад</p>
+                            <a href="#" className="text-link author-name">{this.props.name + " " + this.props.surname}</a>
+                            <p>{this.props.created_at}</p>
                         </div>
                     </div>
                     <div className="category-wrapper">
-                        <span className="badge badge-primary float-right">Категория</span>
+                        <span className="badge badge-primary float-right">{this.props.category}</span>
                     </div>
                 </div>
                 <div className="post-info">
-                    <h3 className="post-title">Типо название поста</h3>
-                    <p className="post-description">Описание Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad commodi dignissimos distinctio
-                        dolore enim expedita harum incidunt natus numquam quidem?</p>
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg" alt=""/>
+                    <h3 className="post-title">{this.props.title}</h3>
+                    <p className="post-description">{this.props.description}</p>
+                    <img src={this.props.photo} alt=""/>
                 </div>
                 <div className="post-footer">
                     <div className="tags-wrapper">
@@ -36,7 +39,7 @@ class PostFolded extends Component {
                     </div>
                 </div>
                 <div className="read-more-wrapper">
-                    <Link to='/post/1'>
+                    <Link to={'/post/' + this.props.id}>
                         <button className="btn">Читать полностью</button>
                     </Link>
                 </div>

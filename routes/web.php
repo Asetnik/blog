@@ -11,6 +11,8 @@
 |
 */
 
+Route::resource('/posts', 'PostController');
+
 Route::fallback(function () {
     return view('index');
 });
