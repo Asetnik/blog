@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import TagTile from "../../TagTile/TagTile";
 
 class PostFolded extends Component {
 
@@ -26,9 +27,9 @@ class PostFolded extends Component {
                 </div>
                 <div className="post-footer">
                     <div className="tags-wrapper">
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 1</span>
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 2</span>
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 3</span>
+                        <TagTile tagId={1} tagName={'Тэг 1'}/>
+                        <TagTile tagId={2} tagName={'Тэг 2'}/>
+                        <TagTile tagId={3} tagName={'Тэг 3'}/>
                     </div>
                     <div className="icons-wrapper">
                         <p><i className="fa fa-comment-o" aria-hidden="true"></i> 25</p>

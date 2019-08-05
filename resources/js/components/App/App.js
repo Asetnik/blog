@@ -12,7 +12,9 @@ class App extends Component {
                 <Header />
                 <div className="container page">
                     <PageContent />
+{/*
                     <Sidebar />
+*/}
                 </div>
             </BrowserRouter>
         );

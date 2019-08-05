@@ -74,12 +74,15 @@
 
         .tags-wrapper{
 
-            .tag{
+            .tag-wrapper{
                 margin-left: 10px;
-                font-size: 12px;
 
                 &:first-child{
                     margin-left: 0;
+                }
+
+                .tag{
+                    font-size: 12px;
                 }
             }
         }

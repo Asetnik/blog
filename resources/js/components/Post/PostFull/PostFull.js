@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import Comment from "../../Comment/Comment";
+import TagTile from "../../TagTile/TagTile";
 
 class PostFull extends Component {
 
@@ -10,6 +11,10 @@ class PostFull extends Component {
            commentsIsDisplayed: false,
         };
         this.commentDisplayToggle = this.commentDisplayToggle.bind(this);
+    }
+
+    componentDidMount() {
+        window.scrollTo(0, 0)
     }
 
     commentDisplayToggle() {
@@ -83,9 +88,9 @@ class PostFull extends Component {
                 </div>
                 <div className="post-footer">
                     <div className="tags-wrapper">
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 1</span>
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 2</span>
-                        <span className="badge badge-secondary tag"><i className="fa fa-tag" aria-hidden="true"></i> Тэг 3</span>
+                        <TagTile tagId={1} tagName={'Тэг 1'}/>
+                        <TagTile tagId={2} tagName={'Тэг 2'}/>
+                        <TagTile tagId={3} tagName={'Тэг 3'}/>
                     </div>
                     <div className="icons-wrapper">
                         <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> 25</p>
