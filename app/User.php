@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'surname', 'patronymic', 'email', 'description', 'photo'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'password', 'remember_token',
+        'role_id', 'password', 'remember_token',
     ];
 
     /**
@@ -36,4 +36,33 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function role() {
+        return $this->hasOne(UserRole::class);
+    }
+
+    public function status() {
+        return $this->hasOne(UserStatus::class);
+    }
+
+    public function posts() {
+        return $this->hasMany(Post::class);
+    }
+
+    public function comments() {
+        return $this->hasMany(PostComment::class);
+    }
+
+    public static function add($fields) {
+        $user = new static;
+        $user->fill($fields);
+        $user->save();
+        return $user;
+    }
+
+    public function remove() {
+        $this->delete();
+    }
+
+    protected $table = 'users';
 }
