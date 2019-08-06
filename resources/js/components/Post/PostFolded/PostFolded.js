@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-import TagTile from "../../TagTile/TagTile";
-import axios from 'axios';
 import Post from "../Post";
 import CategoryTile from "../../CategoryTile/CategoryTile";
 

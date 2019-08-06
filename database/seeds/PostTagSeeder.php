@@ -42,5 +42,10 @@ class PostTagSeeder extends Seeder
             'tag_id' => '1',
             'created_at' => Carbon::now()
         ]);
+        DB::table('post_tag')->insert([
+            'post_id' => '4',
+            'tag_id' => '2',
+            'created_at' => Carbon::now()
+        ]);
     }
 }

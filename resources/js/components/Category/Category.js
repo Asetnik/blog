@@ -1,10 +1,30 @@
 import React, { Component } from 'react';
+import PostsList from "../PostsList/PostsList";
+import axios from 'axios';
 
-class Category extends Component {
+class Category extends PostsList {
+
+    constructor(props){
+        super(props);
+        this.state = {
+            posts: []
+        }
+        this.posts = this.posts.bind(this);
+    }
+
+    componentWillMount() {
+        axios
+            .get('/api/category/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({posts: response.data})
+            });
+    }
 
     render() {
         return (
-            <h1>Category</h1>
+            <div>
+                {this.posts()}
+            </div>
         );
     }
 }

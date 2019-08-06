@@ -14,7 +14,7 @@ class PostsList extends Component {
 
     componentWillMount() {
         axios
-            .get('/post')
+            .get('/api/post')
             .then(response => {
                 this.setState({posts: response.data });
             });

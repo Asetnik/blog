@@ -1,7 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
-import Comment from "../../Comment/Comment";
-import TagTile from "../../TagTile/TagTile";
 import CategoryTile from "../../CategoryTile/CategoryTile";
 import axios from "axios";
 import Post from "../Post";
@@ -27,7 +24,7 @@ class PostFull extends Post {
 
     componentWillMount() {
         axios
-            .get('/post/' + this.props.match.params.id)
+            .get('/api/post/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     post: response.data[0]
