@@ -37,6 +37,7 @@ class Post extends Component{
         if (this.state.tags instanceof Array) {
             return this.state.tags.map(function (tag, index) {
                 return <TagTile
+                    className="tag-wrapper"
                     key={index}
                     tagId={tag.id}
                     tagName={tag.tag}

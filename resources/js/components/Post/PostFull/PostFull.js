@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from "react-router-dom";
 import Comment from "../../Comment/Comment";
 import TagTile from "../../TagTile/TagTile";
+import CategoryTile from "../../CategoryTile/CategoryTile";
 import axios from "axios";
 import Post from "../Post";
 
@@ -41,8 +42,6 @@ class PostFull extends Post {
         window.scrollTo(0, 0)
     }
 
-
-
     commentDisplayToggle() {
         if(this.state.numOfComments > 0) {
             this.setState({
@@ -63,7 +62,10 @@ class PostFull extends Post {
                         </div>
                     </div>
                     <div className="category-wrapper">
-                        <span className="badge badge-primary float-right">{this.state.post.category}</span>
+                        <CategoryTile
+                            category_id={this.state.post.category_id}
+                            category={this.state.post.category}
+                        />
                     </div>
                 </div>
                 <div className="post-info">

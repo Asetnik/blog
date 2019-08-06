@@ -5,10 +5,6 @@ class TagTile extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {
-            tagId: props.tagId,
-            tagName: props.tagName
-        };
         this.onMouseOver = this.onMouseOver.bind(this);
         this.onMouseOut = this.onMouseOut.bind(this);
     }
@@ -23,8 +19,8 @@ class TagTile extends Component{
 
     render() {
         return (
-            <Link to={'/tag/'+this.state.tagId} className="tag-wrapper">
-                <span className="badge badge-secondary tag" onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}><i className="fa fa-tag" aria-hidden="true"></i> {this.state.tagName}</span>
+            <Link to={'/tag/'+this.props.tagId} className="tag-wrapper">
+                <span className="badge badge-secondary tag" onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}><i className="fa fa-tag" aria-hidden="true"></i> {this.props.tagName}</span>
             </Link>
         );
     }

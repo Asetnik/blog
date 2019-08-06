@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import TagTile from "../../TagTile/TagTile";
 import axios from 'axios';
 import Post from "../Post";
+import CategoryTile from "../../CategoryTile/CategoryTile";
 
 class PostFolded extends Post {
 
@@ -34,7 +35,10 @@ class PostFolded extends Post {
                         </div>
                     </div>
                     <div className="category-wrapper">
-                        <span className="badge badge-primary float-right">{this.props.category}</span>
+                        <CategoryTile
+                            category={this.props.category}
+                            category_id={this.props.category_id}
+                        />
                     </div>
                 </div>
                 <div className="post-info">

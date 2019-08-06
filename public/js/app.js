@@ -30857,6 +30857,86 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/CategoryTile/CategoryTile.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/CategoryTile/CategoryTile.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+var CategoryTile =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(CategoryTile, _Component);
+
+  function CategoryTile(props) {
+    var _this;
+
+    _classCallCheck(this, CategoryTile);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(CategoryTile).call(this, props));
+    _this.onMouseOver = _this.onMouseOver.bind(_assertThisInitialized(_this));
+    _this.onMouseOut = _this.onMouseOut.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(CategoryTile, [{
+    key: "onMouseOver",
+    value: function onMouseOver(e) {
+      e.target.classList.replace('badge-primary', 'badge-success');
+    }
+  }, {
+    key: "onMouseOut",
+    value: function onMouseOut(e) {
+      e.target.classList.replace('badge-success', 'badge-primary');
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: '/category/' + this.props.category_id,
+        className: "float-right"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "badge badge-primary",
+        onMouseOver: this.onMouseOver,
+        onMouseOut: this.onMouseOut
+      }, this.props.category));
+    }
+  }]);
+
+  return CategoryTile;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (CategoryTile);
+
+/***/ }),
+
 /***/ "./resources/js/components/Comment/Comment.js":
 /*!****************************************************!*\
   !*** ./resources/js/components/Comment/Comment.js ***!
@@ -31190,6 +31270,7 @@ function (_Component) {
       if (this.state.tags instanceof Array) {
         return this.state.tags.map(function (tag, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            className: "tag-wrapper",
             key: index,
             tagId: tag.id,
             tagName: tag.tag
@@ -31238,6 +31319,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
+/* harmony import */ var _CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../CategoryTile/CategoryTile */ "./resources/js/components/CategoryTile/CategoryTile.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31255,6 +31337,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -31310,9 +31393,10 @@ function (_Post) {
         className: "text-link author-name"
       }, this.props.name + " " + this.props.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "badge badge-primary float-right"
-      }, this.props.category))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        category: this.props.category,
+        category_id: this.props.category_id
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "post-title"
@@ -31361,9 +31445,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Comment_Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Comment/Comment */ "./resources/js/components/Comment/Comment.js");
 /* harmony import */ var _TagTile_TagTile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../TagTile/TagTile */ "./resources/js/components/TagTile/TagTile.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
+/* harmony import */ var _CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../CategoryTile/CategoryTile */ "./resources/js/components/CategoryTile/CategoryTile.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31381,6 +31466,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -31421,7 +31507,7 @@ function (_Post) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('/post/' + this.props.match.params.id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_5___default.a.get('/post/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           post: response.data[0]
         });
@@ -31468,9 +31554,10 @@ function (_Post) {
         className: "text-link author-name"
       }, this.state.post.name + " " + this.state.post.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.post.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "badge badge-primary float-right"
-      }, this.state.post.category))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        category_id: this.state.post.category_id,
+        category: this.state.post.category
+      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "post-title"
@@ -31503,7 +31590,7 @@ function (_Post) {
   }]);
 
   return PostFull;
-}(_Post__WEBPACK_IMPORTED_MODULE_5__["default"]);
+}(_Post__WEBPACK_IMPORTED_MODULE_6__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (PostFull);
 
@@ -31586,6 +31673,7 @@ function (_Component) {
             name: post.name,
             surname: post.surname,
             created_at: post.created_at,
+            category_id: post.category_id,
             category: post.category,
             title: post.title,
             description: post.description,
@@ -31767,10 +31855,6 @@ function (_Component) {
     _classCallCheck(this, TagTile);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(TagTile).call(this, props));
-    _this.state = {
-      tagId: props.tagId,
-      tagName: props.tagName
-    };
     _this.onMouseOver = _this.onMouseOver.bind(_assertThisInitialized(_this));
     _this.onMouseOut = _this.onMouseOut.bind(_assertThisInitialized(_this));
     return _this;
@@ -31790,7 +31874,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/tag/' + this.state.tagId,
+        to: '/tag/' + this.props.tagId,
         className: "tag-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-secondary tag",
@@ -31799,7 +31883,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-tag",
         "aria-hidden": "true"
-      }), " ", this.state.tagName));
+      }), " ", this.props.tagName));
     }
   }]);
 

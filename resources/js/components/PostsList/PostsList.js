@@ -30,6 +30,7 @@ class PostsList extends Component {
                     name={post.name}
                     surname={post.surname}
                     created_at={post.created_at}
+                    category_id={post.category_id}
                     category={post.category}
                     title={post.title}
                     description={post.description}
