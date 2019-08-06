@@ -57,6 +57,7 @@ class PostController extends Controller
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
             ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
             ->get();
+        Post::updateViews($id);
         return response()->json($post);
     }
 

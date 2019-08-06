@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
         DB::table('users')->insert([
             'role_id' => 1,
             'name' => 'Роман',
-            'surname' => 'Дритсайло',
+            'surname' => 'Дристайло',
             'patronymic' => 'Сверстайлович',
             'email' => 'dristailo@mail.ru',
             'description' => 'Король ягермейстера',

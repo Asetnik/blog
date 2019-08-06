@@ -34,6 +34,10 @@ class Post extends Model
         return $this->hasMany(PostComment::class);
     }
 
+    public static function updateViews($id) {
+        return Post::find($id)->increment('views');
+    }
+
     public static function add($fields) {
         $post = new static();
         $post->fill($fields);
