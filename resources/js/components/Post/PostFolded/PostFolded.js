@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import TagTile from "../../TagTile/TagTile";
 import axios from 'axios';
+import Post from "../Post";
 
-class PostFolded extends Component {
+class PostFolded extends Post {
 
     constructor(props) {
         super(props);
@@ -12,32 +13,13 @@ class PostFolded extends Component {
             tags: {}
         };
         this.tags = this.tags.bind(this);
+        this.getPostCommentsNumber = this.getPostCommentsNumber.bind(this);
+        this.getPostTags = this.getPostTags.bind(this);
     }
-
 
     componentWillMount() {
-        axios
-            .get('/api/numofcomments/' + this.props.id)
-            .then(response => {
-                this.setState({numOfComments: response.data})
-            });
-        axios
-            .get('/api/getposttags/' + this.props.id)
-            .then(response => {
-                this.setState({tags: response.data})
-            });
-    }
-
-    tags() {
-        if (this.state.tags instanceof Array) {
-            return this.state.tags.map(function (tag, index) {
-                return <TagTile
-                    key={index}
-                    tagId={tag.id}
-                    tagName={tag.tag}
-                />;
-            })
-        }
+        this.getPostCommentsNumber(this.props.id);
+        this.getPostTags(this.props.id);
     }
 
     render() {

@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('api')->get('/numofcomments/{id}', 'PostCommentController@numOfComments');
 Route::middleware('api')->get('/getposttags/{id}', 'TagController@getPostTags');
+Route::middleware('api')->get('/getpostcomments/{id}', 'PostCommentController@getPostComments');

@@ -30909,16 +30909,16 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "https://pp.userapi.com/c834303/v834303529/1a2f00/LYdM358ybhA.jpg?ava=1",
+        src: this.props.avatar,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         className: "text-link author-name"
-      }, "\u041F\u0430\u0432\u0435\u043B \u0410\u0441\u0435\u0442\u043D\u0438\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "15 \u043C\u0438\u043D\u0443\u0442 \u043D\u0430\u0437\u0430\u0434"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.name + " " + this.props.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comment-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Adipisci, cupiditate excepturi facere minima nam quidem quis tempora. Ab ad adipisci aliquid amet asperiores corporis deserunt dignissimos dolorum eaque eveniet explicabo fugiat nam nemo nostrum nulla numquam odit, pariatur possimus quae quos ratione recusandae sapiente sed sunt temporibus, tenetur velit. Voluptatibus.")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.content)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
     }
   }]);
 
@@ -31102,6 +31102,126 @@ function (_Component) {
 
 /***/ }),
 
+/***/ "./resources/js/components/Post/Post.js":
+/*!**********************************************!*\
+  !*** ./resources/js/components/Post/Post.js ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _TagTile_TagTile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../TagTile/TagTile */ "./resources/js/components/TagTile/TagTile.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Comment_Comment__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Comment/Comment */ "./resources/js/components/Comment/Comment.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+var Post =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Post, _Component);
+
+  function Post(props) {
+    _classCallCheck(this, Post);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Post).call(this, props));
+  }
+
+  _createClass(Post, [{
+    key: "getPostCommentsNumber",
+    value: function getPostCommentsNumber(id) {
+      var _this = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/numofcomments/' + id).then(function (response) {
+        _this.setState({
+          numOfComments: response.data
+        });
+      });
+    }
+  }, {
+    key: "getPostTags",
+    value: function getPostTags(id) {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getposttags/' + id).then(function (response) {
+        _this2.setState({
+          tags: response.data
+        });
+      });
+    }
+  }, {
+    key: "getPostComments",
+    value: function getPostComments(id) {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getpostcomments/' + id).then(function (response) {
+        _this3.setState({
+          comments: response.data
+        });
+      });
+    }
+  }, {
+    key: "tags",
+    value: function tags() {
+      if (this.state.tags instanceof Array) {
+        return this.state.tags.map(function (tag, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_1__["default"], {
+            key: index,
+            tagId: tag.id,
+            tagName: tag.tag
+          });
+        });
+      }
+    }
+  }, {
+    key: "comments",
+    value: function comments() {
+      if (this.state.tags instanceof Array) {
+        return this.state.comments.map(function (comment, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_3__["default"], {
+            key: index,
+            avatar: comment.avatar,
+            name: comment.name,
+            surname: comment.surname,
+            created_at: comment.created_at,
+            content: comment.content
+          });
+        });
+      }
+    }
+  }]);
+
+  return Post;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Post);
+
+/***/ }),
+
 /***/ "./resources/js/components/Post/PostFolded/PostFolded.js":
 /*!***************************************************************!*\
   !*** ./resources/js/components/Post/PostFolded/PostFolded.js ***!
@@ -31117,6 +31237,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../TagTile/TagTile */ "./resources/js/components/TagTile/TagTile.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31140,10 +31261,11 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var PostFolded =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(PostFolded, _Component);
+function (_Post) {
+  _inherits(PostFolded, _Post);
 
   function PostFolded(props) {
     var _this;
@@ -31156,37 +31278,16 @@ function (_Component) {
       tags: {}
     };
     _this.tags = _this.tags.bind(_assertThisInitialized(_this));
+    _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
+    _this.getPostTags = _this.getPostTags.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PostFolded, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/numofcomments/' + this.props.id).then(function (response) {
-        _this2.setState({
-          numOfComments: response.data
-        });
-      });
-      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/getposttags/' + this.props.id).then(function (response) {
-        _this2.setState({
-          tags: response.data
-        });
-      });
-    }
-  }, {
-    key: "tags",
-    value: function tags() {
-      if (this.state.tags instanceof Array) {
-        return this.state.tags.map(function (tag, index) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__["default"], {
-            key: index,
-            tagId: tag.id,
-            tagName: tag.tag
-          });
-        });
-      }
+      this.getPostCommentsNumber(this.props.id);
+      this.getPostTags(this.props.id);
     }
   }, {
     key: "render",
@@ -31240,7 +31341,7 @@ function (_Component) {
   }]);
 
   return PostFolded;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(_Post__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (PostFolded);
 
@@ -31260,6 +31361,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Comment_Comment__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../Comment/Comment */ "./resources/js/components/Comment/Comment.js");
 /* harmony import */ var _TagTile_TagTile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../TagTile/TagTile */ "./resources/js/components/TagTile/TagTile.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31283,10 +31387,12 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var PostFull =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(PostFull, _Component);
+function (_Post) {
+  _inherits(PostFull, _Post);
 
   function PostFull(props) {
     var _this;
@@ -31295,13 +31401,39 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFull).call(this, props));
     _this.state = {
-      commentsIsDisplayed: false
+      commentsIsDisplayed: false,
+      post: {},
+      numOfComments: 0,
+      tags: {},
+      comments: {}
     };
     _this.commentDisplayToggle = _this.commentDisplayToggle.bind(_assertThisInitialized(_this));
+    _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
+    _this.getPostTags = _this.getPostTags.bind(_assertThisInitialized(_this));
+    _this.getPostComments = _this.getPostComments.bind(_assertThisInitialized(_this));
+    _this.tags = _this.tags.bind(_assertThisInitialized(_this));
+    _this.comments = _this.comments.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PostFull, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('/post/' + this.props.match.params.id).then(function (response) {
+        _this2.setState({
+          post: response.data[0]
+        });
+
+        _this2.getPostCommentsNumber(_this2.state.post.id);
+
+        _this2.getPostTags(_this2.state.post.id);
+
+        _this2.getPostComments(_this2.state.post.id);
+      });
+    }
+  }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       window.scrollTo(0, 0);
@@ -31309,9 +31441,11 @@ function (_Component) {
   }, {
     key: "commentDisplayToggle",
     value: function commentDisplayToggle() {
-      this.setState({
-        commentsIsDisplayed: !this.state.commentsIsDisplayed
-      });
+      if (this.state.numOfComments > 0) {
+        this.setState({
+          commentsIsDisplayed: !this.state.commentsIsDisplayed
+        });
+      }
     }
   }, {
     key: "render",
@@ -31325,42 +31459,33 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "https://pp.userapi.com/c834303/v834303529/1a2f00/LYdM358ybhA.jpg?ava=1",
+        src: this.state.post.avatar,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         className: "text-link author-name"
-      }, "\u041F\u0430\u0432\u0435\u043B \u0410\u0441\u0435\u0442\u043D\u0438\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "15 \u043C\u0438\u043D\u0443\u0442 \u043D\u0430\u0437\u0430\u0434"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.post.name + " " + this.state.post.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.post.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-primary float-right"
-      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.post.category))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "post-title"
-      }, "\u0422\u0438\u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u0435 \u043F\u043E\u0441\u0442\u0430"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, this.state.post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "post-description"
-      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ad commodi dignissimos distinctio dolore enim expedita harum incidunt natus numquam quidem?"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg",
+      }, this.state.post.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: this.state.post.photo,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium dolor eos esse in incidunt quis repellat tenetur. Error harum in nemo. Accusantium dolorem et laborum nam, odit quo temporibus vel vitae. Ab accusamus amet beatae debitis deleniti, eos iure laborum molestias nam officiis, repudiandae ullam ut veniam, veritatis vitae. A accusamus assumenda, distinctio dolore dolorum maiores porro quisquam unde! Accusantium amet eaque, impedit iure quia sit totam! Ab accusamus adipisci animi autem beatae delectus dolorem eligendi enim est, excepturi hic nulla, odio praesentium provident rerum sit vitae. A adipisci architecto asperiores error excepturi fugit harum illum, maxime, minus nam omnis perferendis provident quasi qui veritatis. Beatae cupiditate, fugiat harum perferendis reprehenderit vel? Deserunt eaque fugiat ipsa, nostrum quia repellendus tenetur. A aliquam aliquid aspernatur dolorem dolorum, facere labore molestias odio officia quae quidem quos tempora, totam ut veritatis. Amet ex, harum nam necessitatibus nesciunt rem totam voluptatum! Ea quia reprehenderit voluptate? Adipisci consequatur dolores doloribus enim excepturi id in itaque laboriosam, magnam minus omnis placeat quia quo reiciendis repudiandae sint ullam unde vitae! Asperiores atque deserunt dolorem est, ex explicabo in, itaque laudantium modi neque, nobis perferendis placeat quas qui quibusdam sapiente soluta totam voluptate voluptatem voluptates. Consectetur delectus dolorem et illo in incidunt minima omnis perferendis quas voluptas! Accusantium ad aspernatur assumenda consequuntur corporis deleniti dolore fugit id laudantium natus necessitatibus nemo nisi odit quo rerum sed tempora tempore, ut veniam voluptates! Cumque ducimus fugit natus quos reiciendis? Autem, distinctio dolor, eum in laborum molestias neque odit, quaerat rem sit soluta voluptas voluptatem! Amet aspernatur atque facilis nobis odit reiciendis! Assumenda cum facilis maxime molestias nihil placeat, porro repudiandae sed similique sit. Aliquam architecto beatae corporis nostrum quibusdam. Aperiam explicabo facilis hic vel? Aliquam amet aut cum deserunt dolorem doloremque enim expedita fugiat id illo, illum impedit inventore molestiae molestias odio odit optio possimus quas quia quod recusandae saepe sit soluta tempore ullam vel velit voluptatum. Iure, quod tempore? Deleniti doloremque fugit impedit nam omnis provident unde vero. Cum, cupiditate deserunt dolores, eaque facilis illum in, libero obcaecati omnis quia reiciendis sunt? Blanditiis commodi delectus dolorem exercitationem incidunt laudantium, maiores nesciunt ullam veritatis vitae. Adipisci autem eos inventore nam reiciendis sapiente vero voluptates. Adipisci aspernatur consequuntur dolor est hic laboriosam laudantium nobis quae quidem rerum? Culpa excepturi fugit illo odio tenetur! Aliquid consequatur culpa earum fugit ipsam mollitia nobis sapiente sequi ullam vel? Ad aliquid animi blanditiis delectus eligendi eum eveniet facere, fugiat hic id inventore ipsam iusto laboriosam modi, neque odio officiis omnis optio, porro possimus quae quam quibusdam quod rem repellat sed sequi sint vero vitae voluptatem. Accusamus ad aliquid aperiam asperiores deleniti eveniet fuga fugiat, fugit illo necessitatibus nemo quas sapiente sit suscipit tenetur voluptatem voluptatibus. Cupiditate deleniti, dicta eaque fuga illum labore magni nam necessitatibus nemo odio, quam quo veritatis voluptatibus. Architecto blanditiis nostrum obcaecati omnis possimus reiciendis rem repudiandae, sapiente soluta velit. Aliquid commodi eius eos excepturi exercitationem hic illum in incidunt, labore mollitia nostrum possimus provident reprehenderit similique soluta sunt voluptatem. Corporis, ullam!")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.post.content)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-footer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tagId: 1,
-        tagName: 'Тэг 1'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tagId: 2,
-        tagName: 'Тэг 2'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        tagId: 3,
-        tagName: 'Тэг 3'
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.tags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "icons-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "text-link",
@@ -31368,17 +31493,17 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
         "aria-hidden": "true"
-      }), " 25"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }), " ", this.state.numOfComments), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-eye",
         "aria-hidden": "true"
-      }), " 1000"))), this.state.commentsIsDisplayed && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " ", this.state.post.views))), this.state.commentsIsDisplayed && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comments"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_2__["default"], null)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), this.comments()));
     }
   }]);
 
   return PostFull;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(_Post__WEBPACK_IMPORTED_MODULE_5__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (PostFull);
 
@@ -31432,7 +31557,7 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostsList).call(this, props));
     _this.state = {
-      posts: {}
+      posts: []
     };
     _this.posts = _this.posts.bind(_assertThisInitialized(_this));
     return _this;
@@ -31443,7 +31568,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/posts').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/post').then(function (response) {
         _this2.setState({
           posts: response.data
         });

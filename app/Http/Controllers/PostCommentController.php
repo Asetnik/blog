@@ -13,6 +13,14 @@ class PostCommentController extends Controller
         return response()->json($numComments);
     }
 
+    public function getPostComments($postId) {
+        $comments = PostComment::where('post_id', '=', $postId)
+            ->join('users', 'post_comments.author_id', '=', 'users.id')
+            ->select('users.name', 'users.surname', 'users.photo as avatar', 'post_comments.created_at', 'post_comments.content')
+            ->get();
+        return response()->json($comments);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -7,14 +7,14 @@ class PostsList extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            posts: {}
+            posts: []
         };
         this.posts = this.posts.bind(this);
     }
 
     componentWillMount() {
         axios
-            .get('/posts')
+            .get('/post')
             .then(response => {
                 this.setState({posts: response.data });
             });

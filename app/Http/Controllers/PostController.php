@@ -18,7 +18,7 @@ class PostController extends Controller
         $posts = Post::orderBy('created_at', 'desc')
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
+            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
             ->get();
         return response()->json($posts);
     }
@@ -52,7 +52,12 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        //
+        $post = Post::where('posts.id', '=', $id)
+            ->join('users', 'posts.author_id', '=', 'users.id')
+            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
+            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
+            ->get();
+        return response()->json($post);
     }
 
     /**
