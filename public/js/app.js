@@ -31116,6 +31116,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../TagTile/TagTile */ "./resources/js/components/TagTile/TagTile.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_3__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31138,18 +31140,37 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var PostFolded =
 /*#__PURE__*/
 function (_Component) {
   _inherits(PostFolded, _Component);
 
   function PostFolded(props) {
+    var _this;
+
     _classCallCheck(this, PostFolded);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
+    _this.state = {
+      numOfComments: 0
+    };
+    return _this;
   }
 
   _createClass(PostFolded, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/numofcomments/' + this.props.id).then(function (response) {
+        _this2.setState({
+          numOfComments: response.data
+        });
+      });
+      console.log(this.state.numOfComments);
+    }
+  }, {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -31199,7 +31220,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
         "aria-hidden": "true"
-      }), " 25"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " ", this.state.numOfComments))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "read-more-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/post/' + this.props.id
@@ -31435,7 +31456,6 @@ function (_Component) {
             title: post.title,
             description: post.description,
             photo: post.photo,
-            content: post.content,
             views: post.views
           });
         });

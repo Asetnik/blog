@@ -33,5 +33,5 @@ class PostComment extends Model
         $this->remove();
     }
 
-    protected $table = 'comments';
+    protected $table = 'post_comments';
 }

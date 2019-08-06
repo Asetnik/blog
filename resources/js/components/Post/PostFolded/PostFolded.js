@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import TagTile from "../../TagTile/TagTile";
+import axios from 'axios';
 
 class PostFolded extends Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            numOfComments: 0
+        }
+    }
+
+
+    componentWillMount() {
+        axios
+            .get('/api/numofcomments/' + this.props.id)
+            .then(response => {
+                this.setState({numOfComments: response.data})
+            });
+        console.log(this.state.numOfComments);
     }
 
     render() {
@@ -35,7 +49,7 @@ class PostFolded extends Component {
                         <TagTile tagId={3} tagName={'Тэг 3'}/>
                     </div>
                     <div className="icons-wrapper">
-                        <p><i className="fa fa-comment-o" aria-hidden="true"></i> 25</p>
+                        <p><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
                     </div>
                 </div>
                 <div className="read-more-wrapper">

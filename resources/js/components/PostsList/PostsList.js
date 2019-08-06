@@ -17,7 +17,7 @@ class PostsList extends Component {
             .get('/posts')
             .then(response => {
                 this.setState({posts: response.data });
-            })
+            });
     }
 
     posts() {
