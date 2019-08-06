@@ -17,4 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('api')->get('/numofcomments/{id}', 'PostCommentController@numofcomments');
+Route::middleware('api')->get('/numofcomments/{id}', 'PostCommentController@numOfComments');
+Route::middleware('api')->get('/getposttags/{id}', 'TagController@getPostTags');

@@ -30996,8 +30996,7 @@ function (_Component) {
         className: "nav-link text-link"
       }, "\u041C\u043E\u0439 \u043F\u0440\u043E\u0444\u0438\u043B\u044C"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
         to: "/logout",
-        activeClassName: "active",
-        className: "nav-link text-link"
+        className: "nav-link text-link active"
       }, "\u0412\u044B\u0439\u0442\u0438")))));
     }
   }]);
@@ -31128,9 +31127,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -31153,8 +31152,10 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
     _this.state = {
-      numOfComments: 0
+      numOfComments: 0,
+      tags: {}
     };
+    _this.tags = _this.tags.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -31168,7 +31169,24 @@ function (_Component) {
           numOfComments: response.data
         });
       });
-      console.log(this.state.numOfComments);
+      axios__WEBPACK_IMPORTED_MODULE_3___default.a.get('/api/getposttags/' + this.props.id).then(function (response) {
+        _this2.setState({
+          tags: response.data
+        });
+      });
+    }
+  }, {
+    key: "tags",
+    value: function tags() {
+      if (this.state.tags instanceof Array) {
+        return this.state.tags.map(function (tag, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__["default"], {
+            key: index,
+            tagId: tag.id,
+            tagName: tag.tag
+          });
+        });
+      }
     }
   }, {
     key: "render",
@@ -31201,21 +31219,12 @@ function (_Component) {
         className: "post-description"
       }, this.props.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.props.photo,
-        alt: ""
+        alt: this.props.name + " " + this.props.surname
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-footer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tagId: 1,
-        tagName: 'Тэг 1'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tagId: 2,
-        tagName: 'Тэг 2'
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_2__["default"], {
-        tagId: 3,
-        tagName: 'Тэг 3'
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.tags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "icons-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
@@ -31665,7 +31674,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-tag",
         "aria-hidden": "true"
-      }), this.state.tagName));
+      }), " ", this.state.tagName));
     }
   }]);
 

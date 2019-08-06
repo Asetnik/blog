@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\PostComment;
+use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
-class PostCommentController extends Controller
+class TagController extends Controller
 {
 
-    public function numOfComments($id) {
-        $numComments = PostComment::all('post_id')->where('post_id', '=', $id)->count();
-        return response()->json($numComments);
+    public function getPostTags($id) {
+        $tags = DB::table('post_tag')
+            ->where('post_id', '=', $id)
+            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
+            ->select('tags.id','tags.tag')
+            ->get();
+        return response()->json($tags);
     }
 
     /**

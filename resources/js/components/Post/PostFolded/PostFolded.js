@@ -8,8 +8,10 @@ class PostFolded extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            numOfComments: 0
-        }
+            numOfComments: 0,
+            tags: {}
+        };
+        this.tags = this.tags.bind(this);
     }
 
 
@@ -19,7 +21,23 @@ class PostFolded extends Component {
             .then(response => {
                 this.setState({numOfComments: response.data})
             });
-        console.log(this.state.numOfComments);
+        axios
+            .get('/api/getposttags/' + this.props.id)
+            .then(response => {
+                this.setState({tags: response.data})
+            });
+    }
+
+    tags() {
+        if (this.state.tags instanceof Array) {
+            return this.state.tags.map(function (tag, index) {
+                return <TagTile
+                    key={index}
+                    tagId={tag.id}
+                    tagName={tag.tag}
+                />;
+            })
+        }
     }
 
     render() {
@@ -40,13 +58,11 @@ class PostFolded extends Component {
                 <div className="post-info">
                     <h3 className="post-title">{this.props.title}</h3>
                     <p className="post-description">{this.props.description}</p>
-                    <img src={this.props.photo} alt=""/>
+                    <img src={this.props.photo} alt={this.props.name + " " + this.props.surname} />
                 </div>
                 <div className="post-footer">
                     <div className="tags-wrapper">
-                        <TagTile tagId={1} tagName={'Тэг 1'}/>
-                        <TagTile tagId={2} tagName={'Тэг 2'}/>
-                        <TagTile tagId={3} tagName={'Тэг 3'}/>
+                        {this.tags()}
                     </div>
                     <div className="icons-wrapper">
                         <p><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>

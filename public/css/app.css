@@ -11155,6 +11155,10 @@ a.text-dark:focus {
   transition: 0.5s;
 }
 
+.active {
+  color: #4aa951;
+}
+
 h1,
 h2,
 h3,
