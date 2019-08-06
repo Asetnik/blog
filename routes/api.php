@@ -22,4 +22,5 @@ Route::middleware('api')->get('/getposttags/{id}', 'TagController@getPostTags');
 Route::middleware('api')->get('/getpostcomments/{id}', 'PostCommentController@getPostComments');
 Route::middleware('api')->resource('/post', 'PostController');
 Route::middleware('api')->resource('/category', 'PostCategoryController');
+Route::middleware('api')->get('/categoryname/{id}', 'PostCategoryController@categoryName');
 

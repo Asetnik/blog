@@ -30849,6 +30849,7 @@ function (_PostsList) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Category).call(this, props));
     _this.state = {
+      categoryName: '',
       posts: []
     };
     _this.posts = _this.posts.bind(_assertThisInitialized(_this));
@@ -30860,6 +30861,11 @@ function (_PostsList) {
     value: function componentWillMount() {
       var _this2 = this;
 
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/categoryname/' + this.props.match.params.id).then(function (response) {
+        _this2.setState({
+          categoryName: response.data
+        });
+      });
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/category/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           posts: response.data
@@ -30869,7 +30875,7 @@ function (_PostsList) {
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.posts());
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F ", this.state.categoryName), this.posts());
     }
   }]);
 

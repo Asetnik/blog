@@ -3,10 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Post;
+use App\PostCategory;
 use Illuminate\Http\Request;
 
 class PostCategoryController extends Controller
 {
+
+    public function categoryName($id) {
+        $categoryName = PostCategory::where('id', '=', $id)
+            ->select('category')
+            ->get();
+        $categoryName = $categoryName[0] -> category;
+        return response()->json($categoryName);
+    }
+
     /**
      * Display a listing of the resource.
      *
