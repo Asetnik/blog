@@ -1,0 +1,79 @@
+.filter-wrapper {
+    display: grid;
+
+    .filter-toggle{
+        margin-bottom: 35px;
+        justify-self: center;
+    }
+
+    .filter {
+        display: grid;
+        grid-column-gap: 20px;
+        padding: 35px;
+        margin-bottom: 35px;
+        -webkit-box-shadow: 0px 0px 10px 0px rgba(143, 143, 143, 1);
+        -moz-box-shadow: 0px 0px 10px 0px rgba(143, 143, 143, 1);
+        box-shadow: 0px 0px 10px 0px rgba(143, 143, 143, 1);
+
+        &.filter-default {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-areas: "fh fh fh fh" "d c a t" "d s s s"
+        }
+
+        &.filter-category {
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-areas: "fh fh fh" "d a t" "d s s"
+        }
+
+        .datepicker-wrapper {
+
+            .rw-datetime-picker:first-child {
+                margin-bottom: 10px;
+            }
+        }
+
+        .filter-header {
+            grid-area: fh;
+            margin-bottom: 20px;
+
+            h3 {
+                color: $green;
+            }
+        }
+
+        .date-column {
+            grid-area: d;
+        }
+
+        .author-column {
+            grid-area: a;
+        }
+
+        .category-column {
+            grid-area: c;
+        }
+
+        .tag-column {
+            grid-area: t;
+        }
+
+        .search-row {
+            grid-area: s;
+            align-self: end;
+        }
+    }
+}
+
+.rw-multiselect-tag {
+    margin-top: 0;
+}
+
+.rw-widget-input{
+    div{
+        display: grid;
+        grid-template-columns: max-content auto;
+        align-items: center;
+    }
+}
+
+

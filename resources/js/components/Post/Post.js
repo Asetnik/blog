@@ -10,27 +10,36 @@ class Post extends Component{
     }
 
     getPostCommentsNumber(id) {
-        axios
-            .get('/api/numofcomments/' + id)
-            .then(response => {
-                this.setState({numOfComments: response.data});
-            });
+        return new Promise((resolve) => {
+            axios
+                .get('/api/numofcomments/' + id)
+                .then(response => {
+                    this.setState({numOfComments: response.data});
+                    resolve();
+                });
+        });
     }
 
     getPostTags(id) {
-        axios
-            .get('/api/getposttags/' + id)
-            .then(response => {
-                this.setState({tags: response.data});
-            });
+        return new Promise((resolve) => {
+            axios
+                .get('/api/getposttags/' + id)
+                .then(response => {
+                    this.setState({tags: response.data});
+                    resolve();
+                });
+        });
     }
 
     getPostComments(id){
-        axios
-            .get('/api/getpostcomments/' + id)
-            .then(response => {
-                this.setState({comments: response.data});
-            });
+        return new Promise((resolve) => {
+            axios
+                .get('/api/getpostcomments/' + id)
+                .then(response => {
+                    this.setState({comments: response.data});
+                    resolve();
+                });
+        });
     }
 
     tags() {

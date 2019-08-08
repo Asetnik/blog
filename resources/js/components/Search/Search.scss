@@ -1,0 +1,10 @@
+.search{
+    outline: none;
+    padding: 0 0.857em;
+    width: 100%;
+    color: #555555;
+
+    &::placeholder{
+        color: #999;
+    }
+}

@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
             'surname' => 'Яблонский',
             'patronymic' => 'Кириллович',
             'email' => 'mitch@mail.ru',
+            'photo' => 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
             'status_id' => '1',
             'password' => 'password',
             'created_at' => Carbon::now()
@@ -40,6 +41,7 @@ class UsersTableSeeder extends Seeder
             'surname' => 'admin',
             'patronymic' => 'admin',
             'email' => 'admin@mail.ru',
+            'photo' => 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
             'status_id' => '1',
             'password' => 'admin',
             'created_at' => Carbon::now()

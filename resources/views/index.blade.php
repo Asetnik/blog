@@ -8,6 +8,7 @@
     <title>Blog</title>
 
     <link href="{{asset('css/font-awesome.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{asset('css/react-widgets.css')}}" rel="stylesheet" type="text/css">
     <link href="{{asset('css/app.css')}}" rel="stylesheet" type="text/css">
 
 </head>

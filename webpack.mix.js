@@ -13,5 +13,6 @@ const mix = require('laravel-mix');
 
 mix.react('resources/js/app.js', 'public/js');
 mix.sass('resources/sass/app.scss', 'public/css');
+mix.styles('node_modules/react-widgets/dist/css/react-widgets.css', 'public/css/react-widgets.css');
 mix.styles('resources/assets/font-awesome-4.7.0/css/font-awesome.css', 'public/css/font-awesome.css');
 mix.copy('resources/assets/font-awesome-4.7.0/fonts', 'public/fonts');

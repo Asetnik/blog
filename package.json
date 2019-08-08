@@ -16,7 +16,7 @@
         "cross-env": "^5.2.0",
         "jquery": "^3.2",
         "laravel-mix": "^4.0.7",
-        "lodash": "^4.17.5",
+        "lodash": "^4.17.15",
         "popper.js": "^1.12",
         "react": "^16.2.0",
         "react-dom": "^16.2.0",
@@ -25,6 +25,9 @@
         "sass-loader": "^7.1.0"
     },
     "dependencies": {
-        "react-router-dom": "^5.0.1"
+        "moment": "^2.24.0",
+        "react-router-dom": "^5.0.1",
+        "react-widgets": "^4.4.11",
+        "react-widgets-moment": "^4.0.27"
     }
 }

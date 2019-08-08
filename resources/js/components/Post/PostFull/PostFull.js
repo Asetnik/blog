@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import CategoryTile from "../../CategoryTile/CategoryTile";
 import axios from "axios";
 import Post from "../Post";
+import Spinner from "../../Spinner/Spinner";
 
 class PostFull extends Post {
 
     constructor(props) {
         super(props);
         this.state = {
+            dataIsLoaded: false,
             commentsIsDisplayed: false,
             post: {},
             numOfComments: 0,
@@ -20,6 +22,32 @@ class PostFull extends Post {
         this.getPostComments = this.getPostComments.bind(this);
         this.tags = this.tags.bind(this);
         this.comments = this.comments.bind(this);
+        this.makeRequests = this.makeRequests.bind(this);
+    }
+
+    makeRequests() {
+        let requestsCounter = 0;
+
+        return new Promise(resolve => {
+
+            this.getPostCommentsNumber(this.state.post.id)
+                .then(() => {
+                    ++requestsCounter;
+                    if(requestsCounter === 3) resolve();
+                });
+
+            this.getPostTags(this.state.post.id)
+                .then(() => {
+                    ++requestsCounter;
+                    if(requestsCounter === 3) resolve();
+                });
+
+            this.getPostComments(this.state.post.id)
+                .then(() => {
+                    ++requestsCounter;
+                    if(requestsCounter === 3) resolve();
+                });
+        });
     }
 
     componentWillMount() {
@@ -29,10 +57,11 @@ class PostFull extends Post {
                 this.setState({
                     post: response.data[0]
                 });
-                this.getPostCommentsNumber(this.state.post.id);
-                this.getPostTags(this.state.post.id);
-                this.getPostComments(this.state.post.id);
-            });
+                this.makeRequests()
+                    .then(() => {
+                        this.setState({dataIsLoaded: true});
+                    })
+            })
     }
 
     componentDidMount() {
@@ -48,46 +77,51 @@ class PostFull extends Post {
     }
 
     render() {
+        const dataIsLoaded = this.state.dataIsLoaded;
         return (
-            <div className="post post-full">
-                <div className="head-wrapper">
-                    <div className="author-wrapper">
-                        <a href="#"><img src={this.state.post.avatar} alt=""/></a>
-                        <div className="author-info">
-                            <a href="#" className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</a>
-                            <p>{this.state.post.created_at}</p>
+            <div>
+                { !dataIsLoaded ? (<Spinner />) : (
+                    <div className="post post-full">
+                        <div className="head-wrapper">
+                            <div className="author-wrapper">
+                                <a href="#"><img src={this.state.post.avatar} alt=""/></a>
+                                <div className="author-info">
+                                    <a href="#" className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</a>
+                                    <p>{this.state.post.created_at}</p>
+                                </div>
+                            </div>
+                            <div className="category-wrapper">
+                                <CategoryTile
+                                    category_id={this.state.post.category_id}
+                                    category={this.state.post.category}
+                                />
+                            </div>
                         </div>
+                        <div className="post-info">
+                            <h3 className="post-title">{this.state.post.title}</h3>
+                            <p className="post-description">{this.state.post.description}</p>
+                            <img src={this.state.post.photo} alt=""/>
+                        </div>
+                        <div className="post-content">
+                            <p>{this.state.post.content}</p>
+                        </div>
+                        <div className="post-footer">
+                            <div className="tags-wrapper">
+                                {this.tags()}
+                            </div>
+                            <div className="icons-wrapper">
+                                <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
+                                <p><i className="fa fa-eye" aria-hidden="true"></i> {this.state.post.views}</p>
+                            </div>
+                        </div>
+                        { (this.state.commentsIsDisplayed) &&
+                            <div className="comments">
+                                <h4>Коментарии</h4>
+                                {this.comments()}
+                            </div>
+                        }
                     </div>
-                    <div className="category-wrapper">
-                        <CategoryTile
-                            category_id={this.state.post.category_id}
-                            category={this.state.post.category}
-                        />
-                    </div>
-                </div>
-                <div className="post-info">
-                    <h3 className="post-title">{this.state.post.title}</h3>
-                    <p className="post-description">{this.state.post.description}</p>
-                    <img src={this.state.post.photo} alt=""/>
-                </div>
-                <div className="post-content">
-                    <p>{this.state.post.content}</p>
-                </div>
-                <div className="post-footer">
-                    <div className="tags-wrapper">
-                        {this.tags()}
-                    </div>
-                    <div className="icons-wrapper">
-                        <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
-                        <p><i className="fa fa-eye" aria-hidden="true"></i> {this.state.post.views}</p>
-                    </div>
-                </div>
-                { (this.state.commentsIsDisplayed) &&
-                    <div className="comments">
-                        <h4>Коментарии</h4>
-                        {this.comments()}
-                    </div>
-                }
+                )}
             </div>
         );
     }
