@@ -23,19 +23,21 @@ class Filter extends Component{
         this.filterBtnClick = this.filterBtnClick.bind(this);
         this.getPostsCategories = this.getPostsCategories.bind(this);
         this.getPostsAuthors = this.getPostsAuthors.bind(this);
+        this.getPostsTags = this.getPostsTags.bind(this);
     }
 
     componentWillMount() {
         this.localizer();
         this.getPostsCategories();
         this.getPostsAuthors();
+        this.getPostsTags();
     }
 
     getPostsCategories() {
         axios
             .get('/api/getpostscategories')
             .then(response => {
-                this.setState({categories: response.data.map( (category) => category.category)});
+                this.setState({categories: response.data.map( category => category.category)});
             });
     }
 
@@ -43,7 +45,15 @@ class Filter extends Component{
         axios
             .get('/api/getpostsauthors')
             .then(response => {
-                this.setState({authors: response.data.map( (author) => author.name + " " + author.surname )});
+                this.setState({authors: response.data.map( author => author.name + " " + author.surname )});
+            });
+    }
+
+    getPostsTags() {
+        axios
+            .get('/api/getpoststags')
+            .then(response => {
+                this.setState({tags: response.data.map( tag => tag.tag)});
             });
     }
 
@@ -109,8 +119,8 @@ class Filter extends Component{
                         <div className="tag-column">
                             <Multiselect
                                 placeholder="Тэг"
-/*                                data={tags}
-                                onChange={value => this.props.updateTagFilter(value)}*/
+                                data={this.state.tags}
+                                onChange={value => this.props.updateTagFilter(value)}
                             />
                         </div>
                     </div>)

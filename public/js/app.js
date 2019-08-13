@@ -58877,6 +58877,7 @@ function (_Component) {
     _this.filterBtnClick = _this.filterBtnClick.bind(_assertThisInitialized(_this));
     _this.getPostsCategories = _this.getPostsCategories.bind(_assertThisInitialized(_this));
     _this.getPostsAuthors = _this.getPostsAuthors.bind(_assertThisInitialized(_this));
+    _this.getPostsTags = _this.getPostsTags.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -58886,6 +58887,7 @@ function (_Component) {
       this.localizer();
       this.getPostsCategories();
       this.getPostsAuthors();
+      this.getPostsTags();
     }
   }, {
     key: "getPostsCategories",
@@ -58909,6 +58911,19 @@ function (_Component) {
         _this3.setState({
           authors: response.data.map(function (author) {
             return author.name + " " + author.surname;
+          })
+        });
+      });
+    }
+  }, {
+    key: "getPostsTags",
+    value: function getPostsTags() {
+      var _this4 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpoststags').then(function (response) {
+        _this4.setState({
+          tags: response.data.map(function (tag) {
+            return tag.tag;
           })
         });
       });
@@ -58943,7 +58958,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       var type = this.props.type;
       var filterDisplayed = this.state.filterDisplayed;
@@ -58969,7 +58984,7 @@ function (_Component) {
         placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
         data: this.state.categories,
         onChange: function onChange(value) {
-          return _this4.props.updateCategoryFilter(value);
+          return _this5.props.updateCategoryFilter(value);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-column"
@@ -58977,15 +58992,16 @@ function (_Component) {
         placeholder: "\u0410\u0432\u0442\u043E\u0440",
         data: this.state.authors,
         onChange: function onChange(value) {
-          return _this4.props.updateAuthorFilter(value);
+          return _this5.props.updateAuthorFilter(value);
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tag-column"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        placeholder: "\u0422\u044D\u0433"
-        /*                                data={tags}
-                                        onChange={value => this.props.updateTagFilter(value)}*/
-
+        placeholder: "\u0422\u044D\u0433",
+        data: this.state.tags,
+        onChange: function onChange(value) {
+          return _this5.props.updateTagFilter(value);
+        }
       }))), filterDisplayed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "text-link filter-toggle",
         onClick: this.filterBtnClick
@@ -59713,11 +59729,13 @@ function (_Component) {
       filteredPosts: [],
       categoryFilter: [],
       authorFilter: [],
+      tagFilter: [],
       dataIsLoaded: false
     };
     _this.posts = _this.posts.bind(_assertThisInitialized(_this));
     _this.updateCategoryFilter = _this.updateCategoryFilter.bind(_assertThisInitialized(_this));
     _this.updateAuthorFilter = _this.updateAuthorFilter.bind(_assertThisInitialized(_this));
+    _this.updateTagFilter = _this.updateTagFilter.bind(_assertThisInitialized(_this));
     _this.filterPosts = _this.filterPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -59758,16 +59776,27 @@ function (_Component) {
       });
     }
   }, {
+    key: "updateTagFilter",
+    value: function updateTagFilter(value) {
+      var _this5 = this;
+
+      this.setState({
+        tagFilter: value
+      }, function () {
+        _this5.filterPosts();
+      });
+    }
+  }, {
     key: "filterPosts",
     value: function filterPosts() {
-      var _this5 = this;
+      var _this6 = this;
 
       var filteredPosts = this.state.posts;
 
       if (this.state.categoryFilter.length > 0) {
         filteredPosts = filteredPosts.filter(function (post) {
-          for (var i = 0; i < _this5.state.categoryFilter.length; i++) {
-            if (post.category === _this5.state.categoryFilter[i]) return true;
+          for (var i = 0; i < _this6.state.categoryFilter.length; i++) {
+            if (post.category === _this6.state.categoryFilter[i]) return true;
           }
 
           return false;
@@ -59778,8 +59807,20 @@ function (_Component) {
         filteredPosts = filteredPosts.filter(function (post) {
           var authorFullName = post.name + " " + post.surname;
 
-          for (var i = 0; i < _this5.state.authorFilter.length; i++) {
-            if (authorFullName === _this5.state.authorFilter[i]) return true;
+          for (var i = 0; i < _this6.state.authorFilter.length; i++) {
+            if (authorFullName === _this6.state.authorFilter[i]) return true;
+          }
+
+          return false;
+        });
+      }
+
+      if (this.state.tagFilter.length > 0) {
+        filteredPosts = filteredPosts.filter(function (post) {
+          for (var i = 0; i < _this6.state.tagFilter.length; i++) {
+            for (var j = 0; j < post.tags.length; j++) {
+              if (post.tags[j].tag === _this6.state.tagFilter[i]) return true;
+            }
           }
 
           return false;
@@ -59819,7 +59860,8 @@ function (_Component) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
         type: 'default',
         updateCategoryFilter: this.updateCategoryFilter,
-        updateAuthorFilter: this.updateAuthorFilter
+        updateAuthorFilter: this.updateAuthorFilter,
+        updateTagFilter: this.updateTagFilter
       }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : this.posts('default'));
     }
   }]);

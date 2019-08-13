@@ -13,11 +13,13 @@ class PostsList extends Component {
             filteredPosts: [],
             categoryFilter: [],
             authorFilter: [],
+            tagFilter: [],
             dataIsLoaded: false
         };
         this.posts = this.posts.bind(this);
         this.updateCategoryFilter = this.updateCategoryFilter.bind(this);
         this.updateAuthorFilter = this.updateAuthorFilter.bind(this);
+        this.updateTagFilter = this.updateTagFilter.bind(this);
         this.filterPosts = this.filterPosts.bind(this);
     }
 
@@ -45,6 +47,12 @@ class PostsList extends Component {
         });
     }
 
+    updateTagFilter(value) {
+        this.setState({tagFilter: value}, () => {
+            this.filterPosts();
+        });
+    }
+
     filterPosts() {
         let filteredPosts = this.state.posts;
 
@@ -62,6 +70,17 @@ class PostsList extends Component {
                 let authorFullName = post.name + " " + post.surname;
                 for(let i = 0; i < this.state.authorFilter.length; i++) {
                     if(authorFullName === this.state.authorFilter[i]) return true;
+                }
+                return false;
+            });
+        }
+
+        if(this.state.tagFilter.length > 0) {
+            filteredPosts = filteredPosts.filter(post => {
+                for(let i = 0; i < this.state.tagFilter.length; i++) {
+                    for(let j = 0; j < post.tags.length; j++) {
+                        if(post.tags[j].tag === this.state.tagFilter[i]) return true;
+                    }
                 }
                 return false;
             });
@@ -103,6 +122,7 @@ class PostsList extends Component {
                     type={'default'}
                     updateCategoryFilter={this.updateCategoryFilter}
                     updateAuthorFilter={this.updateAuthorFilter}
+                    updateTagFilter={this.updateTagFilter}
                 />
                 {
                     !dataIsLoaded ? (<Spinner />) : (this.posts('default'))

@@ -52,6 +52,15 @@ class PostController extends Controller
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
             ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
             ->get();
+        foreach ($posts as $post) {
+            $tags = DB::table('post_tag')
+                ->where('post_id', '=', $post->id)
+                ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
+                ->select('tags.id','tags.tag')
+                ->get();
+            $post['tags'] = $tags;
+        }
+
         return response()->json($posts);
     }
 
