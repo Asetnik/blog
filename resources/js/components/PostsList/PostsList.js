@@ -94,19 +94,10 @@ class PostsList extends Component {
             return (<div>
                 {
                     this.state.filteredPosts.map(function (post, index) {
+                        console.log('render postfolded ' + post.id + " " + post.title);
                         return <PostFolded
                             key={index}
-                            id={post.id}
-                            avatar={post.avatar}
-                            name={post.name}
-                            surname={post.surname}
-                            created_at={post.created_at}
-                            category_id={post.category_id}
-                            category={post.category}
-                            title={post.title}
-                            description={post.description}
-                            photo={post.photo}
-                            views={post.views}
+                            post={post}
                         />;
                     })
                 }
@@ -125,7 +116,7 @@ class PostsList extends Component {
                     updateTagFilter={this.updateTagFilter}
                 />
                 {
-                    !dataIsLoaded ? (<Spinner />) : (this.posts('default'))
+                    !dataIsLoaded ? (<Spinner />) : (this.posts())
                 }
             </div>
         );

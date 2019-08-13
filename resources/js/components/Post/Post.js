@@ -42,21 +42,20 @@ class Post extends Component{
         });
     }
 
-    tags() {
-        if (this.state.tags instanceof Array) {
-            return this.state.tags.map(function (tag, index) {
+    renderPostTags() {
+        if (this.props.post.tags instanceof Array) {
+            return this.props.post.tags.map(function (tag, index) {
                 return <TagTile
                     className="tag-wrapper"
                     key={index}
-                    tagId={tag.id}
-                    tagName={tag.tag}
+                    tag={tag}
                 />;
             })
         }
     }
 
     comments() {
-        if (this.state.tags instanceof Array) {
+        if (this.state.comments instanceof Array) {
             return this.state.comments.map(function (comment, index) {
                 return <Comment
                     key={index}
