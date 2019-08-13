@@ -20,17 +20,6 @@ class Post extends Component{
         });
     }
 
-    getPostTags(id) {
-        return new Promise((resolve) => {
-            axios
-                .get('/api/getposttags/' + id)
-                .then(response => {
-                    this.setState({tags: response.data});
-                    resolve();
-                });
-        });
-    }
-
     getPostComments(id){
         return new Promise((resolve) => {
             axios
@@ -42,14 +31,13 @@ class Post extends Component{
         });
     }
 
-    tags() {
-        if (this.state.tags instanceof Array) {
-            return this.state.tags.map(function (tag, index) {
+    renderPostTags() {
+        if (this.state.post.tags instanceof Array) {
+            return this.state.post.tags.map(function (tag, index) {
                 return <TagTile
                     className="tag-wrapper"
                     key={index}
-                    tagId={tag.id}
-                    tagName={tag.tag}
+                    tag={tag}
                 />;
             })
         }

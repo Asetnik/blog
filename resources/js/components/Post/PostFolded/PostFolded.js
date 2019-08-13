@@ -8,31 +8,20 @@ class PostFolded extends Post {
     constructor(props) {
         super(props);
         this.state = {
+            post: this.props.post,
             dataIsLoaded: false,
-            numOfComments: 0,
-            tags: {}
+            numOfComments: 0
         };
-        this.tags = this.tags.bind(this);
+        this.renderPostTags = this.renderPostTags.bind(this);
         this.getPostCommentsNumber = this.getPostCommentsNumber.bind(this);
-        this.getPostTags = this.getPostTags.bind(this);
         this.makeRequests = this.makeRequests.bind(this);
     }
 
     makeRequests() {
-        let requestsCounter = 0;
-
         return new Promise(resolve => {
-
-            this.getPostCommentsNumber(this.props.id)
+            this.getPostCommentsNumber(this.state.post.id)
                 .then(() => {
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-
-            this.getPostTags(this.props.id)
-                .then(() => {
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
+                    resolve();
                 });
         });
     }
@@ -52,34 +41,34 @@ class PostFolded extends Post {
                         <div className="post post-folded">
                             <div className="head-wrapper">
                                 <div className="author-wrapper">
-                                    <a href="#"><img src={this.props.avatar} alt={this.props.name + " " + this.props.surname}/></a>
+                                    <a href="#"><img src={this.state.post.avatar} alt={this.state.post.name + " " + this.state.post.surname}/></a>
                                     <div className="author-info">
-                                        <a href="#" className="text-link author-name">{this.props.name + " " + this.props.surname}</a>
-                                        <p>{this.props.created_at}</p>
+                                        <a href="#" className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</a>
+                                        <p>{this.state.post.created_at}</p>
                                     </div>
                                 </div>
                                 <div className="category-wrapper">
                                     <CategoryTile
-                                        category={this.props.category}
-                                        category_id={this.props.category_id}
+                                        category={this.state.post.category}
+                                        category_id={this.state.post.category_id}
                                     />
                                 </div>
                             </div>
                             <div className="post-info">
-                                <h3 className="post-title">{this.props.title}</h3>
-                                <p className="post-description">{this.props.description}</p>
-                                <img src={this.props.photo} alt={this.props.name + " " + this.props.surname} />
+                                <h3 className="post-title">{this.state.post.title}</h3>
+                                <p className="post-description">{this.state.post.description}</p>
+                                <img src={this.state.post.photo} alt={this.state.post.name + " " + this.state.post.surname} />
                             </div>
                             <div className="post-footer">
                                 <div className="tags-wrapper">
-                                    {this.tags()}
+                                    {this.renderPostTags()}
                                 </div>
                                 <div className="icons-wrapper">
                                     <p><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
                                 </div>
                             </div>
                             <div className="read-more-wrapper">
-                                <Link to={'/post/' + this.props.id}>
+                                <Link to={'/post/' + this.state.post.id}>
                                     <button className="btn">Читать полностью</button>
                                 </Link>
                             </div>

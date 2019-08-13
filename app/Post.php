@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
@@ -28,6 +29,15 @@ class Post extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public static function getPostTags($id) {
+        $tags = DB::table('post_tag')
+            ->where('post_id', '=', $id)
+            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
+            ->select('tags.id','tags.tag')
+            ->get();
+        return $tags;
     }
 
     public function comments() {

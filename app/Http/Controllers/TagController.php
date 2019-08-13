@@ -8,16 +8,6 @@ use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
-
-    public function getPostTags($id) {
-        $tags = DB::table('post_tag')
-            ->where('post_id', '=', $id)
-            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
-            ->select('tags.id','tags.tag')
-            ->get();
-        return response()->json($tags);
-    }
-
     /**
      * Display a listing of the resource.
      *

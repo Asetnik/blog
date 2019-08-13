@@ -96,6 +96,8 @@ class PostsList extends Component {
                     this.state.filteredPosts.map(function (post, index) {
                         return <PostFolded
                             key={index}
+                            post={post}
+                            /*
                             id={post.id}
                             avatar={post.avatar}
                             name={post.name}
@@ -106,7 +108,7 @@ class PostsList extends Component {
                             title={post.title}
                             description={post.description}
                             photo={post.photo}
-                            views={post.views}
+                            views={post.views}*/
                         />;
                     })
                 }

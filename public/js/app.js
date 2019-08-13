@@ -59269,28 +59269,13 @@ function (_Component) {
       });
     }
   }, {
-    key: "getPostTags",
-    value: function getPostTags(id) {
+    key: "getPostComments",
+    value: function getPostComments(id) {
       var _this2 = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getposttags/' + id).then(function (response) {
-          _this2.setState({
-            tags: response.data
-          });
-
-          resolve();
-        });
-      });
-    }
-  }, {
-    key: "getPostComments",
-    value: function getPostComments(id) {
-      var _this3 = this;
-
-      return new Promise(function (resolve) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getpostcomments/' + id).then(function (response) {
-          _this3.setState({
+          _this2.setState({
             comments: response.data
           });
 
@@ -59299,15 +59284,14 @@ function (_Component) {
       });
     }
   }, {
-    key: "tags",
-    value: function tags() {
-      if (this.state.tags instanceof Array) {
-        return this.state.tags.map(function (tag, index) {
+    key: "renderPostTags",
+    value: function renderPostTags() {
+      if (this.state.post.tags instanceof Array) {
+        return this.state.post.tags.map(function (tag, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TagTile_TagTile__WEBPACK_IMPORTED_MODULE_1__["default"], {
             className: "tag-wrapper",
             key: index,
-            tagId: tag.id,
-            tagName: tag.tag
+            tag: tag
           });
         });
       }
@@ -59386,13 +59370,12 @@ function (_Post) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
     _this.state = {
+      post: _this.props.post,
       dataIsLoaded: false,
-      numOfComments: 0,
-      tags: {}
+      numOfComments: 0
     };
-    _this.tags = _this.tags.bind(_assertThisInitialized(_this));
+    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
     _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
-    _this.getPostTags = _this.getPostTags.bind(_assertThisInitialized(_this));
     _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -59402,16 +59385,9 @@ function (_Post) {
     value: function makeRequests() {
       var _this2 = this;
 
-      var requestsCounter = 0;
       return new Promise(function (resolve) {
-        _this2.getPostCommentsNumber(_this2.props.id).then(function () {
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-
-        _this2.getPostTags(_this2.props.id).then(function () {
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
+        _this2.getPostCommentsNumber(_this2.state.post.id).then(function () {
+          resolve();
         });
       });
     }
@@ -59439,32 +59415,32 @@ function (_Post) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.avatar,
-        alt: this.props.name + " " + this.props.surname
+        src: this.state.post.avatar,
+        alt: this.state.post.name + " " + this.state.post.surname
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         className: "text-link author-name"
-      }, this.props.name + " " + this.props.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.post.name + " " + this.state.post.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.state.post.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        category: this.props.category,
-        category_id: this.props.category_id
+        category: this.state.post.category,
+        category_id: this.state.post.category_id
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "post-title"
-      }, this.props.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+      }, this.state.post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "post-description"
-      }, this.props.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.photo,
-        alt: this.props.name + " " + this.props.surname
+      }, this.state.post.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: this.state.post.photo,
+        alt: this.state.post.name + " " + this.state.post.surname
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-footer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags-wrapper"
-      }, this.tags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.renderPostTags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "icons-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
@@ -59472,7 +59448,7 @@ function (_Post) {
       }), " ", this.state.numOfComments))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "read-more-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/post/' + this.props.id
+        to: '/post/' + this.state.post.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn"
       }, "\u0427\u0438\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E")))));
@@ -59542,14 +59518,12 @@ function (_Post) {
       commentsIsDisplayed: false,
       post: {},
       numOfComments: 0,
-      tags: {},
       comments: {}
     };
     _this.commentDisplayToggle = _this.commentDisplayToggle.bind(_assertThisInitialized(_this));
     _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
-    _this.getPostTags = _this.getPostTags.bind(_assertThisInitialized(_this));
     _this.getPostComments = _this.getPostComments.bind(_assertThisInitialized(_this));
-    _this.tags = _this.tags.bind(_assertThisInitialized(_this));
+    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
     _this.comments = _this.comments.bind(_assertThisInitialized(_this));
     _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
@@ -59564,17 +59538,12 @@ function (_Post) {
       return new Promise(function (resolve) {
         _this2.getPostCommentsNumber(_this2.state.post.id).then(function () {
           ++requestsCounter;
-          if (requestsCounter === 3) resolve();
-        });
-
-        _this2.getPostTags(_this2.state.post.id).then(function () {
-          ++requestsCounter;
-          if (requestsCounter === 3) resolve();
+          if (requestsCounter === 2) resolve();
         });
 
         _this2.getPostComments(_this2.state.post.id).then(function () {
           ++requestsCounter;
-          if (requestsCounter === 3) resolve();
+          if (requestsCounter === 2) resolve();
         });
       });
     }
@@ -59649,7 +59618,7 @@ function (_Post) {
         className: "post-footer"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tags-wrapper"
-      }, this.tags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.renderPostTags()), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "icons-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "text-link",
@@ -59838,17 +59807,20 @@ function (_Component) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.filteredPosts.map(function (post, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFolded_PostFolded__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: index,
-            id: post.id,
-            avatar: post.avatar,
-            name: post.name,
-            surname: post.surname,
-            created_at: post.created_at,
-            category_id: post.category_id,
-            category: post.category,
-            title: post.title,
-            description: post.description,
-            photo: post.photo,
-            views: post.views
+            post: post
+            /*
+            id={post.id}
+            avatar={post.avatar}
+            name={post.name}
+            surname={post.surname}
+            created_at={post.created_at}
+            category_id={post.category_id}
+            category={post.category}
+            title={post.title}
+            description={post.description}
+            photo={post.photo}
+            views={post.views}*/
+
           });
         }));
       }
@@ -60190,7 +60162,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/tag/' + this.props.tagId,
+        to: '/tag/' + this.props.tag.id,
         className: "tag-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-secondary tag",
@@ -60199,7 +60171,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-tag",
         "aria-hidden": "true"
-      }), " ", this.props.tagName));
+      }), " ", this.props.tag.tag));
     }
   }]);
 
