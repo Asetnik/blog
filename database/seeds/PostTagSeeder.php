@@ -14,22 +14,22 @@ class PostTagSeeder extends Seeder
     {
         DB::table('post_tag')->insert([
             'post_id' => '1',
-            'tag_id' => '1',
+            'tag_id' => '5',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_tag')->insert([
             'post_id' => '1',
-            'tag_id' => '2',
+            'tag_id' => '10',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_tag')->insert([
             'post_id' => '1',
-            'tag_id' => '3',
+            'tag_id' => '11',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_tag')->insert([
             'post_id' => '2',
-            'tag_id' => '2',
+            'tag_id' => '6',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_tag')->insert([

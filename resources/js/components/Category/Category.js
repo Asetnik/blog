@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PostsList from "../PostsList/PostsList";
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
+import Filter from "../Filter/Filter";
 
 class Category extends PostsList {
 
@@ -50,6 +51,7 @@ class Category extends PostsList {
         const dataIsLoaded = this.state.dataIsLoaded;
         return (
             <div className="category-page">
+                <Filter type={'categories'}/>
                 {
                     !dataIsLoaded ? (<Spinner />) : (
                         <div>

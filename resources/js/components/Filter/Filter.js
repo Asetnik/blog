@@ -3,7 +3,8 @@ import Multiselect from 'react-widgets/lib/Multiselect';
 import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
-import Search from "../Search/Search";
+import Search from '../Search/Search';
+import axios from 'axios';
 
 class Filter extends Component{
 
@@ -20,10 +21,30 @@ class Filter extends Component{
         this.datepickersSpellcheck = this.datepickersSpellcheck.bind(this);
         this.localizer = this.localizer.bind(this);
         this.filterBtnClick = this.filterBtnClick.bind(this);
+        this.getPostsCategories = this.getPostsCategories.bind(this);
+        this.getPostsAuthors = this.getPostsAuthors.bind(this);
     }
 
     componentWillMount() {
         this.localizer();
+        this.getPostsCategories();
+        this.getPostsAuthors();
+    }
+
+    getPostsCategories() {
+        axios
+            .get('/api/getpostscategories')
+            .then(response => {
+                this.setState({categories: response.data.map( (category) => category.category)});
+            });
+    }
+
+    getPostsAuthors() {
+        axios
+            .get('/api/getpostsauthors')
+            .then(response => {
+                this.setState({authors: response.data.map( (author) => author.name + " " + author.surname )});
+            });
     }
 
     localizer() {
@@ -46,7 +67,6 @@ class Filter extends Component{
         this.setState({
             filterDisplayed: !this.state.filterDisplayed
         });
-
     }
 
     render() {
@@ -59,36 +79,39 @@ class Filter extends Component{
                         <div className="filter-header">
                             <h3>Фильтр публикаций</h3>
                         </div>
-                        <div className="date-column">
-                            <div name="date" className="datepicker-wrapper">
-                                <DateTimePicker
-                                    placeholder="От"
-                                />
-                                <DateTimePicker
-                                    placeholder="До"
-                                />
-                            </div>
+                        <div className="date-since">
+                            <DateTimePicker
+                                placeholder="От"
+                            />
+                        </div>
+                        <div className="date-until">
+                            <DateTimePicker
+                                placeholder="До"
+                            />
+                        </div>
+                        <div className="search-row">
+                            <Search />
                         </div>
                         { (type !== 'category') && <div className="category-column">
                             <Multiselect
                                 placeholder="Категория"
-                                data={['Авто', 'Спорт', 'Природа']}
+                                data={this.state.categories}
+                                onChange={value => this.props.updateCategoryFilter(value)}
                             />
                         </div>}
                         <div className="author-column">
                             <Multiselect
                                 placeholder="Автор"
-                                data={['Автор 1', 'Автор 2', 'Автор 3']}
+                                data={this.state.authors}
+                                onChange={value => this.props.updateAuthorFilter(value)}
                             />
                         </div>
                         <div className="tag-column">
                             <Multiselect
                                 placeholder="Тэг"
-                                data={['Тэг 1', 'Тэг 2', 'Тэг 3']}
+/*                                data={tags}
+                                onChange={value => this.props.updateTagFilter(value)}*/
                             />
-                        </div>
-                        <div className="search-row">
-                            <Search />
                         </div>
                     </div>)
                 }

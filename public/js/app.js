@@ -58550,6 +58550,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+/* harmony import */ var _Filter_Filter__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Filter/Filter */ "./resources/js/components/Filter/Filter.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58567,6 +58568,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -58636,7 +58638,9 @@ function (_PostsList) {
       var dataIsLoaded = this.state.dataIsLoaded;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-page"
-      }, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        type: 'categories'
+      }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "category-page-header"
       }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F ", this.state.categoryName), this.posts('category')));
     }
@@ -58821,6 +58825,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-widgets/lib/DateTimePicker */ "./node_modules/react-widgets/lib/DateTimePicker.js");
 /* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__);
 /* harmony import */ var _Search_Search__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Search/Search */ "./resources/js/components/Search/Search.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_6__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -58838,6 +58844,7 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -58868,6 +58875,8 @@ function (_Component) {
     _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
     _this.localizer = _this.localizer.bind(_assertThisInitialized(_this));
     _this.filterBtnClick = _this.filterBtnClick.bind(_assertThisInitialized(_this));
+    _this.getPostsCategories = _this.getPostsCategories.bind(_assertThisInitialized(_this));
+    _this.getPostsAuthors = _this.getPostsAuthors.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -58875,6 +58884,34 @@ function (_Component) {
     key: "componentWillMount",
     value: function componentWillMount() {
       this.localizer();
+      this.getPostsCategories();
+      this.getPostsAuthors();
+    }
+  }, {
+    key: "getPostsCategories",
+    value: function getPostsCategories() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpostscategories').then(function (response) {
+        _this2.setState({
+          categories: response.data.map(function (category) {
+            return category.category;
+          })
+        });
+      });
+    }
+  }, {
+    key: "getPostsAuthors",
+    value: function getPostsAuthors() {
+      var _this3 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpostsauthors').then(function (response) {
+        _this3.setState({
+          authors: response.data.map(function (author) {
+            return author.name + " " + author.surname;
+          })
+        });
+      });
     }
   }, {
     key: "localizer",
@@ -58906,6 +58943,8 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
+      var _this4 = this;
+
       var type = this.props.type;
       var filterDisplayed = this.state.filterDisplayed;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -58915,32 +58954,39 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter-header"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "\u0424\u0438\u043B\u044C\u0442\u0440 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0439")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "date-column"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        name: "date",
-        className: "datepicker-wrapper"
+        className: "date-since"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
         placeholder: "\u041E\u0442"
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "date-until"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
         placeholder: "\u0414\u043E"
-      }))), type !== 'category' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-row"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Search_Search__WEBPACK_IMPORTED_MODULE_5__["default"], null)), type !== 'category' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-column"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
         placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
-        data: ['Авто', 'Спорт', 'Природа']
+        data: this.state.categories,
+        onChange: function onChange(value) {
+          return _this4.props.updateCategoryFilter(value);
+        }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-column"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
         placeholder: "\u0410\u0432\u0442\u043E\u0440",
-        data: ['Автор 1', 'Автор 2', 'Автор 3']
+        data: this.state.authors,
+        onChange: function onChange(value) {
+          return _this4.props.updateAuthorFilter(value);
+        }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tag-column"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        placeholder: "\u0422\u044D\u0433",
-        data: ['Тэг 1', 'Тэг 2', 'Тэг 3']
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "search-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Search_Search__WEBPACK_IMPORTED_MODULE_5__["default"], null))), filterDisplayed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
+        placeholder: "\u0422\u044D\u0433"
+        /*                                data={tags}
+                                        onChange={value => this.props.updateTagFilter(value)}*/
+
+      }))), filterDisplayed ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         className: "text-link filter-toggle",
         onClick: this.filterBtnClick
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -59664,9 +59710,15 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostsList).call(this, props));
     _this.state = {
       posts: [],
+      filteredPosts: [],
+      categoryFilter: [],
+      authorFilter: [],
       dataIsLoaded: false
     };
     _this.posts = _this.posts.bind(_assertThisInitialized(_this));
+    _this.updateCategoryFilter = _this.updateCategoryFilter.bind(_assertThisInitialized(_this));
+    _this.updateAuthorFilter = _this.updateAuthorFilter.bind(_assertThisInitialized(_this));
+    _this.filterPosts = _this.filterPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -59678,17 +59730,71 @@ function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/post').then(function (response) {
         _this2.setState({
           posts: response.data,
+          filteredPosts: response.data,
           dataIsLoaded: true
         });
       });
     }
   }, {
+    key: "updateCategoryFilter",
+    value: function updateCategoryFilter(value) {
+      var _this3 = this;
+
+      this.setState({
+        categoryFilter: value
+      }, function () {
+        _this3.filterPosts();
+      });
+    }
+  }, {
+    key: "updateAuthorFilter",
+    value: function updateAuthorFilter(value) {
+      var _this4 = this;
+
+      this.setState({
+        authorFilter: value
+      }, function () {
+        _this4.filterPosts();
+      });
+    }
+  }, {
+    key: "filterPosts",
+    value: function filterPosts() {
+      var _this5 = this;
+
+      var filteredPosts = this.state.posts;
+
+      if (this.state.categoryFilter.length > 0) {
+        filteredPosts = filteredPosts.filter(function (post) {
+          for (var i = 0; i < _this5.state.categoryFilter.length; i++) {
+            if (post.category === _this5.state.categoryFilter[i]) return true;
+          }
+
+          return false;
+        });
+      }
+
+      if (this.state.authorFilter.length > 0) {
+        filteredPosts = filteredPosts.filter(function (post) {
+          var authorFullName = post.name + " " + post.surname;
+
+          for (var i = 0; i < _this5.state.authorFilter.length; i++) {
+            if (authorFullName === _this5.state.authorFilter[i]) return true;
+          }
+
+          return false;
+        });
+      }
+
+      this.setState({
+        filteredPosts: filteredPosts
+      });
+    }
+  }, {
     key: "posts",
-    value: function posts(type) {
-      if (this.state.posts instanceof Array) {
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
-          type: type
-        }), this.state.posts.map(function (post, index) {
+    value: function posts() {
+      if (this.state.filteredPosts instanceof Array) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.filteredPosts.map(function (post, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFolded_PostFolded__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: index,
             id: post.id,
@@ -59710,7 +59816,11 @@ function (_Component) {
     key: "render",
     value: function render() {
       var dataIsLoaded = this.state.dataIsLoaded;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : this.posts('default'));
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        type: 'default',
+        updateCategoryFilter: this.updateCategoryFilter,
+        updateAuthorFilter: this.updateAuthorFilter
+      }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : this.posts('default'));
     }
   }]);
 

@@ -4,10 +4,42 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\DB;
 
 
 class PostController extends Controller
 {
+
+    public function getPostsCategories() {
+        $posts = Post::orderBy('category_id')
+            ->select('post_categories.category')
+            ->groupBy('category_id')
+            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
+            ->get();
+
+        return response()->json($posts);
+    }
+
+    public function getPostsAuthors() {
+        $posts = Post::orderBy('author_id')
+            ->select('users.name', 'users.surname')
+            ->groupBy('author_id')
+            ->join('users', 'posts.author_id', '=', 'users.id')
+            ->get();
+
+        return response()->json($posts);
+    }
+
+    public function getPostsTags() {
+        $posts = DB::table('post_tag')
+            ->select('tag_id', 'tags.tag')
+            ->groupBy('tag_id')
+            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
+            ->get();
+
+        return response()->json($posts);
+    }
+
     /**
      * Display a listing of the resource.
      *

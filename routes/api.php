@@ -23,4 +23,6 @@ Route::middleware('api')->get('/getpostcomments/{id}', 'PostCommentController@ge
 Route::middleware('api')->resource('/post', 'PostController');
 Route::middleware('api')->resource('/category', 'PostCategoryController');
 Route::middleware('api')->get('/categoryname/{id}', 'PostCategoryController@categoryName');
-
+Route::middleware('api')->get('/getpostscategories', 'PostController@getPostsCategories');
+Route::middleware('api')->get('/getpostsauthors', 'PostController@getPostsAuthors');
+Route::middleware('api')->get('/getpoststags', 'PostController@getPostsTags');
