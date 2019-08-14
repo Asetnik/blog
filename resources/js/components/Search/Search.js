@@ -34,6 +34,7 @@ class Search extends Component{
     clearSearch(){
         this.setState({searchValue: ''});
         this.setState({searchIsEmpty: true});
+        this.props.onChange('');
     }
 
     render() {

@@ -15,13 +15,17 @@ class PostsList extends Component {
             authorFilter: [],
             tagFilter: [],
             searchFilter: [],
+            dateSinceFilter: '',
+            dateUntilFilter: '',
             dataIsLoaded: false
         };
-        this.renderPostTags = this.renderPostTags.bind(this);
+        this.renderPosts = this.renderPosts.bind(this);
         this.updateCategoryFilter = this.updateCategoryFilter.bind(this);
         this.updateAuthorFilter = this.updateAuthorFilter.bind(this);
         this.updateTagFilter = this.updateTagFilter.bind(this);
         this.updateSearchFilter = this.updateSearchFilter.bind(this);
+        this.updateDateSinceFilter = this.updateDateSinceFilter.bind(this);
+        this.updateDateUntilFilter = this.updateDateUntilFilter.bind(this);
         this.filterPosts = this.filterPosts.bind(this);
     }
 
@@ -57,6 +61,18 @@ class PostsList extends Component {
 
     updateSearchFilter(value) {
         this.setState({searchFilter: value}, () => {
+            this.filterPosts();
+        });
+    }
+
+    updateDateSinceFilter(value) {
+        this.setState({dateSinceFilter: value}, () => {
+            this.filterPosts();
+        });
+    }
+
+    updateDateUntilFilter(value) {
+        this.setState({dateUntilFilter: value}, () => {
             this.filterPosts();
         });
     }
@@ -97,9 +113,27 @@ class PostsList extends Component {
         }
 
         if(this.state.searchFilter.length > 0) {
+            let searchFilter = this.state.searchFilter.toLowerCase();
             filteredPosts = filteredPosts.filter(post => {
-                let searchFilter = this.state.searchFilter.toLowerCase();
                 if(~post.title.toLowerCase().indexOf(searchFilter) || ~post.description.toLowerCase().indexOf(searchFilter)) return true;
+                return false;
+            });
+        }
+
+        if(this.state.dateSinceFilter) {
+            let dateSinceFilter = this.state.dateSinceFilter.value;
+            filteredPosts = filteredPosts.filter(post => {
+                let created_at = new Date(post.created_at);
+                if(created_at >= dateSinceFilter) return true;
+                return false;
+            });
+        }
+
+        if(this.state.dateUntilFilter) {
+            let dateUntilFilter = this.state.dateUntilFilter.value;
+            filteredPosts = filteredPosts.filter(post => {
+                let created_at = new Date(post.created_at);
+                if(created_at <= dateUntilFilter) return true;
                 return false;
             });
         }
@@ -107,8 +141,13 @@ class PostsList extends Component {
         this.setState({filteredPosts: filteredPosts});
     }
 
-    renderPostTags() {
+    renderPosts() {
         if (this.state.filteredPosts instanceof Array) {
+            if(this.state.filteredPosts.length === 0) {
+                return (<div>
+                    <h3 className="text-center mt-5">Не найдено публикаций удовлетворяющих фильтру</h3>
+                </div>);
+            }
             return (<div>
                 {
                     this.state.filteredPosts.map(function (post, index) {
@@ -126,15 +165,20 @@ class PostsList extends Component {
         const dataIsLoaded = this.state.dataIsLoaded;
         return (
             <div>
-                <Filter
-                    type={'default'}
-                    updateCategoryFilter={this.updateCategoryFilter}
-                    updateAuthorFilter={this.updateAuthorFilter}
-                    updateTagFilter={this.updateTagFilter}
-                    updateSearchFilter={this.updateSearchFilter}
-                />
                 {
-                    !dataIsLoaded ? (<Spinner />) : (this.renderPostTags())
+                    !dataIsLoaded ? (<Spinner />) :
+                        (<div>
+                            <Filter
+                                type={'default'}
+                                updateCategoryFilter={this.updateCategoryFilter}
+                                updateAuthorFilter={this.updateAuthorFilter}
+                                updateTagFilter={this.updateTagFilter}
+                                updateSearchFilter={this.updateSearchFilter}
+                                updateDateSinceFilter={this.updateDateSinceFilter}
+                                updateDateUntilFilter={this.updateDateUntilFilter}
+                            />
+                            {this.renderPosts()}
+                        </div>)
                 }
             </div>
         );

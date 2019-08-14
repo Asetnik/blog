@@ -12423,8 +12423,9 @@ li {
   margin-bottom: 20px;
 }
 
-.category-page .category-page-header {
-  margin-bottom: 25px;
+.category-page .category-page-title {
+  font-size: 22px;
+  margin-bottom: 35px;
 }
 
 .comment .author-wrapper {

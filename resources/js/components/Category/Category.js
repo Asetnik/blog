@@ -13,9 +13,11 @@ class Category extends PostsList {
             filteredPosts: [],
             authorFilter: [],
             tagFilter: [],
+            searchFilter: [],
+            dateSinceFilter: '',
+            dateUntilFilter: '',
             dataIsLoaded: false
         };
-        this.renderPostTags = this.renderPostTags.bind(this);
         this.makeRequests = this.makeRequests.bind(this);
     }
 
@@ -56,17 +58,17 @@ class Category extends PostsList {
         const dataIsLoaded = this.state.dataIsLoaded;
         return (
             <div className="category-page">
-                <Filter
-                    type={'category'}
-                    updateAuthorFilter={this.updateAuthorFilter}
-                    updateTagFilter={this.updateTagFilter}
-                    updateSearchFilter={this.updateSearchFilter}
-                />
                 {
                     !dataIsLoaded ? (<Spinner />) : (
                         <div>
-                            <h3 className="category-page-header">Категория {this.state.categoryName}</h3>
-                            {this.renderPostTags()}
+                            <Filter
+                                type={'category'}
+                                updateAuthorFilter={this.updateAuthorFilter}
+                                updateTagFilter={this.updateTagFilter}
+                                updateSearchFilter={this.updateSearchFilter}
+                            />
+                            <span className="badge badge-primary category-page-title">{"Категория " + this.state.categoryName}</span>
+                            {this.renderPosts()}
                         </div>
                     )
                 }
