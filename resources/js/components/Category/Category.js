@@ -66,6 +66,8 @@ class Category extends PostsList {
                                 updateAuthorFilter={this.updateAuthorFilter}
                                 updateTagFilter={this.updateTagFilter}
                                 updateSearchFilter={this.updateSearchFilter}
+                                updateDateSinceFilter={this.updateDateSinceFilter}
+                                updateDateUntilFilter={this.updateDateUntilFilter}
                             />
                             <span className="badge badge-primary category-page-title">{"Категория " + this.state.categoryName}</span>
                             {this.renderPosts()}

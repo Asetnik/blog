@@ -3,18 +3,24 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\PostCategory;
+use App\User;
 use Illuminate\Http\Request;
 
-class PostCategoryController extends Controller
+class UserController extends Controller
 {
 
-    public function categoryName($id) {
-        $categoryName = PostCategory::where('id', '=', $id)
-            ->select('category')
+    public function getUserPosts($id) {
+        $posts = Post::orderBy('created_at', 'desc')
+            ->where('author_id', '=', $id)
+            ->join('users', 'posts.author_id', '=', 'users.id')
+            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
+            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
             ->get();
-        $categoryName = $categoryName[0] -> category;
-        return response()->json($categoryName);
+        foreach ($posts as $post) {
+            $tags = Post::getPostTags($post->id);
+            $post['tags'] = $tags;
+        }
+        return response()->json($posts);
     }
 
     /**
@@ -56,16 +62,13 @@ class PostCategoryController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('posts.category_id', '=', $id)
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
+        $user = User::query()
+            ->where('id', '=', $id)
             ->get();
-        foreach ($posts as $post) {
-            $tags = Post::getPostTags($post->id);
-            $post['tags'] = $tags;
-        }
-        return response()->json($posts);
+        $numUserPosts = Post::where('author_id', '=', $id)
+            ->count();
+        $user[0]['numUserPosts'] = $numUserPosts;
+        return response()->json($user);
     }
 
     /**

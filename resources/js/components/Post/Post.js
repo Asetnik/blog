@@ -31,9 +31,9 @@ class Post extends Component{
         });
     }
 
-    renderPostTags() {
-        if (this.props.post.tags instanceof Array) {
-            return this.props.post.tags.map(function (tag, index) {
+    renderPostTags(tags) {
+        if (tags instanceof Array) {
+            return tags.map(function (tag, index) {
                 return <TagTile
                     className="tag-wrapper"
                     key={index}

@@ -32,5 +32,17 @@ class PostCategoriesTableSeeder extends Seeder
             'category' => 'Творчество',
             'created_at' => Carbon::now()
         ]);
+        DB::table('post_categories')->insert([
+            'category' => 'Общество',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('post_categories')->insert([
+            'category' => 'Кругозор',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('post_categories')->insert([
+            'category' => 'Наука',
+            'created_at' => Carbon::now()
+        ]);
     }
 }

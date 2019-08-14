@@ -50,7 +50,7 @@ class PostController extends Controller
         $posts = Post::orderBy('created_at', 'desc')
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
+            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
             ->get();
         foreach ($posts as $post) {
            $tags = Post::getPostTags($post->id);
@@ -92,7 +92,7 @@ class PostController extends Controller
         $posts = Post::where('posts.id', '=', $id)
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
+            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
             ->get();
         foreach ($posts as $post) {
             $tags = Post::getPostTags($post->id);

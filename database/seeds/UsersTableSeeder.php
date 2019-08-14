@@ -30,6 +30,7 @@ class UsersTableSeeder extends Seeder
             'surname' => 'Яблонский',
             'patronymic' => 'Кириллович',
             'email' => 'mitch@mail.ru',
+            'description' => 'Описание',
             'photo' => 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
             'status_id' => '1',
             'password' => 'password',
@@ -40,10 +41,23 @@ class UsersTableSeeder extends Seeder
             'name' => 'admin',
             'surname' => 'admin',
             'patronymic' => 'admin',
+            'description' => 'Админ',
             'email' => 'admin@mail.ru',
             'photo' => 'http://s3.amazonaws.com/37assets/svn/765-default-avatar.png',
             'status_id' => '1',
             'password' => 'admin',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('users')->insert([
+            'role_id' => 2,
+            'name' => 'Пашка',
+            'surname' => 'Сверстайло',
+            'patronymic' => 'Сергеевич',
+            'email' => 'p.asetnik@mail.ru',
+            'description' => 'Всем привет, я Пашка фейсконтроль',
+            'photo' => 'https://sun9-29.userapi.com/c846020/v846020197/d9630/3hQO1HB0wiU.jpg',
+            'status_id' => '1',
+            'password' => 'pashka',
             'created_at' => Carbon::now()
         ]);
     }

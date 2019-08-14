@@ -56,5 +56,25 @@ class TagsTableSeeder extends Seeder
             'tag' => 'Отдых',
             'created_at' => Carbon::now()
         ]);
+        DB::table('tags')->insert([
+            'tag' => 'Происшествия',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('tags')->insert([
+            'tag' => 'Взрывы',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('tags')->insert([
+            'tag' => 'Армия',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('tags')->insert([
+            'tag' => 'Космос',
+            'created_at' => Carbon::now()
+        ]);
+        DB::table('tags')->insert([
+            'tag' => 'Наука',
+            'created_at' => Carbon::now()
+        ]);
     }
 }

@@ -82,13 +82,13 @@ class Filter extends Component{
                     <div className="date-since">
                         <DateTimePicker
                             placeholder="От"
-                            onChange={value => this.props.updateDateSinceFilter({ value })}
+                            onChange={value => this.props.updateDateSinceFilter(value)}
                         />
                     </div>
                     <div className="date-until">
                         <DateTimePicker
                             placeholder="До"
-                            onChange={value => this.props.updateDateUntilFilter({ value })}
+                            onChange={value => this.props.updateDateUntilFilter(value)}
                         />
                     </div>
                     <div className="search-row">
@@ -104,13 +104,13 @@ class Filter extends Component{
                             onChange={value => this.props.updateCategoryFilter(value)}
                         />
                     </div>}
-                    <div className="author-column">
+                    { (type !== 'user') && <div className="author-column">
                         <Multiselect
                             placeholder="Автор"
                             data={this.state.authors}
                             onChange={value => this.props.updateAuthorFilter(value)}
                         />
-                    </div>
+                    </div>}
                     <div className="tag-column">
                         <Multiselect
                             placeholder="Тэг"

@@ -80,7 +80,7 @@ class PostsList extends Component {
     filterPosts() {
         let filteredPosts = this.state.posts;
 
-        if (this.state.categoryFilter instanceof Array) {
+        if (this.state.categoryFilter) {
             if (this.state.categoryFilter.length > 0) {
                 filteredPosts = filteredPosts.filter(post => {
                     for (let i = 0; i < this.state.categoryFilter.length; i++) {
@@ -91,14 +91,16 @@ class PostsList extends Component {
             }
         }
 
-        if(this.state.authorFilter.length > 0) {
-            filteredPosts = filteredPosts.filter(post => {
-                let authorFullName = post.name + " " + post.surname;
-                for(let i = 0; i < this.state.authorFilter.length; i++) {
-                    if(authorFullName === this.state.authorFilter[i]) return true;
-                }
-                return false;
-            });
+        if (this.state.authorFilter) {
+            if (this.state.authorFilter.length > 0) {
+                filteredPosts = filteredPosts.filter(post => {
+                    let authorFullName = post.name + " " + post.surname;
+                    for (let i = 0; i < this.state.authorFilter.length; i++) {
+                        if (authorFullName === this.state.authorFilter[i]) return true;
+                    }
+                    return false;
+                });
+            }
         }
 
         if(this.state.tagFilter.length > 0) {
@@ -121,7 +123,7 @@ class PostsList extends Component {
         }
 
         if(this.state.dateSinceFilter) {
-            let dateSinceFilter = this.state.dateSinceFilter.value;
+            let dateSinceFilter = this.state.dateSinceFilter;
             filteredPosts = filteredPosts.filter(post => {
                 let created_at = new Date(post.created_at);
                 if(created_at >= dateSinceFilter) return true;
@@ -130,7 +132,7 @@ class PostsList extends Component {
         }
 
         if(this.state.dateUntilFilter) {
-            let dateUntilFilter = this.state.dateUntilFilter.value;
+            let dateUntilFilter = this.state.dateUntilFilter;
             filteredPosts = filteredPosts.filter(post => {
                 let created_at = new Date(post.created_at);
                 if(created_at <= dateUntilFilter) return true;

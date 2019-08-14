@@ -10,6 +10,13 @@ class PostFolded extends Post {
         this.state = {
             dataIsLoaded: false,
             numOfComments: 0,
+            dateOptions: {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+            }
         };
         this.renderPostTags = this.renderPostTags.bind(this);
         this.getPostCommentsNumber = this.getPostCommentsNumber.bind(this);
@@ -41,10 +48,10 @@ class PostFolded extends Post {
                         <div className="post post-folded">
                             <div className="head-wrapper">
                                 <div className="author-wrapper">
-                                    <a href="#"><img src={this.props.post.avatar} alt={this.props.post.name + " " + this.props.post.surname}/></a>
+                                    <Link to={'/user/' + this.props.post.author_id}><img src={this.props.post.avatar} alt={this.props.post.name + " " + this.props.post.surname}/></Link>
                                     <div className="author-info">
-                                        <a href="#" className="text-link author-name">{this.props.post.name + " " + this.props.post.surname}</a>
-                                        <p>{this.props.post.created_at}</p>
+                                        <Link to={'/user/' + this.props.post.author_id} className="text-link author-name">{this.props.post.name + " " + this.props.post.surname}</Link>
+                                        <p>{new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)}</p>
                                     </div>
                                 </div>
                                 <div className="category-wrapper">
@@ -61,7 +68,7 @@ class PostFolded extends Post {
                             </div>
                             <div className="post-footer">
                                 <div className="tags-wrapper">
-                                    {this.renderPostTags()}
+                                    {this.renderPostTags(this.props.post.tags)}
                                 </div>
                                 <div className="icons-wrapper">
                                     <p><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
