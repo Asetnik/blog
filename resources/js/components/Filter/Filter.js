@@ -100,7 +100,10 @@ class Filter extends Component{
                             />
                         </div>
                         <div className="search-row">
-                            <Search />
+                            <Search
+                                placeholder="Поиск по названию и описанию"
+                                onChange={value => this.props.updateSearchFilter(value)}
+                            />
                         </div>
                         { (type !== 'category') && <div className="category-column">
                             <Multiselect

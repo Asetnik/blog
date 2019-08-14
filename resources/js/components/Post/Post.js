@@ -20,17 +20,6 @@ class Post extends Component{
         });
     }
 
-    getPostTags(id) {
-        return new Promise((resolve) => {
-            axios
-                .get('/api/getposttags/' + id)
-                .then(response => {
-                    this.setState({tags: response.data});
-                    resolve();
-                });
-        });
-    }
-
     getPostComments(id){
         return new Promise((resolve) => {
             axios

@@ -12533,26 +12533,37 @@ li {
           align-items: center;
 }
 
-.search {
+.search-wrapper {
+  position: relative;
+}
+
+.search-wrapper .search {
   outline: none;
   padding: 0 0.857em;
   width: 100%;
   color: #555555;
 }
 
-.search::-webkit-input-placeholder {
+.search-wrapper .search::-webkit-input-placeholder {
   color: #999;
 }
 
-.search:-ms-input-placeholder {
+.search-wrapper .search:-ms-input-placeholder {
   color: #999;
 }
 
-.search::-ms-input-placeholder {
+.search-wrapper .search::-ms-input-placeholder {
   color: #999;
 }
 
-.search::placeholder {
+.search-wrapper .search::placeholder {
   color: #999;
+}
+
+.search-wrapper .fa-times {
+  color: #999;
+  position: absolute;
+  right: 15px;
+  top: 10px;
 }
 

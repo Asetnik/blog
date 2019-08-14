@@ -58587,11 +58587,13 @@ function (_PostsList) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Category).call(this, props));
     _this.state = {
-      dataIsLoaded: false,
-      categoryName: '',
-      posts: []
+      posts: [],
+      filteredPosts: [],
+      authorFilter: [],
+      tagFilter: [],
+      dataIsLoaded: false
     };
-    _this.posts = _this.posts.bind(_assertThisInitialized(_this));
+    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
     _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -58613,7 +58615,8 @@ function (_PostsList) {
         });
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/category/' + _this2.props.match.params.id).then(function (response) {
           _this2.setState({
-            posts: response.data
+            posts: response.data,
+            filteredPosts: response.data
           });
 
           ++requestsCounter;
@@ -58639,10 +58642,13 @@ function (_PostsList) {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-page"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
-        type: 'categories'
+        type: 'category',
+        updateAuthorFilter: this.updateAuthorFilter,
+        updateTagFilter: this.updateTagFilter,
+        updateSearchFilter: this.updateSearchFilter
       }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "category-page-header"
-      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F ", this.state.categoryName), this.posts('category')));
+      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F ", this.state.categoryName), this.renderPostTags()));
     }
   }]);
 
@@ -58978,7 +58984,12 @@ function (_Component) {
         placeholder: "\u0414\u043E"
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "search-row"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Search_Search__WEBPACK_IMPORTED_MODULE_5__["default"], null)), type !== 'category' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Search_Search__WEBPACK_IMPORTED_MODULE_5__["default"], {
+        placeholder: "\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E \u0438 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044E",
+        onChange: function onChange(value) {
+          return _this5.props.updateSearchFilter(value);
+        }
+      })), type !== 'category' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-column"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
         placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
@@ -59269,28 +59280,13 @@ function (_Component) {
       });
     }
   }, {
-    key: "getPostTags",
-    value: function getPostTags(id) {
+    key: "getPostComments",
+    value: function getPostComments(id) {
       var _this2 = this;
 
       return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getposttags/' + id).then(function (response) {
-          _this2.setState({
-            tags: response.data
-          });
-
-          resolve();
-        });
-      });
-    }
-  }, {
-    key: "getPostComments",
-    value: function getPostComments(id) {
-      var _this3 = this;
-
-      return new Promise(function (resolve) {
         axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getpostcomments/' + id).then(function (response) {
-          _this3.setState({
+          _this2.setState({
             comments: response.data
           });
 
@@ -59713,12 +59709,14 @@ function (_Component) {
       categoryFilter: [],
       authorFilter: [],
       tagFilter: [],
+      searchFilter: [],
       dataIsLoaded: false
     };
-    _this.posts = _this.posts.bind(_assertThisInitialized(_this));
+    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
     _this.updateCategoryFilter = _this.updateCategoryFilter.bind(_assertThisInitialized(_this));
     _this.updateAuthorFilter = _this.updateAuthorFilter.bind(_assertThisInitialized(_this));
     _this.updateTagFilter = _this.updateTagFilter.bind(_assertThisInitialized(_this));
+    _this.updateSearchFilter = _this.updateSearchFilter.bind(_assertThisInitialized(_this));
     _this.filterPosts = _this.filterPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -59770,28 +59768,41 @@ function (_Component) {
       });
     }
   }, {
+    key: "updateSearchFilter",
+    value: function updateSearchFilter(value) {
+      var _this6 = this;
+
+      this.setState({
+        searchFilter: value
+      }, function () {
+        _this6.filterPosts();
+      });
+    }
+  }, {
     key: "filterPosts",
     value: function filterPosts() {
-      var _this6 = this;
+      var _this7 = this;
 
       var filteredPosts = this.state.posts;
 
-      if (this.state.categoryFilter.length > 0) {
-        filteredPosts = filteredPosts.filter(function (post) {
-          for (var i = 0; i < _this6.state.categoryFilter.length; i++) {
-            if (post.category === _this6.state.categoryFilter[i]) return true;
-          }
+      if (this.state.categoryFilter instanceof Array) {
+        if (this.state.categoryFilter.length > 0) {
+          filteredPosts = filteredPosts.filter(function (post) {
+            for (var i = 0; i < _this7.state.categoryFilter.length; i++) {
+              if (post.category === _this7.state.categoryFilter[i]) return true;
+            }
 
-          return false;
-        });
+            return false;
+          });
+        }
       }
 
       if (this.state.authorFilter.length > 0) {
         filteredPosts = filteredPosts.filter(function (post) {
           var authorFullName = post.name + " " + post.surname;
 
-          for (var i = 0; i < _this6.state.authorFilter.length; i++) {
-            if (authorFullName === _this6.state.authorFilter[i]) return true;
+          for (var i = 0; i < _this7.state.authorFilter.length; i++) {
+            if (authorFullName === _this7.state.authorFilter[i]) return true;
           }
 
           return false;
@@ -59800,12 +59811,21 @@ function (_Component) {
 
       if (this.state.tagFilter.length > 0) {
         filteredPosts = filteredPosts.filter(function (post) {
-          for (var i = 0; i < _this6.state.tagFilter.length; i++) {
+          for (var i = 0; i < _this7.state.tagFilter.length; i++) {
             for (var j = 0; j < post.tags.length; j++) {
-              if (post.tags[j].tag === _this6.state.tagFilter[i]) return true;
+              if (post.tags[j].tag === _this7.state.tagFilter[i]) return true;
             }
           }
 
+          return false;
+        });
+      }
+
+      if (this.state.searchFilter.length > 0) {
+        filteredPosts = filteredPosts.filter(function (post) {
+          var searchFilter = _this7.state.searchFilter.toLowerCase();
+
+          if (~post.title.toLowerCase().indexOf(searchFilter) || ~post.description.toLowerCase().indexOf(searchFilter)) return true;
           return false;
         });
       }
@@ -59815,11 +59835,10 @@ function (_Component) {
       });
     }
   }, {
-    key: "posts",
-    value: function posts() {
+    key: "renderPostTags",
+    value: function renderPostTags() {
       if (this.state.filteredPosts instanceof Array) {
         return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.filteredPosts.map(function (post, index) {
-          console.log('render postfolded ' + post.id + " " + post.title);
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFolded_PostFolded__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: index,
             post: post
@@ -59835,8 +59854,9 @@ function (_Component) {
         type: 'default',
         updateCategoryFilter: this.updateCategoryFilter,
         updateAuthorFilter: this.updateAuthorFilter,
-        updateTagFilter: this.updateTagFilter
-      }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : this.posts());
+        updateTagFilter: this.updateTagFilter,
+        updateSearchFilter: this.updateSearchFilter
+      }), !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : this.renderPostTags());
     }
   }]);
 
@@ -59945,8 +59965,14 @@ function (_Component) {
     _classCallCheck(this, Search);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Search).call(this, props));
+    _this.state = {
+      searchValue: '',
+      searchIsEmpty: true
+    };
     _this.onFocus = _this.onFocus.bind(_assertThisInitialized(_this));
     _this.onBlur = _this.onBlur.bind(_assertThisInitialized(_this));
+    _this.onChange = _this.onChange.bind(_assertThisInitialized(_this));
+    _this.clearSearch = _this.clearSearch.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -59961,15 +59987,51 @@ function (_Component) {
       event.target.classList.remove("rw-state-focus");
     }
   }, {
+    key: "onChange",
+    value: function onChange(event) {
+      this.setState({
+        searchValue: event.target.value
+      });
+      this.props.onChange(event.target.value);
+
+      if (event.target.value) {
+        this.setState({
+          searchIsEmpty: false
+        });
+      } else {
+        this.setState({
+          searchIsEmpty: true
+        });
+      }
+    }
+  }, {
+    key: "clearSearch",
+    value: function clearSearch() {
+      this.setState({
+        searchValue: ''
+      });
+      this.setState({
+        searchIsEmpty: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        placeholder: "\u041F\u043E\u0438\u0441\u043A",
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "search-wrapper"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        value: this.state.searchValue,
+        placeholder: this.props.placeholder,
         className: "rw-widget-input rw-widget-picker rw-widget-container search",
         onFocus: this.onFocus,
         onBlur: this.onBlur,
+        onChange: this.onChange,
         type: "text"
-      });
+      }), !this.state.searchIsEmpty && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        onClick: this.clearSearch,
+        className: "fa fa-times text-link",
+        "aria-hidden": "true"
+      }));
     }
   }]);
 

@@ -9,11 +9,13 @@ class Category extends PostsList {
     constructor(props){
         super(props);
         this.state = {
-            dataIsLoaded: false,
-            categoryName: '',
-            posts: []
-        }
-        this.posts = this.posts.bind(this);
+            posts: [],
+            filteredPosts: [],
+            authorFilter: [],
+            tagFilter: [],
+            dataIsLoaded: false
+        };
+        this.renderPostTags = this.renderPostTags.bind(this);
         this.makeRequests = this.makeRequests.bind(this);
     }
 
@@ -33,7 +35,10 @@ class Category extends PostsList {
             axios
                 .get('/api/category/' + this.props.match.params.id)
                 .then(response => {
-                    this.setState({posts: response.data});
+                    this.setState({
+                        posts: response.data,
+                        filteredPosts: response.data
+                    });
                     ++requestsCounter;
                     if(requestsCounter === 2) resolve();
                 });
@@ -51,12 +56,17 @@ class Category extends PostsList {
         const dataIsLoaded = this.state.dataIsLoaded;
         return (
             <div className="category-page">
-                <Filter type={'categories'}/>
+                <Filter
+                    type={'category'}
+                    updateAuthorFilter={this.updateAuthorFilter}
+                    updateTagFilter={this.updateTagFilter}
+                    updateSearchFilter={this.updateSearchFilter}
+                />
                 {
                     !dataIsLoaded ? (<Spinner />) : (
                         <div>
                             <h3 className="category-page-header">Категория {this.state.categoryName}</h3>
-                            {this.posts('category')}
+                            {this.renderPostTags()}
                         </div>
                     )
                 }
