@@ -2,8 +2,9 @@
 
 /** @var \Illuminate\Database\Eloquent\Factory $factory */
 use App\User;
+use Faker\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
-use Faker\Generator as Faker;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,12 +17,18 @@ use Faker\Generator as Faker;
 |
 */
 
-$factory->define(User::class, function (Faker $faker) {
+$factory->define(User::class, function () {
+    $faker = Factory::create('ru_RU');
     return [
-        'name' => $faker->name,
+        'role_id' => 1,
+        'name' => $faker->firstName,
+        'surname' => $faker->lastName,
+        'patronymic' => $faker->firstNameMale,
         'email' => $faker->unique()->safeEmail,
-        'email_verified_at' => now(),
-        'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+        'password' => Hash::make('password'),
         'remember_token' => Str::random(10),
+        'description' => $faker->realText(100),
+        'photo' => $faker->imageUrl(640, 480, 'people'),
+        'status_id' => 1
     ];
 });

@@ -65,6 +65,15 @@
                 "s s"
                 "a t";
         }
+
+        &.filter-user {
+            grid-template-columns: repeat(2, minmax(100px, 1fr));
+            grid-template-areas:
+                "h h"
+                "ds du"
+                "s s"
+                "c t";
+        }
     }
 }
 

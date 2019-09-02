@@ -1,10 +1,21 @@
-.search{
-    outline: none;
-    padding: 0 0.857em;
-    width: 100%;
-    color: #555555;
+.search-wrapper {
+    position: relative;
 
-    &::placeholder{
+    .search {
+        outline: none;
+        padding: 0 0.857em;
+        width: 100%;
+        color: #555555;
+
+        &::placeholder {
+            color: #999;
+        }
+    }
+
+    .fa-times{
         color: #999;
+        position: absolute;
+        right: 15px;
+        top: 10px;
     }
 }

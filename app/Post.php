@@ -16,7 +16,7 @@ class Post extends Model
     ];
 
     public function author() {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function status() {
@@ -46,6 +46,15 @@ class Post extends Model
 
     public static function updateViews($id) {
         return Post::find($id)->increment('views');
+    }
+
+    public static function getPostTags($id) {
+        $tags = DB::table('post_tag')
+            ->where('post_id', '=', $id)
+            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
+            ->select('tags.id','tags.tag')
+            ->get();
+        return $tags;
     }
 
     public static function add($fields) {

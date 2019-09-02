@@ -3,6 +3,7 @@ import CategoryTile from "../../CategoryTile/CategoryTile";
 import axios from "axios";
 import Post from "../Post";
 import Spinner from "../../Spinner/Spinner";
+import {Link} from "react-router-dom";
 
 class PostFull extends Post {
 
@@ -13,12 +14,20 @@ class PostFull extends Post {
             commentsIsDisplayed: false,
             post: {},
             numOfComments: 0,
-            comments: {}
+            comments: {},
+            dateOptions: {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: 'numeric',
+                minute: 'numeric',
+            }
         };
         this.commentDisplayToggle = this.commentDisplayToggle.bind(this);
         this.getPostCommentsNumber = this.getPostCommentsNumber.bind(this);
+        this.getPostTags = this.getPostTags.bind(this);
         this.getPostComments = this.getPostComments.bind(this);
-        this.renderPostTags = this.renderPostTags.bind(this);
+        this.tags = this.tags.bind(this);
         this.comments = this.comments.bind(this);
         this.makeRequests = this.makeRequests.bind(this);
     }
@@ -76,10 +85,10 @@ class PostFull extends Post {
                     <div className="post post-full">
                         <div className="head-wrapper">
                             <div className="author-wrapper">
-                                <a href="#"><img src={this.state.post.avatar} alt=""/></a>
+                                <Link to={'/user/' + this.state.post.author_id}><img src={this.state.post.avatar} alt=""/></Link>
                                 <div className="author-info">
-                                    <a href="#" className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</a>
-                                    <p>{this.state.post.created_at}</p>
+                                    <Link to={'/user/' + this.state.post.author_id} className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</Link>
+                                    <p>{new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)}</p>
                                 </div>
                             </div>
                             <div className="category-wrapper">
@@ -99,7 +108,7 @@ class PostFull extends Post {
                         </div>
                         <div className="post-footer">
                             <div className="tags-wrapper">
-                                {this.renderPostTags()}
+                                {this.renderPostTags(this.state.post.tags)}
                             </div>
                             <div className="icons-wrapper">
                                 <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>

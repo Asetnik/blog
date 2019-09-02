@@ -31,9 +31,9 @@ class Post extends Component{
         });
     }
 
-    renderPostTags() {
-        if (this.state.post.tags instanceof Array) {
-            return this.state.post.tags.map(function (tag, index) {
+    renderPostTags(tags) {
+        if (tags instanceof Array) {
+            return tags.map(function (tag, index) {
                 return <TagTile
                     className="tag-wrapper"
                     key={index}
@@ -44,7 +44,7 @@ class Post extends Component{
     }
 
     comments() {
-        if (this.state.tags instanceof Array) {
+        if (this.state.comments instanceof Array) {
             return this.state.comments.map(function (comment, index) {
                 return <Comment
                     key={index}

@@ -11,33 +11,32 @@ class PostController extends Controller
 {
 
     public function getPostsCategories() {
-        $posts = Post::orderBy('category_id')
+        $categories = Post::orderBy('category_id')
             ->select('post_categories.category')
             ->groupBy('category_id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
             ->get();
 
-        return response()->json($posts);
+        return response()->json($categories);
     }
 
     public function getPostsAuthors() {
-        $posts = Post::orderBy('author_id')
+        $authors = Post::orderBy('author_id')
             ->select('users.name', 'users.surname')
             ->groupBy('author_id')
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->get();
-
-        return response()->json($posts);
+        return response()->json($authors);
     }
 
     public function getPostsTags() {
-        $posts = DB::table('post_tag')
+        $tags = DB::table('post_tag')
             ->select('tag_id', 'tags.tag')
             ->groupBy('tag_id')
             ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
             ->get();
 
-        return response()->json($posts);
+        return response()->json($tags);
     }
 
     /**
@@ -50,11 +49,11 @@ class PostController extends Controller
         $posts = Post::orderBy('created_at', 'desc')
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
+            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
             ->get();
         foreach ($posts as $post) {
-            $tags = Post::getPostTags($post->id);
-            $post['tags'] = $tags;
+           $tags = Post::getPostTags($post->id);
+           $post['tags'] = $tags;
         }
 
         return response()->json($posts);
@@ -89,15 +88,17 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::where('posts.id', '=', $id)
+        $posts = Post::where('posts.id', '=', $id)
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
+            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
             ->get();
+        foreach ($posts as $post) {
+            $tags = Post::getPostTags($post->id);
+            $post['tags'] = $tags;
+        }
         Post::updateViews($id);
-        $tags = Post::getPostTags($id);
-        $post['0']['tags'] = $tags;
-        return response()->json($post);
+        return response()->json($posts);
     }
 
     /**
