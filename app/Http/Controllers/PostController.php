@@ -11,33 +11,32 @@ class PostController extends Controller
 {
 
     public function getPostsCategories() {
-        $posts = Post::orderBy('category_id')
+        $categories = Post::orderBy('category_id')
             ->select('post_categories.category')
             ->groupBy('category_id')
             ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
             ->get();
 
-        return response()->json($posts);
+        return response()->json($categories);
     }
 
     public function getPostsAuthors() {
-        $posts = Post::orderBy('author_id')
+        $authors = Post::orderBy('author_id')
             ->select('users.name', 'users.surname')
             ->groupBy('author_id')
             ->join('users', 'posts.author_id', '=', 'users.id')
             ->get();
-
-        return response()->json($posts);
+        return response()->json($authors);
     }
 
     public function getPostsTags() {
-        $posts = DB::table('post_tag')
+        $tags = DB::table('post_tag')
             ->select('tag_id', 'tags.tag')
             ->groupBy('tag_id')
             ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
             ->get();
 
-        return response()->json($posts);
+        return response()->json($tags);
     }
 
     /**

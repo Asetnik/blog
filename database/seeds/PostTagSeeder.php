@@ -2,6 +2,7 @@
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class PostTagSeeder extends Seeder
 {
@@ -12,7 +13,18 @@ class PostTagSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('post_tag')->insert([
+        $tagsId = DB::table('tags')->pluck('id')->toArray();
+        $postsId = DB::table('posts')->pluck('id')->toArray();
+        for($i = 0; $i < sizeof($postsId); $i++){
+            for($j = 0; $j < rand(1, 4); $j++){
+                DB::table('post_tag')->insert([
+                    'post_id' => $postsId[$i],
+                    'tag_id' => array_rand($tagsId),
+                ]);
+            }
+        }
+
+        /*DB::table('post_tag')->insert([
             'post_id' => '1',
             'tag_id' => '5',
             'created_at' => Carbon::now()
@@ -76,6 +88,6 @@ class PostTagSeeder extends Seeder
             'post_id' => 7,
             'tag_id' => 16,
             'created_at' => Carbon::now()
-        ]);
+        ]);*/
     }
 }

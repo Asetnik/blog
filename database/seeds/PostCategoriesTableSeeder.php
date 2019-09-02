@@ -13,36 +13,34 @@ class PostCategoriesTableSeeder extends Seeder
     public function run()
     {
         DB::table('post_categories')->insert([
-            'category' => 'Природа',
-            'created_at' => Carbon::now()
+            'category' => 'Природа'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Спорт',
-            'created_at' => Carbon::now()
+            'category' => 'Спорт'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Авто',
-            'created_at' => Carbon::now()
+            'category' => 'Авто'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Медицина',
-            'created_at' => Carbon::now()
+            'category' => 'Медицина'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Творчество',
-            'created_at' => Carbon::now()
+            'category' => 'Творчество'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Общество',
-            'created_at' => Carbon::now()
+            'category' => 'Общество'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Кругозор',
-            'created_at' => Carbon::now()
+            'category' => 'Кругозор'
         ]);
         DB::table('post_categories')->insert([
-            'category' => 'Наука',
-            'created_at' => Carbon::now()
+            'category' => 'Наука'
+        ]);
+        DB::table('post_categories')->insert([
+            'category' => 'Регионы',
+        ]);
+        DB::table('post_categories')->insert([
+            'category' => 'Регионы',
         ]);
     }
 }

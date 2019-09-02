@@ -12,7 +12,9 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tags')->insert([
+        $tags = factory(App\Tag::class, 25)->create();
+
+        /*DB::table('tags')->insert([
             'tag' => 'Фильм',
             'created_at' => Carbon::now(),
         ]);
@@ -75,6 +77,6 @@ class TagsTableSeeder extends Seeder
         DB::table('tags')->insert([
             'tag' => 'Наука',
             'created_at' => Carbon::now()
-        ]);
+        ]);*/
     }
 }
