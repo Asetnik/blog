@@ -53,7 +53,7 @@ class PostFull extends Post {
         return (
             <div>
                 { !dataIsLoaded ? (<Spinner />) : (
-                    <div className="post post-full">
+                    <div className="blog-card post post-full">
                         <div className="head-wrapper">
                             <div className="author-wrapper">
                                 <Link to={'/user/' + this.state.post.author.id}><img src={this.state.post.author.photo} alt=""/></Link>

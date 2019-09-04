@@ -12218,6 +12218,13 @@ a.text-dark:focus {
           justify-content: center;
 }
 
+.blog-card {
+  background-color: #ffffff;
+  padding: 35px;
+  margin-bottom: 35px;
+  box-shadow: 0px 0px 10px 0px #8f8f8f;
+}
+
 .btn {
   border: solid 2px #4aa951;
   padding: 8px 15px;
@@ -12304,12 +12311,6 @@ li {
 .nav .nav-link a:hover {
   text-decoration: none;
   color: #4aa951;
-}
-
-.post {
-  padding: 35px;
-  margin-bottom: 35px;
-  box-shadow: 0px 0px 10px 0px #8f8f8f;
 }
 
 .post .head-wrapper {
@@ -12434,9 +12435,6 @@ li {
   grid-template-columns: -webkit-max-content auto;
   grid-template-columns: max-content auto;
   grid-column-gap: 35px;
-  padding: 35px;
-  margin-bottom: 35px;
-  box-shadow: 0px 0px 10px 0px #8f8f8f;
 }
 
 .user-page .user-info .photo-wrapper img {
@@ -12501,9 +12499,6 @@ li {
   display: grid;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  padding: 35px;
-  margin-bottom: 35px;
-  box-shadow: 0px 0px 10px 0px #8f8f8f;
 }
 
 .filter-wrapper .filter .filter-header {
@@ -12597,5 +12592,9 @@ li {
   position: absolute;
   right: 15px;
   top: 10px;
+}
+
+.registerForm .btn {
+  margin-top: 30px;
 }
 

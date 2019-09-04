@@ -17,11 +17,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::middleware('api')->resource('/post', 'PostController');
-Route::middleware('api')->resource('/user', 'UserController');
-Route::middleware('api')->resource('/category', 'PostCategoryController');
+Route::resource('/post', 'PostController');
+Route::resource('/user', 'UserController');
+Route::resource('/category', 'PostCategoryController');
 
 //запросы для фильтра
-Route::middleware('api')->get('/authorswithposts', 'UserController@authorsWithPosts');
-Route::middleware('api')->get('/categorieswithposts', 'PostCategoryController@categoriesWithPosts');
-Route::middleware('api')->get('/gettagswithposts', 'TagController@getTagsWithPosts');
+Route::get('/authorswithposts', 'UserController@authorsWithPosts');
+Route::get('/categorieswithposts', 'PostCategoryController@categoriesWithPosts');
+Route::get('/gettagswithposts', 'TagController@getTagsWithPosts');

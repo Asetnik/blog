@@ -38,7 +38,7 @@ class UserPage extends PostsList {
             <div className="user-page">{
                 !dataIsLoaded ? (<Spinner />) : (
                     <div>
-                        <div className="user-info">
+                        <div className="blog-card user-info">
                             <div className="photo-wrapper">
                                 <img src={this.state.user.photo} alt=""/>
                             </div>

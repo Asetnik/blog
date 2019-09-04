@@ -6,6 +6,7 @@ import UserPage from "../UserPage/UserPage";
 import Profile from "../Profile/Profile";
 import { Switch, Route, Redirect } from 'react-router-dom';
 import PostsList from "../PostsList/PostsList";
+import Register from "../Register/Register";
 
 class PageContent extends Component{
 
@@ -18,6 +19,7 @@ class PageContent extends Component{
                     <Route path={'/post/:id'} exact component={ PostFull } />
                     <Route path={'/user/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
+                    <Route path={'/register'} exact component={ Register } />
                     <Redirect to="/" />
                 </Switch>
             </div>
