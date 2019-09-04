@@ -10,7 +10,6 @@ class UserPage extends PostsList {
         super(props);
         this.state = {
             user: {},
-            posts: {},
             filteredPosts: {},
             categoryFilter: [],
             tagFilter: [],
@@ -21,38 +20,15 @@ class UserPage extends PostsList {
         };
     }
 
-    makeRequests() {
-        let requestsCounter = 0;
-
-        return new Promise(resolve => {
-
-            axios
-                .get('/api/user/' + this.props.match.params.id)
-                .then(response => {
-                    this.setState({
-                        user: response.data[0]
-                    });
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-
-            axios
-                .get('/api/getuserposts/' + this.props.match.params.id)
-                .then(response => {
-                    this.setState({
-                        posts: response.data,
-                        filteredPosts: response.data
-                    });
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-        });
-    }
-
     componentWillMount() {
-        this.makeRequests()
-            .then(() => {
-                this.setState({dataIsLoaded: true});
+        axios
+            .get('/api/user/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    user: response.data
+                }, () => {
+                    this.setState({dataIsLoaded: true})
+                });
             });
     }
 
@@ -69,7 +45,7 @@ class UserPage extends PostsList {
                             <div className="info-wrapper">
                                 <h3>{this.state.user.name + " " + this.state.user.surname}</h3>
                                 <p><span>Описание:</span> {this.state.user.description}</p>
-                                <p><span>Количество статей:</span> {this.state.user.numUserPosts}</p>
+                                <p><span>Количество статей:</span> {this.state.user.posts.length}</p>
                             </div>
                         </div>
 
@@ -82,7 +58,7 @@ class UserPage extends PostsList {
                             updateDateUntilFilter={this.updateDateUntilFilter}
                         />
 
-                        {this.renderPosts()}
+                        {this.renderPosts(this.state.user.posts)}
                     </div>
                 )
             }

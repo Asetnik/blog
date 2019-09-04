@@ -84,7 +84,7 @@ class PostsList extends Component {
             if (this.state.categoryFilter.length > 0) {
                 filteredPosts = filteredPosts.filter(post => {
                     for (let i = 0; i < this.state.categoryFilter.length; i++) {
-                        if (post.category === this.state.categoryFilter[i]) return true;
+                        if (post.category.category === this.state.categoryFilter[i]) return true;
                     }
                     return false;
                 });
@@ -94,7 +94,7 @@ class PostsList extends Component {
         if (this.state.authorFilter) {
             if (this.state.authorFilter.length > 0) {
                 filteredPosts = filteredPosts.filter(post => {
-                    let authorFullName = post.name + " " + post.surname;
+                    let authorFullName = post.author.name + " " + post.author.surname;
                     for (let i = 0; i < this.state.authorFilter.length; i++) {
                         if (authorFullName === this.state.authorFilter[i]) return true;
                     }
@@ -143,16 +143,16 @@ class PostsList extends Component {
         this.setState({filteredPosts: filteredPosts});
     }
 
-    renderPosts() {
-        if (this.state.filteredPosts instanceof Array) {
-            if(this.state.filteredPosts.length === 0) {
+    renderPosts(posts) {
+        if (posts instanceof Array) {
+            if(posts.length === 0) {
                 return (<div>
                     <h3 className="text-center mt-5">Не найдено публикаций удовлетворяющих фильтру</h3>
                 </div>);
             }
             return (<div>
                 {
-                    this.state.filteredPosts.map(function (post, index) {
+                    posts.map(function (post, index) {
                         return <PostFolded
                             key={index}
                             post={post}
@@ -179,7 +179,7 @@ class PostsList extends Component {
                                 updateDateSinceFilter={this.updateDateSinceFilter}
                                 updateDateUntilFilter={this.updateDateUntilFilter}
                             />
-                            {this.renderPosts()}
+                            {this.renderPosts(this.state.filteredPosts)}
                         </div>)
                 }
             </div>

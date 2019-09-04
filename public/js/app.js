@@ -58561,9 +58561,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -58596,44 +58596,22 @@ function (_PostsList) {
       dateUntilFilter: '',
       dataIsLoaded: false
     };
-    _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Category, [{
-    key: "makeRequests",
-    value: function makeRequests() {
-      var _this2 = this;
-
-      var requestsCounter = 0;
-      return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/categoryname/' + _this2.props.match.params.id).then(function (response) {
-          _this2.setState({
-            categoryName: response.data
-          });
-
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/category/' + _this2.props.match.params.id).then(function (response) {
-          _this2.setState({
-            posts: response.data,
-            filteredPosts: response.data
-          });
-
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-      });
-    }
-  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this3 = this;
+      var _this2 = this;
 
-      this.makeRequests().then(function () {
-        _this3.setState({
-          dataIsLoaded: true
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/category/' + this.props.match.params.id).then(function (response) {
+        _this2.setState({
+          posts: response.data,
+          filteredPosts: response.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
         });
       });
     }
@@ -58652,7 +58630,7 @@ function (_PostsList) {
         updateDateUntilFilter: this.updateDateUntilFilter
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-primary category-page-title"
-      }, "Категория " + this.state.categoryName), this.renderPosts()));
+      }, "Категория " + this.state.posts[0].category.category), this.renderPosts(this.state.filteredPosts)));
     }
   }]);
 
@@ -58795,16 +58773,16 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.avatar,
+        src: this.props.comment.author.photo,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
         href: "#",
         className: "text-link author-name"
-      }, this.props.name + " " + this.props.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.comment.author.name + " " + this.props.comment.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.comment.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comment-content"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.content)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.comment.content)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("hr", null));
     }
   }]);
 
@@ -58902,7 +58880,11 @@ function (_Component) {
     value: function getPostsCategories() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpostscategories').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/categorieswithposts').then(function (response) {
+        response.data.map(function (author) {
+          console.log();
+        });
+
         _this2.setState({
           categories: response.data.map(function (category) {
             return category.category;
@@ -58915,7 +58897,7 @@ function (_Component) {
     value: function getPostsAuthors() {
       var _this3 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpostsauthors').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/authorswithposts').then(function (response) {
         _this3.setState({
           authors: response.data.map(function (author) {
             return author.name + " " + author.surname;
@@ -58928,7 +58910,7 @@ function (_Component) {
     value: function getPostsTags() {
       var _this4 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/getpoststags').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/gettagswithposts').then(function (response) {
         _this4.setState({
           tags: response.data.map(function (tag) {
             return tag.tag;
@@ -59247,36 +59229,6 @@ function (_Component) {
   }
 
   _createClass(Post, [{
-    key: "getPostCommentsNumber",
-    value: function getPostCommentsNumber(id) {
-      var _this = this;
-
-      return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/numofcomments/' + id).then(function (response) {
-          _this.setState({
-            numOfComments: response.data
-          });
-
-          resolve();
-        });
-      });
-    }
-  }, {
-    key: "getPostComments",
-    value: function getPostComments(id) {
-      var _this2 = this;
-
-      return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/getpostcomments/' + id).then(function (response) {
-          _this2.setState({
-            comments: response.data
-          });
-
-          resolve();
-        });
-      });
-    }
-  }, {
     key: "renderPostTags",
     value: function renderPostTags(tags) {
       if (tags instanceof Array) {
@@ -59290,17 +59242,13 @@ function (_Component) {
       }
     }
   }, {
-    key: "comments",
-    value: function comments() {
-      if (this.state.comments instanceof Array) {
-        return this.state.comments.map(function (comment, index) {
+    key: "renderComments",
+    value: function renderComments(comments) {
+      if (comments instanceof Array) {
+        return comments.map(function (comment, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Comment_Comment__WEBPACK_IMPORTED_MODULE_3__["default"], {
             key: index,
-            avatar: comment.avatar,
-            name: comment.name,
-            surname: comment.surname,
-            created_at: comment.created_at,
-            content: comment.content
+            comment: comment
           });
         });
       }
@@ -59338,9 +59286,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -59363,8 +59311,6 @@ function (_Post) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
     _this.state = {
-      dataIsLoaded: false,
-      numOfComments: 0,
       dateOptions: {
         year: 'numeric',
         month: 'short',
@@ -59373,59 +59319,33 @@ function (_Post) {
         minute: 'numeric'
       }
     };
-    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
-    _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
-    _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PostFolded, [{
-    key: "makeRequests",
-    value: function makeRequests() {
-      var _this2 = this;
-
-      return new Promise(function (resolve) {
-        _this2.getPostCommentsNumber(_this2.props.post.id).then(function () {
-          resolve();
-        });
-      });
-    }
-  }, {
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      var _this3 = this;
-
-      this.makeRequests().then(function () {
-        _this3.setState({
-          dataIsLoaded: true
-        });
-      });
-    }
-  }, {
     key: "render",
     value: function render() {
-      var dataIsLoaded = this.state.dataIsLoaded;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, dataIsLoaded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post post-folded"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "head-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/user/' + this.props.post.author_id
+        to: '/user/' + this.props.post.author.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.post.avatar,
-        alt: this.props.post.name + " " + this.props.post.surname
+        src: this.props.post.author.photo,
+        alt: this.props.post.author.name + " " + this.props.post.author.surname
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/user/' + this.props.post.author_id,
+        to: '/user/' + this.props.post.author.id,
         className: "text-link author-name"
-      }, this.props.post.name + " " + this.props.post.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.props.post.author.name + " " + this.props.post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        category: this.props.post.category,
-        category_id: this.props.post.category_id
+        category_id: this.props.post.category.id,
+        category: this.props.post.category.category
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -59444,13 +59364,13 @@ function (_Post) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
         "aria-hidden": "true"
-      }), " ", this.state.numOfComments))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), " ", this.props.post.comments.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "read-more-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/post/' + this.props.post.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn"
-      }, "\u0427\u0438\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E")))));
+      }, "\u0427\u0438\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E"))));
     }
   }]);
 
@@ -59518,8 +59438,6 @@ function (_Post) {
       dataIsLoaded: false,
       commentsIsDisplayed: false,
       post: {},
-      numOfComments: 0,
-      comments: {},
       dateOptions: {
         year: 'numeric',
         month: 'short',
@@ -59529,44 +59447,19 @@ function (_Post) {
       }
     };
     _this.commentDisplayToggle = _this.commentDisplayToggle.bind(_assertThisInitialized(_this));
-    _this.getPostCommentsNumber = _this.getPostCommentsNumber.bind(_assertThisInitialized(_this));
-    _this.getPostComments = _this.getPostComments.bind(_assertThisInitialized(_this));
-    _this.renderPostTags = _this.renderPostTags.bind(_assertThisInitialized(_this));
-    _this.comments = _this.comments.bind(_assertThisInitialized(_this));
-    _this.makeRequests = _this.makeRequests.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PostFull, [{
-    key: "makeRequests",
-    value: function makeRequests() {
-      var _this2 = this;
-
-      var requestsCounter = 0;
-      return new Promise(function (resolve) {
-        _this2.getPostCommentsNumber(_this2.state.post.id).then(function () {
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-
-        _this2.getPostComments(_this2.state.post.id).then(function () {
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-      });
-    }
-  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this3 = this;
+      var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/post/' + this.props.match.params.id).then(function (response) {
-        _this3.setState({
-          post: response.data[0]
-        });
-
-        _this3.makeRequests().then(function () {
-          _this3.setState({
+        _this2.setState({
+          post: response.data
+        }, function () {
+          _this2.setState({
             dataIsLoaded: true
           });
         });
@@ -59580,7 +59473,7 @@ function (_Post) {
   }, {
     key: "commentDisplayToggle",
     value: function commentDisplayToggle() {
-      if (this.state.numOfComments > 0) {
+      if (this.state.post.comments.length > 0) {
         this.setState({
           commentsIsDisplayed: !this.state.commentsIsDisplayed
         });
@@ -59597,20 +59490,20 @@ function (_Post) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: '/user/' + this.state.post.author_id
+        to: '/user/' + this.state.post.author.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.state.post.avatar,
+        src: this.state.post.author.photo,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: '/user/' + this.state.post.author_id,
+        to: '/user/' + this.state.post.author.id,
         className: "text-link author-name"
-      }, this.state.post.name + " " + this.state.post.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, this.state.post.author.name + " " + this.state.post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_1__["default"], {
-        category_id: this.state.post.category_id,
-        category: this.state.post.category
+        category_id: this.state.post.category.id,
+        category: this.state.post.category.category
       }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -59634,12 +59527,12 @@ function (_Post) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-comment-o",
         "aria-hidden": "true"
-      }), " ", this.state.numOfComments), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+      }), " ", this.state.post.comments.length), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
         className: "fa fa-eye",
         "aria-hidden": "true"
       }), " ", this.state.post.views))), this.state.commentsIsDisplayed && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comments"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), this.comments())));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), this.renderComments(this.state.post.comments))));
     }
   }]);
 
@@ -59813,7 +59706,7 @@ function (_Component) {
         if (this.state.categoryFilter.length > 0) {
           filteredPosts = filteredPosts.filter(function (post) {
             for (var i = 0; i < _this9.state.categoryFilter.length; i++) {
-              if (post.category === _this9.state.categoryFilter[i]) return true;
+              if (post.category.category === _this9.state.categoryFilter[i]) return true;
             }
 
             return false;
@@ -59824,7 +59717,7 @@ function (_Component) {
       if (this.state.authorFilter) {
         if (this.state.authorFilter.length > 0) {
           filteredPosts = filteredPosts.filter(function (post) {
-            var authorFullName = post.name + " " + post.surname;
+            var authorFullName = post.author.name + " " + post.author.surname;
 
             for (var i = 0; i < _this9.state.authorFilter.length; i++) {
               if (authorFullName === _this9.state.authorFilter[i]) return true;
@@ -59879,15 +59772,15 @@ function (_Component) {
     }
   }, {
     key: "renderPosts",
-    value: function renderPosts() {
-      if (this.state.filteredPosts instanceof Array) {
-        if (this.state.filteredPosts.length === 0) {
+    value: function renderPosts(posts) {
+      if (posts instanceof Array) {
+        if (posts.length === 0) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
             className: "text-center mt-5"
           }, "\u041D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u043E \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0439 \u0443\u0434\u043E\u0432\u043B\u0435\u0442\u0432\u043E\u0440\u044F\u044E\u0449\u0438\u0445 \u0444\u0438\u043B\u044C\u0442\u0440\u0443"));
         }
 
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.state.filteredPosts.map(function (post, index) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, posts.map(function (post, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFolded_PostFolded__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: index,
             post: post
@@ -59907,7 +59800,7 @@ function (_Component) {
         updateSearchFilter: this.updateSearchFilter,
         updateDateSinceFilter: this.updateDateSinceFilter,
         updateDateUntilFilter: this.updateDateUntilFilter
-      }), this.renderPosts()));
+      }), this.renderPosts(this.state.filteredPosts)));
     }
   }]);
 
@@ -60351,7 +60244,6 @@ function (_PostsList) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UserPage).call(this, props));
     _this.state = {
       user: {},
-      posts: {},
       filteredPosts: {},
       categoryFilter: [],
       tagFilter: [],
@@ -60364,39 +60256,17 @@ function (_PostsList) {
   }
 
   _createClass(UserPage, [{
-    key: "makeRequests",
-    value: function makeRequests() {
-      var _this2 = this;
-
-      var requestsCounter = 0;
-      return new Promise(function (resolve) {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user/' + _this2.props.match.params.id).then(function (response) {
-          _this2.setState({
-            user: response.data[0]
-          });
-
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getuserposts/' + _this2.props.match.params.id).then(function (response) {
-          _this2.setState({
-            posts: response.data,
-            filteredPosts: response.data
-          });
-
-          ++requestsCounter;
-          if (requestsCounter === 2) resolve();
-        });
-      });
-    }
-  }, {
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this3 = this;
+      var _this2 = this;
 
-      this.makeRequests().then(function () {
-        _this3.setState({
-          dataIsLoaded: true
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user/' + this.props.match.params.id).then(function (response) {
+        _this2.setState({
+          user: response.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
         });
       });
     }
@@ -60415,14 +60285,14 @@ function (_PostsList) {
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "info-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.user.name + " " + this.state.user.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435:"), " ", this.state.user.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u0442\u0430\u0442\u0435\u0439:"), " ", this.state.user.numUserPosts))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.user.name + " " + this.state.user.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435:"), " ", this.state.user.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u0442\u0430\u0442\u0435\u0439:"), " ", this.state.user.posts.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
         type: 'user',
         updateCategoryFilter: this.updateCategoryFilter,
         updateTagFilter: this.updateTagFilter,
         updateSearchFilter: this.updateSearchFilter,
         updateDateSinceFilter: this.updateDateSinceFilter,
         updateDateUntilFilter: this.updateDateUntilFilter
-      }), this.renderPosts()));
+      }), this.renderPosts(this.state.user.posts)));
     }
   }]);
 

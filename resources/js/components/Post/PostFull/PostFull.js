@@ -13,8 +13,6 @@ class PostFull extends Post {
             dataIsLoaded: false,
             commentsIsDisplayed: false,
             post: {},
-            numOfComments: 0,
-            comments: {},
             dateOptions: {
                 year: 'numeric',
                 month: 'short',
@@ -24,31 +22,6 @@ class PostFull extends Post {
             }
         };
         this.commentDisplayToggle = this.commentDisplayToggle.bind(this);
-        this.getPostCommentsNumber = this.getPostCommentsNumber.bind(this);
-        this.getPostTags = this.getPostTags.bind(this);
-        this.getPostComments = this.getPostComments.bind(this);
-        this.tags = this.tags.bind(this);
-        this.comments = this.comments.bind(this);
-        this.makeRequests = this.makeRequests.bind(this);
-    }
-
-    makeRequests() {
-        let requestsCounter = 0;
-
-        return new Promise(resolve => {
-
-            this.getPostCommentsNumber(this.state.post.id)
-                .then(() => {
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-
-            this.getPostComments(this.state.post.id)
-                .then(() => {
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-        });
     }
 
     componentWillMount() {
@@ -56,12 +29,10 @@ class PostFull extends Post {
             .get('/api/post/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    post: response.data[0]
+                    post: response.data
+                }, () => {
+                    this.setState({dataIsLoaded: true});
                 });
-                this.makeRequests()
-                    .then(() => {
-                        this.setState({dataIsLoaded: true});
-                    })
             })
     }
 
@@ -70,7 +41,7 @@ class PostFull extends Post {
     }
 
     commentDisplayToggle() {
-        if(this.state.numOfComments > 0) {
+        if(this.state.post.comments.length > 0) {
             this.setState({
                 commentsIsDisplayed: !this.state.commentsIsDisplayed,
             });
@@ -85,16 +56,16 @@ class PostFull extends Post {
                     <div className="post post-full">
                         <div className="head-wrapper">
                             <div className="author-wrapper">
-                                <Link to={'/user/' + this.state.post.author_id}><img src={this.state.post.avatar} alt=""/></Link>
+                                <Link to={'/user/' + this.state.post.author.id}><img src={this.state.post.author.photo} alt=""/></Link>
                                 <div className="author-info">
-                                    <Link to={'/user/' + this.state.post.author_id} className="text-link author-name">{this.state.post.name + " " + this.state.post.surname}</Link>
+                                    <Link to={'/user/' + this.state.post.author.id} className="text-link author-name">{this.state.post.author.name + " " + this.state.post.author.surname}</Link>
                                     <p>{new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)}</p>
                                 </div>
                             </div>
                             <div className="category-wrapper">
                                 <CategoryTile
-                                    category_id={this.state.post.category_id}
-                                    category={this.state.post.category}
+                                    category_id={this.state.post.category.id}
+                                    category={this.state.post.category.category}
                                 />
                             </div>
                         </div>
@@ -111,14 +82,14 @@ class PostFull extends Post {
                                 {this.renderPostTags(this.state.post.tags)}
                             </div>
                             <div className="icons-wrapper">
-                                <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.numOfComments}</p>
+                                <p className="text-link" onClick={this.commentDisplayToggle}><i className="fa fa-comment-o" aria-hidden="true"></i> {this.state.post.comments.length}</p>
                                 <p><i className="fa fa-eye" aria-hidden="true"></i> {this.state.post.views}</p>
                             </div>
                         </div>
                         { (this.state.commentsIsDisplayed) &&
                             <div className="comments">
                                 <h4>Коментарии</h4>
-                                {this.comments()}
+                                {this.renderComments(this.state.post.comments)}
                             </div>
                         }
                     </div>

@@ -14,12 +14,12 @@ class PostComment extends Model
         'publication_date' => 'datetime',
     ];
 
-    public function user() {
-        return $this->hasOne(User::class);
+    public function author() {
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function post() {
-        return $this->hasOne(Post::class);
+        return $this->belongsTo(Post::class);
     }
 
     public static function add($fields) {

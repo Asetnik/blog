@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 $factory->define(Post::class, function () {
     $faker = Factory::create('ru_RU');
     return [
-        'category_id' => rand(0, DB::table('post_categories')->count()),
+        'post_category_id' => rand(1, DB::table('post_categories')->count()),
         'photo' => $faker->imageUrl(640, 480),
         'title' => $faker->sentence,
         'description' => $faker->text,

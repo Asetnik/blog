@@ -9,28 +9,6 @@ class Post extends Component{
         super(props);
     }
 
-    getPostCommentsNumber(id) {
-        return new Promise((resolve) => {
-            axios
-                .get('/api/numofcomments/' + id)
-                .then(response => {
-                    this.setState({numOfComments: response.data});
-                    resolve();
-                });
-        });
-    }
-
-    getPostComments(id){
-        return new Promise((resolve) => {
-            axios
-                .get('/api/getpostcomments/' + id)
-                .then(response => {
-                    this.setState({comments: response.data});
-                    resolve();
-                });
-        });
-    }
-
     renderPostTags(tags) {
         if (tags instanceof Array) {
             return tags.map(function (tag, index) {
@@ -43,16 +21,12 @@ class Post extends Component{
         }
     }
 
-    comments() {
-        if (this.state.comments instanceof Array) {
-            return this.state.comments.map(function (comment, index) {
+    renderComments(comments) {
+        if (comments instanceof Array) {
+            return comments.map(function (comment, index) {
                 return <Comment
                     key={index}
-                    avatar={comment.avatar}
-                    name={comment.name}
-                    surname={comment.surname}
-                    created_at={comment.created_at}
-                    content={comment.content}
+                    comment={comment}
                 />;
             })
         }

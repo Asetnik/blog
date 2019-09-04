@@ -8,6 +8,11 @@ use Illuminate\Support\Facades\DB;
 
 class TagController extends Controller
 {
+    public function getTagsWithPosts() {
+        $tags = Tag::has('posts')->select('tag')->get();
+        return response()->json($tags);
+    }
+
     /**
      * Display a listing of the resource.
      *

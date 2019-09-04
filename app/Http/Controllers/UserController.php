@@ -8,19 +8,9 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-
-    public function getUserPosts($id) {
-        $posts = Post::orderBy('created_at', 'desc')
-            ->where('author_id', '=', $id)
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
-            ->get();
-        foreach ($posts as $post) {
-            $tags = Post::getPostTags($post->id);
-            $post['tags'] = $tags;
-        }
-        return response()->json($posts);
+    public function authorsWithPosts() {
+        $authors = User::has('posts')->select('name', 'surname')->get();
+        return response()->json($authors);
     }
 
     /**
@@ -62,12 +52,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::query()
-            ->where('id', '=', $id)
-            ->get();
-        $numUserPosts = Post::where('author_id', '=', $id)
-            ->count();
-        $user[0]['numUserPosts'] = $numUserPosts;
+        $user = User::with(['posts.tags:tag_id,tag', 'posts.category:id,category', 'posts.comments', 'posts.author:id,name,surname,photo'])->findOrFail($id);
         return response()->json($user);
     }
 

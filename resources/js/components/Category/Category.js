@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PostsList from "../PostsList/PostsList";
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
@@ -6,7 +6,7 @@ import Filter from "../Filter/Filter";
 
 class Category extends PostsList {
 
-    constructor(props){
+    constructor(props) {
         super(props);
         this.state = {
             posts: [],
@@ -18,39 +18,20 @@ class Category extends PostsList {
             dateUntilFilter: '',
             dataIsLoaded: false
         };
-        this.makeRequests = this.makeRequests.bind(this);
-    }
-
-    makeRequests() {
-        let requestsCounter = 0;
-
-        return new Promise(resolve => {
-
-            axios
-                .get('/api/categoryname/' + this.props.match.params.id)
-                .then(response => {
-                    this.setState({categoryName: response.data});
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-
-            axios
-                .get('/api/category/' + this.props.match.params.id)
-                .then(response => {
-                    this.setState({
-                        posts: response.data,
-                        filteredPosts: response.data
-                    });
-                    ++requestsCounter;
-                    if(requestsCounter === 2) resolve();
-                });
-        });
     }
 
     componentWillMount() {
-        this.makeRequests()
-            .then(() => {
-                this.setState({dataIsLoaded: true});
+        axios
+            .get('/api/category/' + this.props.match.params.id)
+            .then(response => {
+                this.setState({
+                    posts: response.data,
+                    filteredPosts: response.data
+                }, () => {
+                    this.setState({
+                        dataIsLoaded: true
+                    });
+                });
             });
     }
 
@@ -59,7 +40,7 @@ class Category extends PostsList {
         return (
             <div className="category-page">
                 {
-                    !dataIsLoaded ? (<Spinner />) : (
+                    !dataIsLoaded ? (<Spinner/>) : (
                         <div>
                             <Filter
                                 type={'category'}
@@ -69,8 +50,9 @@ class Category extends PostsList {
                                 updateDateSinceFilter={this.updateDateSinceFilter}
                                 updateDateUntilFilter={this.updateDateUntilFilter}
                             />
-                            <span className="badge badge-primary category-page-title">{"Категория " + this.state.categoryName}</span>
-                            {this.renderPosts()}
+                            <span
+                                className="badge badge-primary category-page-title">{"Категория " + this.state.posts[0].category.category}</span>
+                            {this.renderPosts(this.state.filteredPosts)}
                         </div>
                     )
                 }

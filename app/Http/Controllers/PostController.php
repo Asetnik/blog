@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\DB;
@@ -9,36 +10,6 @@ use Illuminate\Support\Facades\DB;
 
 class PostController extends Controller
 {
-
-    public function getPostsCategories() {
-        $categories = Post::orderBy('category_id')
-            ->select('post_categories.category')
-            ->groupBy('category_id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->get();
-
-        return response()->json($categories);
-    }
-
-    public function getPostsAuthors() {
-        $authors = Post::orderBy('author_id')
-            ->select('users.name', 'users.surname')
-            ->groupBy('author_id')
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->get();
-        return response()->json($authors);
-    }
-
-    public function getPostsTags() {
-        $tags = DB::table('post_tag')
-            ->select('tag_id', 'tags.tag')
-            ->groupBy('tag_id')
-            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
-            ->get();
-
-        return response()->json($tags);
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -46,16 +17,7 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::orderBy('created_at', 'desc')
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.created_at')
-            ->get();
-        foreach ($posts as $post) {
-           $tags = Post::getPostTags($post->id);
-           $post['tags'] = $tags;
-        }
-
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->get();
         return response()->json($posts);
     }
 
@@ -88,17 +50,10 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('posts.id', '=', $id)
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
-            ->get();
-        foreach ($posts as $post) {
-            $tags = Post::getPostTags($post->id);
-            $post['tags'] = $tags;
-        }
-        Post::updateViews($id);
-        return response()->json($posts);
+        $post = Post::with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments.author:id,name,surname,photo', 'category:id,category')
+            ->findOrFail($id);
+        $post->updateViews();
+        return response()->json($post);
     }
 
     /**

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserRole extends Model
 {
     public function user(){
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class);
     }
 
     public static function add($role) {

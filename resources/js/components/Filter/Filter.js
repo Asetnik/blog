@@ -33,15 +33,18 @@ class Filter extends Component{
 
     getPostsCategories() {
         axios
-            .get('/api/getpostscategories')
+            .get('/api/categorieswithposts')
             .then(response => {
+                response.data.map(author => {
+                    console.log();
+                });
                 this.setState({categories: response.data.map( category => category.category)});
             });
     }
 
     getPostsAuthors() {
         axios
-            .get('/api/getpostsauthors')
+            .get('/api/authorswithposts')
             .then(response => {
                 this.setState({authors: response.data.map( author => author.name + " " + author.surname )});
             });
@@ -49,7 +52,7 @@ class Filter extends Component{
 
     getPostsTags() {
         axios
-            .get('/api/getpoststags')
+            .get('/api/gettagswithposts')
             .then(response => {
                 this.setState({tags: response.data.map( tag => tag.tag)});
             });

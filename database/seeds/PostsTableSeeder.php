@@ -14,7 +14,7 @@ class PostsTableSeeder extends Seeder
     {
         /*DB::table('posts')->insert([
             'author_id' => 1,
-            'category_id' => 1,
+            'post_category_id' => 1,
             'photo' => 'https://upload.wikimedia.org/wikipedia/commons/f/f9/Phoenicopterus_ruber_in_S%C3%A3o_Paulo_Zoo.jpg',
             'title' => 'Смотрите какой красивый страус',
             'description' => 'Такого страуса вы можете встретить где угодно',
@@ -24,7 +24,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 2,
-            'category_id' => 2,
+            'post_category_id' => 2,
             'photo' => 'https://cs9.pikabu.ru/post_img/big/2017/04/24/7/1493030070160053151.jpg',
             'title' => 'Бог или инопланетянин? Кто он?',
             'description' => 'Месси играет, как мальчишка, который сказал матери: «Пойду погоняю мяч. Вернусь, когда стемнеет». Его не волнуют ни полные трибуны, ни прочие привходящие обстоятельства. Это природный талант, который, играя, получает удовольствие.',
@@ -34,7 +34,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 1,
-            'category_id' => 3,
+            'post_category_id' => 3,
             'photo' => 'https://img-c.drive.ru/models.large.main.images/0000/000/000/000/de5/48d45147112b1286-main.jpg',
             'title' => 'Вы тоже считаете Audi A5 лучшей машиной?',
             'description' => 'да',
@@ -44,7 +44,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 2,
-            'category_id' => 3,
+            'post_category_id' => 3,
             'photo' => 'https://img.tyt.by/p/0a/0/top_aps_titulnaya_22.05.jpg',
             'title' => 'Lada Vesta Cross',
             'description' => 'Обзор - Vesta SW Cross',
@@ -54,7 +54,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 4,
-            'category_id' => 6,
+            'post_category_id' => 6,
             'photo' => 'https://img.tyt.by/720x720s/n/obshchestvo/0b/9/mjrtira_svaboda.png',
             'title' => 'Глава СК: при подготовке салюта заряды обрезали и сотрудники российской фирмы, и белорусские военные',
             'description' => 'Председатель Следственного комитета Иван Носкевич в программе «Разговор у президента» на «Беларусь 1» рассказал подробности расследования по делу о взрыве во время салюта на День Независимости, когда один человек погиб и еще 10 пострадали.',
@@ -64,7 +64,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 4,
-            'category_id' => 7,
+            'post_category_id' => 7,
             'photo' => 'https://img.tyt.by/n/kultura/01/0/zastryal_mezhdu_kamnyami1.jpg',
             'title' => 'Собиравший помет летучих мышей спелеолог застрял между камнями на четыре дня',
             'description' => 'В Камбодже спасли мужчину, который четыре дня не мог выбраться из пещеры, где собирал помет летучих мышей.',
@@ -75,7 +75,7 @@ class PostsTableSeeder extends Seeder
         ]);
         DB::table('posts')->insert([
             'author_id' => 4,
-            'category_id' => 8,
+            'post_category_id' => 8,
             'photo' => 'https://img.tyt.by/720x720s/n/it/0f/8/black_hole_chernaya_dyra_1.jpg',
             'title' => 'Астрономы обнаружили гигантскую черную дыру с массой 40 миллиардов Солнц',
             'description' => 'Астрономы обнаружили сверхмассивную черную дыру, чья масса в 40 миллиардов раз превышает массу Солнца. Об этом сообщает Science Alert со ссылкой на The Astrophysical Journal.',

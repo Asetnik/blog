@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Post extends Model
 {
     protected $fillable = [
-        'author_id', 'category_id', 'photo', 'title', 'description', 'content',
+        'author_id', 'post_category_id', 'photo', 'title', 'description', 'content',
     ];
 
     protected $casts = [
@@ -16,7 +16,7 @@ class Post extends Model
     ];
 
     public function author() {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function status() {
@@ -24,37 +24,19 @@ class Post extends Model
     }
 
     public function category() {
-        return $this->hasOne(PostCategory::class);
+        return $this->belongsTo(PostCategory::class, 'post_category_id');
     }
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
     }
 
-    public static function getPostTags($id) {
-        $tags = DB::table('post_tag')
-            ->where('post_id', '=', $id)
-            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
-            ->select('tags.id','tags.tag')
-            ->get();
-        return $tags;
-    }
-
     public function comments() {
         return $this->hasMany(PostComment::class);
     }
 
-    public static function updateViews($id) {
-        return Post::find($id)->increment('views');
-    }
-
-    public static function getPostTags($id) {
-        $tags = DB::table('post_tag')
-            ->where('post_id', '=', $id)
-            ->join('tags', 'post_tag.tag_id', '=', 'tags.id')
-            ->select('tags.id','tags.tag')
-            ->get();
-        return $tags;
+    public function updateViews() {
+        return $this->increment('views');
     }
 
     public static function add($fields) {

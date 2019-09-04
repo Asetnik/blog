@@ -8,13 +8,9 @@ use Illuminate\Http\Request;
 
 class PostCategoryController extends Controller
 {
-
-    public function categoryName($id) {
-        $categoryName = PostCategory::where('id', '=', $id)
-            ->select('category')
-            ->get();
-        $categoryName = $categoryName[0] -> category;
-        return response()->json($categoryName);
+    public function categoriesWithPosts() {
+        $categories = PostCategory::has('posts')->select('category')->get();
+        return response()->json($categories);
     }
 
     /**
@@ -56,15 +52,7 @@ class PostCategoryController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('posts.category_id', '=', $id)
-            ->join('users', 'posts.author_id', '=', 'users.id')
-            ->join('post_categories', 'posts.category_id', '=', 'post_categories.id')
-            ->select('posts.id', 'posts.author_id', 'users.name', 'users.surname', 'users.photo as avatar', 'posts.category_id', 'post_categories.category', 'posts.photo', 'posts.title', 'posts.description', 'posts.content', 'posts.views', 'posts.created_at')
-            ->get();
-        foreach ($posts as $post) {
-            $tags = Post::getPostTags($post->id);
-            $post['tags'] = $tags;
-        }
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('post_category_id', $id)->get();
         return response()->json($posts);
     }
 
