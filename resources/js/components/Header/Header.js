@@ -12,6 +12,8 @@ class Header extends Component {
                         <ul>
                             <NavLink to='/' exact={true} activeClassName='active' className="nav-link text-link">Главная</NavLink>
                             <NavLink to='/myprofile' activeClassName='active' className="nav-link text-link">Мой профиль</NavLink>
+                            <NavLink to='/a/login' activeClassName='active' className="nav-link text-link">Войти</NavLink>
+                            <NavLink to='/a/register' activeClassName='active' className="nav-link text-link">Зарегистрироваться</NavLink>
                             <NavLink to='/logout' className="nav-link text-link active">Выйти</NavLink>
                         </ul>
                     </div>

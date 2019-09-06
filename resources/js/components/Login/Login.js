@@ -1,23 +1,22 @@
 import React, { Component } from 'react';
 
-class Register extends Component{
+class Login extends Component{
 
     constructor(props){
         super(props);
         this.state = {
             email: '',
-            password: '',
-            password_confirmation: ''
+            password: ''
         };
         this.handleChange = this.handleChange.bind(this);
-        this.registerSubmit = this.registerSubmit.bind(this);
+        this.loginSubmit = this.loginSubmit.bind(this);
     }
 
     handleChange(event){
         this.setState({[event.target.name]: event.target.value});
     }
 
-    registerSubmit(event){
+    loginSubmit(event){
         event.preventDefault();
     }
 
@@ -25,8 +24,8 @@ class Register extends Component{
 
         return(
             <div className="row">
-                <div className="offset-4 col-4 blog-card registerForm">
-                    <form onSubmit={this.registerSubmit}>
+                <div className="offset-4 col-4 blog-card loginForm">
+                    <form onSubmit={this.loginSubmit}>
                         <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input type="email" className="form-control" value={this.state.email || ''} onChange={this.handleChange} name="email" id="email" autoComplete="email" required/>
@@ -35,11 +34,7 @@ class Register extends Component{
                             <label htmlFor="password">Пароль</label>
                             <input type="password" className="form-control" value={this.state.password || ''} onChange={this.handleChange} name="password" id="password" autoComplete="password" required/>
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="password_confirm">Подтверждение пароля</label>
-                            <input type="password" className="form-control" value={this.state.password_confirm || ''} onChange={this.handleChange} name="password_confirm" id="password_confirm" autoComplete="password" required/>
-                        </div>
-                        <input type="submit" className="btn d-block mx-auto" value="Зарегистрироваться"/>
+                        <input type="submit" className="btn d-block mx-auto" value="Войти"/>
                     </form>
                 </div>
             </div>
@@ -48,4 +43,4 @@ class Register extends Component{
 
 }
 
-export default Register;
+export default Login;
