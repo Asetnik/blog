@@ -1,0 +1,19 @@
+.admin-menu{
+    height: 100vh;
+    background-color: $lightgray;
+    color: $green;
+    padding: 35px 10px;
+
+    .admin-menu-link{
+        display: grid;
+        grid-template-columns: 10px auto;
+        grid-column-gap: 20px;
+        font-size: 18px;
+        text-decoration: none;
+        color: $white;
+
+        &:hover{
+            color: $green;
+        }
+    }
+}

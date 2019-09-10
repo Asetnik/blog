@@ -1,21 +1,19 @@
 import React, { Component } from 'react';
-import { BrowserRouter } from "react-router-dom";
+import {BrowserRouter, Route, Redirect, Switch} from "react-router-dom";
+import AdminLayout from "../AdminLayout/AdminLayout";
+import DefaultLayout from "../DefaultLayout/DefaultLayout";
 
-import Header from "../Header/Header";
-import PageContent from "../PageContent/PageContent";
-import Sidebar from "../Sidebar/Sidebar";
+
 
 class App extends Component {
     render() {
         return (
             <BrowserRouter>
-                <Header />
-                <div className="container page">
-                    <PageContent />
-{/*
-                    <Sidebar />
-*/}
-                </div>
+                <Switch>
+                    <Route path={'/admin'}  component={ AdminLayout }  />
+                    <Route path={'/'} component={ DefaultLayout }  />
+                    <Redirect to="/" />
+                </Switch>
             </BrowserRouter>
         );
     }

@@ -20,7 +20,7 @@ class PostFolded extends Post {
 
     render() {
         return (
-            <div className="blog-card post post-folded">
+            <div className="blog-card post post-folded mb-5">
                 <div className="head-wrapper">
                     <div className="author-wrapper">
                         <Link to={'/user/' + this.props.post.author.id}><img src={this.props.post.author.photo}

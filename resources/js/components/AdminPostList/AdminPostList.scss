@@ -1,0 +1,12 @@
+.table{
+    color: $lightgray;
+}
+
+.post-table-icon{
+    text-decoration: none;
+    color: $lightgray;
+
+    &:hover{
+        color: $green;
+    }
+}

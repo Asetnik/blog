@@ -77,7 +77,7 @@ class Filter extends Component{
     render() {
         const type = this.props.type;
         return (
-            <div className="blog-card filter-wrapper">
+            <div className="blog-card filter-wrapper mb-5">
                 <div className={"filter filter-" + type}>
                     <div className="filter-header">
                         <h3>Фильтр публикаций</h3>

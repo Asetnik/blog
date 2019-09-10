@@ -1,0 +1,12 @@
+.admin-layout{
+    display: grid;
+    grid-template-columns: max-content auto;
+
+    .adminpage-content{
+        padding: 35px;
+
+        .page-header{
+            margin-bottom: 35px;
+        }
+    }
+}

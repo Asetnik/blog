@@ -12,7 +12,7 @@
 @import '../js/components/App/App';
 @import '../js/components/Header/Header';
 @import '../js/components/Sidebar/Sidebar';
-@import '../js/components/PageContent/PageContent';
+@import '../js/components/DefaultLayout/DefaultLayout';
 @import '../js/components/Post/Post';
 @import '../js/components/Post/PostFolded/PostFolded';
 @import '../js/components/Post/PostFull/PostFull';
@@ -24,3 +24,7 @@
 @import '../js/components/Search/Search';
 @import '../js/components/Register/Register';
 @import '../js/components/Login/Login';
+@import '../js/components/AdminLayout/AdminLayout';
+@import '../js/components/AdminMenu/AdminMenu';
+@import '../js/components/AdminEditPost/AdminEditPost';
+@import '../js/components/AdminPostList/AdminPostList';

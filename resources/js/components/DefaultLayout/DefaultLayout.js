@@ -8,13 +8,15 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import PostsList from "../PostsList/PostsList";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
+import Header from "../Header/Header";
 
-class PageContent extends Component{
+class DefaultLayout extends Component{
 
     render() {
         return (
-            <div className="page-content">
-                <Switch>
+            <React.Fragment>
+                <Header />
+                <div className="page-content container">
                     <Route path={'/'} exact component={ PostsList } />
                     <Route path={'/category/:id'} exact component={ Category } />
                     <Route path={'/post/:id'} exact component={ PostFull } />
@@ -22,11 +24,10 @@ class PageContent extends Component{
                     <Route path={'/myprofile'} exact component={ Profile } />
                     <Route path={'/a/register'} exact component={ Register } />
                     <Route path={'/a/login'} exact component={ Login } />
-                    <Redirect to="/" />
-                </Switch>
-            </div>
+                </div>
+            </React.Fragment>
         );
     }
 }
 
-export default PageContent;
+export default DefaultLayout;

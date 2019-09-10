@@ -147,7 +147,7 @@ class PostsList extends Component {
         if (posts instanceof Array) {
             if(posts.length === 0) {
                 return (<div>
-                    <h3 className="text-center mt-5">Не найдено публикаций удовлетворяющих фильтру</h3>
+                    <h3 className="text-center mt-5">Публикации не найдены</h3>
                 </div>);
             }
             return (<div>
