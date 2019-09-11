@@ -64,9 +64,9 @@ class AdminPostList extends Component{
 
     render() {
         return (
-            !this.state.dataIsLoaded ? (Spinner) : (
+            !this.state.dataIsLoaded ? (<Spinner/>) : (
                 <div>
-                    <h3 className="page-header">Список публикаций</h3>
+
                     {this.renderPostList(this.state.posts)}
                 </div>
             )

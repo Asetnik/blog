@@ -3,6 +3,8 @@
     grid-template-columns: max-content auto;
 
     .adminpage-content{
+        overflow-y: auto;
+        max-height: 100vh;
         padding: 35px;
 
         .page-header{

@@ -12601,6 +12601,8 @@ li {
 }
 
 .admin-layout .adminpage-content {
+  overflow-y: auto;
+  max-height: 100vh;
   padding: 35px;
 }
 

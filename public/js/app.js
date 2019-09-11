@@ -58541,10 +58541,56 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return !this.state.dataIsLoaded ? _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"] : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "post-edit"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "page-header"
+      }, "\u041F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F \u2116", this.state.post.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "post-edit-form"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postAuthor"
+      }, "\u0410\u0432\u0442\u043E\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
+        className: "form-control",
+        id: "postAuthor",
+        placeholder: "\u0410\u0432\u0442\u043E\u0440",
+        value: this.state.post.author.name + " " + this.state.post.author.surname
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postTitle"
+      }, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postTitle",
+        placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
         value: this.state.post.title
-      }));
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postDescription"
+      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postDescription",
+        placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+        value: this.state.post.description
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postContent"
+      }, "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        rows: "5",
+        className: "form-control",
+        id: "postContent",
+        placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        value: this.state.post.content
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn"
+      }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
     }
   }]);
 
@@ -58824,9 +58870,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      return !this.state.dataIsLoaded ? _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"] : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "page-header"
-      }, "\u0421\u043F\u0438\u0441\u043E\u043A \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0439"), this.renderPostList(this.state.posts));
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, this.renderPostList(this.state.posts));
     }
   }]);
 
@@ -60895,8 +60939,8 @@ function (_PostsList) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/vagrant/code/blog/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/vagrant/code/blog/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! W:\domains\blog\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! W:\domains\blog\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })
