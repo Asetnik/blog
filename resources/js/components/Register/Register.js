@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Register extends Component{
 
     constructor(props){
         super(props);
         this.state = {
+            name: '',
             email: '',
             password: '',
             password_confirmation: ''
@@ -19,6 +21,8 @@ class Register extends Component{
 
     registerSubmit(event){
         event.preventDefault();
+        axios.post('/register', this.state)
+            .then(response => {console.log(response)});
     }
 
     render() {
@@ -28,6 +32,10 @@ class Register extends Component{
                 <div className="offset-4 col-4 blog-card registerForm">
                     <form onSubmit={this.registerSubmit}>
                         <div className="form-group">
+                            <label htmlFor="email">Имя</label>
+                            <input type="text" className="form-control" value={this.state.name || ''} onChange={this.handleChange} name="name" id="name" autoComplete="name" required/>
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="email">Email</label>
                             <input type="email" className="form-control" value={this.state.email || ''} onChange={this.handleChange} name="email" id="email" autoComplete="email" required/>
                         </div>
@@ -36,8 +44,8 @@ class Register extends Component{
                             <input type="password" className="form-control" value={this.state.password || ''} onChange={this.handleChange} name="password" id="password" autoComplete="password" required/>
                         </div>
                         <div className="form-group">
-                            <label htmlFor="password_confirm">Подтверждение пароля</label>
-                            <input type="password" className="form-control" value={this.state.password_confirm || ''} onChange={this.handleChange} name="password_confirm" id="password_confirm" autoComplete="password" required/>
+                            <label htmlFor="password_confirmation">Подтверждение пароля</label>
+                            <input type="password" className="form-control" value={this.state.password_confirmation || ''} onChange={this.handleChange} name="password_confirmation" id="password_confirmation" autoComplete="password" required/>
                         </div>
                         <input type="submit" className="btn d-block mx-auto" value="Зарегистрироваться"/>
                     </form>

@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import axios from 'axios';
 
 class Header extends Component {
+    constructor(props){
+        super(props);
+        this.state={};
+    }
 
     render() {
         return (
@@ -14,7 +19,7 @@ class Header extends Component {
                             <NavLink to='/myprofile' activeClassName='active' className="nav-link text-link">Мой профиль</NavLink>
                             <NavLink to='/a/login' activeClassName='active' className="nav-link text-link">Войти</NavLink>
                             <NavLink to='/a/register' activeClassName='active' className="nav-link text-link">Зарегистрироваться</NavLink>
-                            <NavLink to='/logout' className="nav-link text-link active">Выйти</NavLink>
+                            <NavLink to='/a/logout' className="nav-link text-link active">Выйти</NavLink>
                         </ul>
                     </div>
                 </div>

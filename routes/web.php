@@ -11,6 +11,11 @@
 |
 */
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
+Route::middleware('auth')->resource('/api/post', 'PostController');
 
 Route::fallback(function () {
     return view('index');

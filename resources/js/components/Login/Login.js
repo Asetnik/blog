@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class Login extends Component{
 
@@ -6,7 +7,7 @@ class Login extends Component{
         super(props);
         this.state = {
             email: '',
-            password: ''
+            password: '',
         };
         this.handleChange = this.handleChange.bind(this);
         this.loginSubmit = this.loginSubmit.bind(this);
@@ -18,6 +19,11 @@ class Login extends Component{
 
     loginSubmit(event){
         event.preventDefault();
+        axios.post('/login', this.state)
+            .then(response => {
+                console.log(response);
+                this.props.history.push("/");
+            });
     }
 
     render() {
