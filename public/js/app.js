@@ -58485,6 +58485,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -58493,9 +58497,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -58518,8 +58522,15 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminEditPost).call(this, props));
     _this.state = {
       post: {},
-      dataIsLoaded: false
+      dataIsLoaded: false,
+      editedData: {
+        title: '',
+        description: '',
+        content: ''
+      }
     };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -58533,9 +58544,32 @@ function (_Component) {
           post: response.data
         }, function () {
           _this2.setState({
-            dataIsLoaded: true
+            editedData: {
+              title: response.data.title,
+              description: response.data.description,
+              content: response.data.content
+            }
+          }, function () {
+            _this2.setState({
+              dataIsLoaded: true
+            });
           });
         });
+      });
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      this.setState({
+        editedData: _objectSpread({}, this.state.editedData, _defineProperty({}, event.target.name, event.target.value))
+      });
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm(event) {
+      event.preventDefault();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/post/' + this.state.post.id, this.state.editedData).then(function (response) {
+        console.log(response);
       });
     }
   }, {
@@ -58546,7 +58580,8 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "page-header"
       }, "\u041F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F \u2116", this.state.post.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "post-edit-form"
+        className: "post-edit-form",
+        onSubmit: this.submitForm
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -58555,7 +58590,9 @@ function (_Component) {
         type: "text",
         className: "form-control",
         id: "postAuthor",
+        name: "author",
         placeholder: "\u0410\u0432\u0442\u043E\u0440",
+        readOnly: true,
         value: this.state.post.author.name + " " + this.state.post.author.surname
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -58565,8 +58602,10 @@ function (_Component) {
         type: "text",
         className: "form-control",
         id: "postTitle",
+        name: "title",
         placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
-        value: this.state.post.title
+        onChange: this.handleChange,
+        value: this.state.editedData.title
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -58575,8 +58614,10 @@ function (_Component) {
         type: "text",
         className: "form-control",
         id: "postDescription",
+        name: "description",
         placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
-        value: this.state.post.description
+        onChange: this.handleChange,
+        value: this.state.editedData.description
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
@@ -58585,8 +58626,10 @@ function (_Component) {
         rows: "5",
         className: "form-control",
         id: "postContent",
+        name: "content",
         placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
-        value: this.state.post.content
+        onChange: this.handleChange,
+        value: this.state.editedData.content
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn"
@@ -58666,8 +58709,6 @@ function (_Component) {
         path: '/admin/post/edit/:id',
         exact: true,
         component: _AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_4__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Redirect"], {
-        to: "/admin/posts"
       })));
     }
   }]);

@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 
 class PostController extends Controller
@@ -76,7 +77,21 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $rules = array(
+            'title' => 'required',
+            'description' => 'required',
+            'content' => 'required'
+        );
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return response()->json($validator->errors());
+        } else {
+            $post = Post::findOrFail($id);
+            $post->title = $request->get('title');
+            $post->description = $request->get('description');
+            $post->content = $request->get('content');
+            $post->save();
+        }
     }
 
     /**

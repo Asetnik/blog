@@ -18,7 +18,6 @@ class AdminLayout extends Component{
                     <Route path={'/myprofile'} exact component={ Profile } />
                     <Route path={'/a/register'} exact component={ Register } />
                     <Route path={'/a/login'} exact component={ Login } />*/}
-                    <Redirect to="/admin/posts" />
                 </div>
             </div>
         );
