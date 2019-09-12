@@ -2,15 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
 use App\User;
+
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function authorsWithPosts() {
         $authors = User::has('posts')->select('name', 'surname')->get();
         return response()->json($authors);
+    }
+
+    public function isAuth() {
+        $isAuth = [
+            'isAuth' => false
+        ];
+        if(Auth::check()){
+            $isAuth['isAuth'] = true;
+        }
+        return response()->json($isAuth);
     }
 
     /**

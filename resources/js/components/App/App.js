@@ -4,14 +4,14 @@ import AdminLayout from "../AdminLayout/AdminLayout";
 import DefaultLayout from "../DefaultLayout/DefaultLayout";
 
 
-
 class App extends Component {
+
     render() {
         return (
             <BrowserRouter>
                 <Switch>
-                    <Route path={'/admin'}  component={ AdminLayout }  />
-                    <Route path={'/'} component={ DefaultLayout }  />
+                    <Route path={'/admin'}  component={ AdminLayout } />
+                    <Route path={'/'} component={ DefaultLayout } />
                     <Redirect to="/" />
                 </Switch>
             </BrowserRouter>

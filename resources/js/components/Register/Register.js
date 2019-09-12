@@ -22,7 +22,10 @@ class Register extends Component{
     registerSubmit(event){
         event.preventDefault();
         axios.post('/register', this.state)
-            .then(response => {console.log(response)});
+            .then(response => {
+                console.log(response);
+                this.props.history.push("/a/login");
+            });
     }
 
     render() {

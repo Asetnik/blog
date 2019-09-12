@@ -17,6 +17,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->resource('/api/post', 'PostController');
 
+Route::get('/isauth', 'UserController@isAuth');
+
 Route::fallback(function () {
     return view('index');
 });
