@@ -75,22 +75,22 @@ return [
         'file' => 'The :attribute must be less than or equal :value kilobytes.',
         'string' => 'The :attribute must be less than or equal :value characters.',
         'array' => 'The :attribute must not have more than :value items.',
-    ],
+    ],*/
     'max' => [
         'numeric' => 'The :attribute may not be greater than :max.',
         'file' => 'The :attribute may not be greater than :max kilobytes.',
-        'string' => 'The :attribute may not be greater than :max characters.',
+        'string' => 'Максимальное количество символов в поле - :max.',
         'array' => 'The :attribute may not have more than :max items.',
     ],
-    'mimes' => 'The :attribute must be a file of type: :values.',
-    'mimetypes' => 'The :attribute must be a file of type: :values.',
+/*    'mimes' => 'The :attribute must be a file of type: :values.',
+    'mimetypes' => 'The :attribute must be a file of type: :values.',*/
     'min' => [
         'numeric' => 'The :attribute must be at least :min.',
         'file' => 'The :attribute must be at least :min kilobytes.',
-        'string' => 'The :attribute must be at least :min characters.',
+        'string' => 'Минимальное количество символов в поле - :min.',
         'array' => 'The :attribute must have at least :min items.',
     ],
-    'not_in' => 'The selected :attribute is invalid.',
+/*    'not_in' => 'The selected :attribute is invalid.',
     'not_regex' => 'The :attribute format is invalid.',
     'numeric' => 'The :attribute must be a number.',
     'present' => 'The :attribute field must be present.',
@@ -133,13 +133,15 @@ return [
             'rule-name' => 'custom-message',
         ],
         'email' => [
-            'unique' => 'Пользователь с указанным email существует'
+            'unique' => 'Пользователь с указанным email существует',
+            'email' => 'Недействительный адрес электронной почты.'
         ],
         'password' => [
             'min' => 'Пароль должен состоять минимум из :min символов.',
             'confirmed' => 'Пароли не совпадают'
         ]
     ],
+
 
     /*
     |--------------------------------------------------------------------------
