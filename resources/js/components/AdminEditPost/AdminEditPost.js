@@ -54,7 +54,7 @@ class AdminEditPost extends Component{
     render() {
         return(
             !this.state.dataIsLoaded ? (<Spinner/>) : (
-                <div className="post-edit">
+                <div className="admin-post-edit">
                     <h3 className="page-header">Публикация №{this.state.post.id}</h3>
                     <form className="post-edit-form" onSubmit={this.submitForm}>
                         <div className="form-group">

@@ -10,7 +10,7 @@ class AdminMenu extends Component{
                 <ul>
                     <li><NavLink to='/admin/posts' className="admin-menu-link">
                         <div><i className="fa fa-list-alt" aria-hidden="true"></i></div>
-                        <div>Публикации</div>
+                        <div>Статьи</div>
                     </NavLink></li>
                     <li><NavLink to='/admin/categories' className="admin-menu-link">
                         <div><i className="fa fa-cubes" aria-hidden="true"></i></div>

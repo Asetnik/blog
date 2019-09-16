@@ -52,7 +52,7 @@ class AdminPostList extends Component{
                             <td>{post.created_at}</td>
                             <td>{post.views}</td>
                             <td>{post.comments.length}</td>
-                            <td><NavLink to={'/admin/post/edit/' + post.id} className="post-table-icon"><i className="fa fa-pencil" aria-hidden="true"></i></NavLink></td>
+                            <td><NavLink to={'/admin/post/edit/' + post.id} className="admin-postlist-table-icon"><i className="fa fa-pencil" aria-hidden="true"></i></NavLink></td>
                             <td><i className="fa fa-trash" aria-hidden="true"></i></td>
                         </tr>
                     })
@@ -65,10 +65,17 @@ class AdminPostList extends Component{
     render() {
         return (
             !this.state.dataIsLoaded ? (<Spinner/>) : (
-                <div>
-
+                <React.Fragment>
+                    <div className="admin-postlist-header mb-5">
+                        <div><h3>Список статей</h3></div>
+                        <div>
+                            <NavLink to="/admin/post/create">
+                                <button className="btn">Создать статью</button>
+                            </NavLink>
+                        </div>
+                    </div>
                     {this.renderPostList(this.state.posts)}
-                </div>
+                </React.Fragment>
             )
         );
     }

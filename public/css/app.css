@@ -12226,6 +12226,7 @@ a.text-dark:focus {
 
 .btn {
   border: solid 2px #4aa951;
+  border-radius: 5px;
   padding: 8px 15px;
   font-size: 18px;
   background-color: #ffffff;
@@ -12236,8 +12237,6 @@ a.text-dark:focus {
 .btn:hover {
   background-color: #4aa951;
   color: #ffffff;
-  box-shadow: 0px 0px 15px 3px #4f5050;
-  transition: 0.5s;
 }
 
 .text-link {
@@ -12249,6 +12248,10 @@ a.text-dark:focus {
   color: #4aa951 !important;
   text-decoration: none;
   transition: 0.5s;
+}
+
+.table {
+  color: #4f5050;
 }
 
 .active {
@@ -12630,16 +12633,19 @@ li {
   color: #4aa951;
 }
 
-.table {
-  color: #4f5050;
+.admin-postlist-header {
+  display: grid;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  justify-items: right;
 }
 
-.post-table-icon {
+.admin-postlist-table-icon {
   text-decoration: none;
   color: #4f5050;
 }
 
-.post-table-icon:hover {
+.admin-postlist-table-icon:hover {
   color: #4aa951;
 }
 

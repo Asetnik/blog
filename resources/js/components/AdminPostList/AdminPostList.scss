@@ -1,8 +1,10 @@
-.table{
-    color: $lightgray;
+.admin-postlist-header{
+    display: grid;
+    grid-template-columns: max-content auto;
+    justify-items: right;
 }
 
-.post-table-icon{
+.admin-postlist-table-icon{
     text-decoration: none;
     color: $lightgray;
 
