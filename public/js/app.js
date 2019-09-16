@@ -59681,6 +59681,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -59714,8 +59716,14 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Login).call(this, props));
     _this.state = {
-      email: '',
-      password: ''
+      loginData: {
+        email: '',
+        password: ''
+      },
+      validationErrors: {
+        email: '',
+        password: ''
+      }
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.loginSubmit = _this.loginSubmit.bind(_assertThisInitialized(_this));
@@ -59725,7 +59733,9 @@ function (_Component) {
   _createClass(Login, [{
     key: "handleChange",
     value: function handleChange(event) {
-      this.setState(_defineProperty({}, event.target.name, event.target.value));
+      this.setState({
+        loginData: _objectSpread({}, this.state.loginData, _defineProperty({}, event.target.name, event.target.value))
+      });
     }
   }, {
     key: "loginSubmit",
@@ -59733,10 +59743,14 @@ function (_Component) {
       var _this2 = this;
 
       event.preventDefault();
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/login', this.state).then(function (response) {
-        console.log(response);
-
-        _this2.props.history.push("/");
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/login', this.state.loginData).then(function (response) {
+        if (response.status === 200) {
+          _this2.props.history.push("/");
+        }
+      })["catch"](function (error) {
+        _this2.setState({
+          validationErrors: error.response.data.errors
+        });
       });
     }
   }, {
@@ -59755,20 +59769,22 @@ function (_Component) {
       }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "email",
         className: "form-control",
-        value: this.state.email || '',
+        value: this.state.loginData.email || '',
         onChange: this.handleChange,
         name: "email",
         id: "email",
         autoComplete: "email",
         required: true
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.email && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.email[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "password"
       }, "\u041F\u0430\u0440\u043E\u043B\u044C"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         className: "form-control",
-        value: this.state.password || '',
+        value: this.state.loginData.password || '',
         onChange: this.handleChange,
         name: "password",
         id: "password",
@@ -59840,9 +59856,9 @@ function (_Component) {
       var _this = this;
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/logout', {}).then(function (response) {
-        console.log(response);
-
-        _this.props.history.push("/a/login");
+        if (response.status === 200) {
+          _this.props.history.push("/a/login");
+        }
       });
     }
   }, {
@@ -60562,6 +60578,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -60595,10 +60613,18 @@ function (_Component) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(Register).call(this, props));
     _this.state = {
-      name: '',
-      email: '',
-      password: '',
-      password_confirmation: ''
+      registerData: {
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+      },
+      validationErrors: {
+        name: '',
+        email: '',
+        password: '',
+        password_confirmation: ''
+      }
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.registerSubmit = _this.registerSubmit.bind(_assertThisInitialized(_this));
@@ -60608,7 +60634,9 @@ function (_Component) {
   _createClass(Register, [{
     key: "handleChange",
     value: function handleChange(event) {
-      this.setState(_defineProperty({}, event.target.name, event.target.value));
+      this.setState({
+        registerData: _objectSpread({}, this.state.registerData, _defineProperty({}, event.target.name, event.target.value))
+      });
     }
   }, {
     key: "registerSubmit",
@@ -60616,10 +60644,14 @@ function (_Component) {
       var _this2 = this;
 
       event.preventDefault();
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/register', this.state).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/register', this.state.registerData).then(function (response) {
         console.log(response);
 
         _this2.props.history.push("/a/login");
+      })["catch"](function (error) {
+        _this2.setState({
+          validationErrors: error.response.data.errors
+        });
       });
     }
   }, {
@@ -60638,46 +60670,52 @@ function (_Component) {
       }, "\u0418\u043C\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
-        value: this.state.name || '',
+        value: this.state.registerData.name || '',
         onChange: this.handleChange,
         name: "name",
         id: "name",
         autoComplete: "name",
         required: true
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.name && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.name[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "email"
       }, "Email"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "email",
         className: "form-control",
-        value: this.state.email || '',
+        value: this.state.registerData.email || '',
         onChange: this.handleChange,
         name: "email",
         id: "email",
         autoComplete: "email",
         required: true
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.email && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.email[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "password"
       }, "\u041F\u0430\u0440\u043E\u043B\u044C"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         className: "form-control",
-        value: this.state.password || '',
+        value: this.state.registerData.password || '',
         onChange: this.handleChange,
         name: "password",
         id: "password",
         autoComplete: "password",
         required: true
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.password && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.password[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "password_confirmation"
       }, "\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043D\u0438\u0435 \u043F\u0430\u0440\u043E\u043B\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "password",
         className: "form-control",
-        value: this.state.password_confirmation || '',
+        value: this.state.registerData.password_confirmation || '',
         onChange: this.handleChange,
         name: "password_confirmation",
         id: "password_confirmation",

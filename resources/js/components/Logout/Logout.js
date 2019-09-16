@@ -10,8 +10,9 @@ class Logout extends Component{
     componentWillMount() {
         axios.post('/logout', {})
             .then(response => {
-                console.log(response);
-                this.props.history.push("/a/login");
+                if(response.status === 200) {
+                    this.props.history.push("/a/login");
+                }
             });
     }
 
