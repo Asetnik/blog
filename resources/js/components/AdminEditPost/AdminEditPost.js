@@ -19,7 +19,7 @@ class AdminEditPost extends Component{
     }
 
     componentWillMount() {
-        axios.get('/api/post/' + this.props.match.params.id)
+        axios.get('/api/posts/' + this.props.match.params.id)
             .then(response => {
                 this.setState({post: response.data}, () => {
                     this.setState({editedData: {
@@ -44,12 +44,11 @@ class AdminEditPost extends Component{
 
     submitForm(event) {
         event.preventDefault();
-        axios.put('/api/post/' + this.state.post.id, this.state.editedData)
+        axios.put('/api/posts/' + this.state.post.id, this.state.editedData)
             .then(response => {
                 console.log(response);
             })
     }
-
 
     render() {
         return(

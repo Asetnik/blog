@@ -14,7 +14,7 @@ class AdminPostList extends Component{
     }
 
     componentWillMount() {
-        axios.get('/api/post')
+        axios.get('/api/posts')
             .then(response => {
                 this.setState({posts: response.data}, () => {
                     this.setState({dataIsLoaded: true});

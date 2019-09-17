@@ -59341,7 +59341,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-widgets/lib/DropdownList */ "./node_modules/react-widgets/lib/DropdownList.js");
 /* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-widgets/lib/DateTimePicker */ "./node_modules/react-widgets/lib/DateTimePicker.js");
+/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-widgets-moment */ "./node_modules/react-widgets-moment/index.js");
+/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-widgets/lib/Multiselect */ "./node_modules/react-widgets/lib/Multiselect.js");
+/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -59351,13 +59364,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
 
 
 
@@ -59376,11 +59394,23 @@ function (_Component) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminCreatePost).call(this, props));
     _this.state = {
       users: [],
-      author: {},
+      categories: [],
+      tags: [],
       post: {
-        author_id: 0
-      }
+        author_id: undefined,
+        created_at: undefined,
+        title: '',
+        description: '',
+        content: '',
+        post_category_id: undefined,
+        tags_id: []
+      },
+      dataIsLoaded: false
     };
+    _this.localizer = _this.localizer.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
+    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -59389,17 +59419,59 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user').then(function (response) {
-        console.log(response.data);
-
+      this.localizer();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
         _this2.setState({
-          users: response.data.map(function (user, index) {
+          users: firstResponse.data.map(function (user) {
             return {
               id: user.id,
               fullname: user.name + " " + user.surname
             };
-          })
+          }),
+          categories: secondResponse.data,
+          tags: thirdResponse.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
         });
+      }))["catch"](function (error) {
+        return console.log(error);
+      });
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.datepickersSpellcheck();
+    }
+  }, {
+    key: "localizer",
+    value: function localizer() {
+      moment__WEBPACK_IMPORTED_MODULE_5___default.a.locale('ru');
+      react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default()();
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange() {
+      this.setState({
+        post: _objectSpread({}, this.state.post, _defineProperty({}, event.target.name, event.target.value))
+      });
+    }
+  }, {
+    key: "datepickersSpellcheck",
+    value: function datepickersSpellcheck() {
+      var datepickers = document.getElementsByClassName('rw-input');
+
+      for (var i = 0; i < datepickers.length; i++) {
+        datepickers[i].setAttribute("spellcheck", "false");
+      }
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm(event) {
+      event.preventDefault();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', this.state.post).then(function (response) {
+        console.log(response);
       });
     }
   }, {
@@ -59407,7 +59479,7 @@ function (_Component) {
     value: function render() {
       var _this3 = this;
 
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "admin-post-create"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
         className: "page-header"
@@ -59419,19 +59491,103 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postAuthor"
       }, "\u0410\u0432\u0442\u043E\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        placeholder: "\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C",
+        placeholder: "\u0410\u0432\u0442\u043E\u0440",
         data: this.state.users,
-        value: this.state.author,
         valueField: "id",
         textField: "fullname",
         onChange: function onChange(value) {
           return _this3.setState({
-            author: value
+            post: _objectSpread({}, _this3.state.post, {
+              author_id: value.id
+            })
+          });
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postPubDate"
+      }, "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        onChange: function onChange(value) {
+          return _this3.setState({
+            post: _objectSpread({}, _this3.state.post, {
+              created_at: value
+            })
+          });
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postTitle"
+      }, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postTitle",
+        name: "title",
+        placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
+        onChange: this.handleChange,
+        value: this.state.post.title
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postDescription"
+      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postDescription",
+        name: "description",
+        placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+        onChange: this.handleChange,
+        value: this.state.post.description
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postContent"
+      }, "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        rows: "5",
+        className: "form-control",
+        id: "postContent",
+        name: "content",
+        placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        onChange: this.handleChange,
+        value: this.state.post.content
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postCategory"
+      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
+        data: this.state.categories,
+        valueField: "id",
+        textField: "category",
+        onChange: function onChange(value) {
+          return _this3.setState({
+            post: _objectSpread({}, _this3.state.post, {
+              post_category_id: value.id
+            })
+          });
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postTags"
+      }, "\u0422\u044D\u0433\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        placeholder: "\u0422\u044D\u0433\u0438",
+        data: this.state.tags,
+        valueField: "id",
+        textField: "tag",
+        onChange: function onChange(value) {
+          return _this3.setState({
+            post: _objectSpread({}, _this3.state.post, {
+              tags_id: value.map(function (item) {
+                return item.id;
+              })
+            })
           });
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
-        className: "btn"
+        className: "btn mt-3"
       }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
     }
   }]);
@@ -59513,7 +59669,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/post/' + this.props.match.params.id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           post: response.data
         }, function () {
@@ -59542,7 +59698,7 @@ function (_Component) {
     key: "submitForm",
     value: function submitForm(event) {
       event.preventDefault();
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/post/' + this.state.post.id, this.state.editedData).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/posts/' + this.state.post.id, this.state.editedData).then(function (response) {
         console.log(response);
       });
     }
@@ -59842,7 +59998,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/post').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
         _this2.setState({
           posts: response.data
         }, function () {
@@ -60047,7 +60203,7 @@ function (_PostsList) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/category/' + this.props.match.params.id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/categories/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           posts: response.data,
           filteredPosts: response.data
@@ -60147,7 +60303,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/category/' + this.props.category_id,
+        to: '/categories/' + this.props.category_id,
         className: "float-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "badge badge-primary",
@@ -60310,15 +60466,15 @@ function (_Component) {
         exact: true,
         component: _PostsList_PostsList__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
-        path: '/category/:id',
+        path: '/categories/:id',
         exact: true,
         component: _Category_Category__WEBPACK_IMPORTED_MODULE_3__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
-        path: '/post/:id',
+        path: '/posts/:id',
         exact: true,
         component: _Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_2__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
-        path: '/user/:id',
+        path: '/users/:id',
         exact: true,
         component: _UserPage_UserPage__WEBPACK_IMPORTED_MODULE_4__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
@@ -61047,7 +61203,7 @@ function (_Post) {
         className: "fa fa-comment-o",
         "aria-hidden": "true"
       }), " ", this.props.post.comments.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "read-more-wrapper"
+        className: "read-more-wrapper mt-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
         to: '/post/' + this.props.post.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -61137,7 +61293,7 @@ function (_Post) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/post/' + this.props.match.params.id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/posts/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           post: response.data
         }, function () {
@@ -61303,7 +61459,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/post').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
         _this2.setState({
           posts: response.data,
           filteredPosts: response.data,
@@ -62057,7 +62213,7 @@ function (_PostsList) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user/' + this.props.match.params.id).then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
           user: response.data
         }, function () {

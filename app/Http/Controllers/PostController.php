@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Tag;
 use App\User;
 use Illuminate\Http\Request;
 use App\Post;
@@ -40,7 +41,12 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $post = Post::add($request->all());
+        $tags = $request->get("tags_id");
+        foreach ($tags as $tag){
+            $post->tags()->save(Tag::find($tag));
+        };
+        return response('', 200);
     }
 
     /**

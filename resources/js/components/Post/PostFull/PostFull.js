@@ -26,7 +26,7 @@ class PostFull extends Post {
 
     componentWillMount() {
         axios
-            .get('/api/post/' + this.props.match.params.id)
+            .get('/api/posts/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     post: response.data

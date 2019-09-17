@@ -22,7 +22,7 @@ class UserPage extends PostsList {
 
     componentWillMount() {
         axios
-            .get('/api/user/' + this.props.match.params.id)
+            .get('/api/users/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     user: response.data

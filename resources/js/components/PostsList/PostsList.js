@@ -31,7 +31,7 @@ class PostsList extends Component {
 
     componentWillMount() {
         axios
-            .get('/api/post')
+            .get('/api/posts')
             .then(response => {
                 this.setState({
                     posts: response.data,

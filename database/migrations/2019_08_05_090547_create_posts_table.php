@@ -17,12 +17,12 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('author_id');
             $table->integer('post_category_id');
-            $table->string('photo');
+            $table->string('photo')->default('https://lorempixel.com/640/480/');
             $table->string('title');
             $table->string('description');
             $table->text('content');
             $table->integer('views')->default(0);
-            $table->integer('status_id');
+            $table->integer('status_id')->default(1);
             $table->string('reason_for_rejection')->nullable();
             $table->timestamps();
         });

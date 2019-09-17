@@ -51,7 +51,7 @@ class PostFolded extends Post {
                         <p><i className="fa fa-comment-o" aria-hidden="true"></i> {this.props.post.comments.length}</p>
                     </div>
                 </div>
-                <div className="read-more-wrapper">
+                <div className="read-more-wrapper mt-3">
                     <Link to={'/post/' + this.props.post.id}>
                         <button className="btn">Читать полностью</button>
                     </Link>

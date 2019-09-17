@@ -8,11 +8,7 @@ use Illuminate\Support\Facades\DB;
 class Post extends Model
 {
     protected $fillable = [
-        'author_id', 'post_category_id', 'photo', 'title', 'description', 'content',
-    ];
-
-    protected $casts = [
-        'publication_date' => 'datetime',
+        'author_id', 'title', 'description', 'content', 'post_category_id'
     ];
 
     public function author() {

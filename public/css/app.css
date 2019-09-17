@@ -12258,6 +12258,16 @@ a.text-dark:focus {
   color: #4aa951;
 }
 
+.form-control {
+  color: #4f5050;
+}
+
+.form-control:focus {
+  color: #4f5050;
+  border-color: #66afe9;
+  box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
 h1,
 h2,
 h3,
@@ -12545,18 +12555,6 @@ li {
 .filter-wrapper .filter.filter-user {
   grid-template-columns: repeat(2, minmax(100px, 1fr));
   grid-template-areas: "h h" "ds du" "s s" "c t";
-}
-
-.rw-multiselect-tag {
-  margin-top: 0;
-}
-
-.rw-widget-input div,
-.rw-filter-input div {
-  display: grid;
-  grid-template-columns: auto;
-  -webkit-align-items: center;
-          align-items: center;
 }
 
 .search-wrapper {

@@ -20,7 +20,8 @@ class PostCategoryController extends Controller
      */
     public function index()
     {
-        //
+        $categories = PostCategory::all();
+        return response()->json($categories);
     }
 
     /**

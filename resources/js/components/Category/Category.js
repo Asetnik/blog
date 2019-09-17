@@ -22,7 +22,7 @@ class Category extends PostsList {
 
     componentWillMount() {
         axios
-            .get('/api/category/' + this.props.match.params.id)
+            .get('/api/categories/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     posts: response.data,

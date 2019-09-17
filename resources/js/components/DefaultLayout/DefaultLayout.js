@@ -19,9 +19,9 @@ class DefaultLayout extends Component{
                 <Header />
                 <div className="page-content container">
                     <Route path={'/'} exact component={ PostsList } />
-                    <Route path={'/category/:id'} exact component={ Category } />
-                    <Route path={'/post/:id'} exact component={ PostFull } />
-                    <Route path={'/user/:id'} exact component={ UserPage } />
+                    <Route path={'/categories/:id'} exact component={ Category } />
+                    <Route path={'/posts/:id'} exact component={ PostFull } />
+                    <Route path={'/users/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
                     <Route path={'/a/register'} exact component={ Register } />
                     <Route path={'/a/login'} exact component={ Login } />

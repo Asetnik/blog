@@ -18,8 +18,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 /*Route::resource('/post', 'PostController');*/
-Route::resource('/user', 'UserController');
-Route::resource('/category', 'PostCategoryController');
+Route::resource('/users', 'UserController');
+Route::resource('/categories', 'PostCategoryController');
+Route::resource('/tags', 'TagController');
 
 //запросы для фильтра
 Route::get('/authorswithposts', 'UserController@authorsWithPosts');
