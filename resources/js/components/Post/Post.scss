@@ -73,10 +73,6 @@
             .tag-wrapper{
                 margin-left: 10px;
 
-                &:first-child{
-                    margin-left: 0;
-                }
-
                 .tag{
                     font-size: 12px;
                 }
@@ -88,7 +84,7 @@
 
             p{
                 float: left;
-                margin-left: 15px;
+                margin: 0 10px 0 15px;
                 font-size: 15px;
             }
         }

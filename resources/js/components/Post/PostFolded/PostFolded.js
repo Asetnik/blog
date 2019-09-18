@@ -23,10 +23,10 @@ class PostFolded extends Post {
             <div className="blog-card post post-folded mb-5">
                 <div className="head-wrapper">
                     <div className="author-wrapper">
-                        <Link to={'/user/' + this.props.post.author.id}><img src={this.props.post.author.photo}
+                        <Link to={'/users/' + this.props.post.author.id}><img src={this.props.post.author.photo}
                                                                              alt={this.props.post.author.name + " " + this.props.post.author.surname}/></Link>
                         <div className="author-info">
-                            <Link to={'/user/' + this.props.post.author.id}
+                            <Link to={'/users/' + this.props.post.author.id}
                                   className="text-link author-name">{this.props.post.author.name + " " + this.props.post.author.surname}</Link>
                             <p>{new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)}</p>
                         </div>
@@ -52,7 +52,7 @@ class PostFolded extends Post {
                     </div>
                 </div>
                 <div className="read-more-wrapper mt-3">
-                    <Link to={'/post/' + this.props.post.id}>
+                    <Link to={'/posts/' + this.props.post.id}>
                         <button className="btn">Читать полностью</button>
                     </Link>
                 </div>

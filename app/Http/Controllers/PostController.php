@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Tag;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Post;
 use Illuminate\Support\Facades\DB;
@@ -41,11 +42,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $post = Post::add($request->all());
-        $tags = $request->get("tags_id");
-        foreach ($tags as $tag){
-            $post->tags()->save(Tag::find($tag));
-        };
+        Post::add($request->all());
         return response('', 200);
     }
 
@@ -83,6 +80,7 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+        dd($request->all());
         $rules = array(
             'title' => 'required',
             'description' => 'required',
@@ -96,6 +94,11 @@ class PostController extends Controller
             $post->title = $request->get('title');
             $post->description = $request->get('description');
             $post->content = $request->get('content');
+            $tags = $request->get('tags_id');
+            foreach ($tags as $tag){
+                $post->tags()->save(Tag::find($tag), ['post_id' => $post->id]);
+            };
+            $post->updated_at = Carbon::now();
             $post->save();
         }
     }

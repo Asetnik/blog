@@ -2,14 +2,18 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
 
 class Post extends Model
 {
     protected $fillable = [
         'author_id', 'title', 'description', 'content', 'post_category_id'
     ];
+
+/*    protected $casts = [
+        'created_at' => 'datetime',
+    ];*/
 
     public function author() {
         return $this->belongsTo(User::class, 'author_id');
@@ -38,7 +42,13 @@ class Post extends Model
     public static function add($fields) {
         $post = new static();
         $post->fill($fields);
+        $post->created_at = Carbon::create($fields["created_at"]);
+        $post->updated_at = Carbon::create($fields["created_at"]);
         $post->save();
+        $tags = $fields["tags_id"];
+        foreach ($tags as $tag){
+            $post->tags()->save(Tag::find($tag), ['post_id' => $post->id]);
+        };
         return $post;
     }
 

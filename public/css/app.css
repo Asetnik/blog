@@ -12389,10 +12389,6 @@ li {
   margin-left: 10px;
 }
 
-.post .post-footer .tags-wrapper .tag-wrapper:first-child {
-  margin-left: 0;
-}
-
 .post .post-footer .tags-wrapper .tag-wrapper .tag {
   font-size: 12px;
 }
@@ -12403,7 +12399,7 @@ li {
 
 .post .post-footer .icons-wrapper p {
   float: left;
-  margin-left: 15px;
+  margin: 0 10px 0 15px;
   font-size: 15px;
 }
 

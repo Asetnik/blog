@@ -12,9 +12,9 @@ class AdminLayout extends Component{
             <div className="admin-layout">
                 <AdminMenu />
                 <div className="adminpage-content">
-                     <Route path={'/admin/posts'} exact component={ AdminPostList } />
-                     <Route path={'/admin/post/edit/:id'} exact component={ AdminEditPost } />
-                     <Route path={'/admin/post/create'} exact component={ AdminCreatePost } />
+                    <Route path={'/admin/posts'} exact component={ AdminPostList } />
+                    <Route path={'/admin/posts/edit/:id'} exact component={ (props) => <AdminEditPost {...props} type="edit"/> } />
+                    <Route path={'/admin/posts/create'} exact component={ (props) => <AdminEditPost {...props} type="create"/> } />
 {/*                  <Route path={'/post/:id'} exact component={ PostFull } />
                     <Route path={'/user/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
