@@ -12239,6 +12239,10 @@ a.text-dark:focus {
   color: #ffffff;
 }
 
+.btn:focus {
+  box-shadow: none;
+}
+
 .text-link {
   color: #4f5050;
   cursor: pointer;

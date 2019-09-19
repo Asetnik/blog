@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'author_id', 'title', 'description', 'content', 'post_category_id'
+        'author_id', 'title', 'description', 'content', 'category_id'
     ];
 
 /*    protected $casts = [
@@ -24,7 +24,7 @@ class Post extends Model
     }
 
     public function category() {
-        return $this->belongsTo(PostCategory::class, 'post_category_id');
+        return $this->hasOne(PostCategory::class, 'id', 'category_id');
     }
 
     public function tags() {
@@ -44,11 +44,10 @@ class Post extends Model
         $post->fill($fields);
         $post->created_at = Carbon::create($fields["created_at"]);
         $post->updated_at = Carbon::create($fields["created_at"]);
+        $post->category_id = $fields["category_id"];
         $post->save();
         $tags = $fields["tags_id"];
-        foreach ($tags as $tag){
-            $post->tags()->save(Tag::find($tag), ['post_id' => $post->id]);
-        };
+        $post->tags()->sync($tags);
         return $post;
     }
 

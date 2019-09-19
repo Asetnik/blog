@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\PostCategory;
 use App\Tag;
 use App\User;
 use Carbon\Carbon;
@@ -42,8 +43,20 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        Post::add($request->all());
-        return response('', 200);
+        $validator = Validator::make($request->all(), [
+            'author_id' => 'required',
+            'created_at' => 'required|date',
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'required'
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        } else {
+            Post::add($request->all());
+            return response('', 200);
+        }
     }
 
     /**
@@ -54,7 +67,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments.author:id,name,surname,photo', 'category:id,category')
+        $post = Post::with('author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')
             ->findOrFail($id);
         $post->updateViews();
         return response()->json($post);
@@ -80,26 +93,25 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        dd($request->all());
-        $rules = array(
-            'title' => 'required',
-            'description' => 'required',
-            'content' => 'required'
-        );
-        $validator = Validator::make($request->all(), $rules);
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|max:255',
+            'description' => 'required|max:255',
+            'content' => 'required',
+            'category_id' => 'required'
+        ]);
         if ($validator->fails()) {
-            return response()->json($validator->errors());
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         } else {
             $post = Post::findOrFail($id);
             $post->title = $request->get('title');
             $post->description = $request->get('description');
             $post->content = $request->get('content');
             $tags = $request->get('tags_id');
-            foreach ($tags as $tag){
-                $post->tags()->save(Tag::find($tag), ['post_id' => $post->id]);
-            };
+            $post->category_id = $request->get('category_id');
+            $post->tags()->sync($tags);
             $post->updated_at = Carbon::now();
             $post->save();
+            return response('', 200);
         }
     }
 

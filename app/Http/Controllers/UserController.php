@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     public function authorsWithPosts() {
-        $authors = User::has('posts')->select('name', 'surname')->get();
+        $authors = User::has('posts')->select('id', 'name', 'surname')->get();
         return response()->json($authors);
     }
 

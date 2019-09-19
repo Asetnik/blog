@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class PostCategoryController extends Controller
 {
     public function categoriesWithPosts() {
-        $categories = PostCategory::has('posts')->select('category')->get();
+        $categories = PostCategory::all()->whereIn('id', Post::all()->pluck('category_id'));
         return response()->json($categories);
     }
 

@@ -20,8 +20,16 @@ class AdminEditPost extends Component{
                 title: '',
                 description: '',
                 content: '',
-                post_category_id: undefined,
+                category_id: undefined,
                 tags_id: [],
+            },
+            validationErrors: {
+                author: '',
+                created_at: '',
+                title: '',
+                description: '',
+                content: '',
+                category_id: ''
             },
             dataIsLoaded: false
         };
@@ -46,7 +54,7 @@ class AdminEditPost extends Component{
                         tags: secondResponse.data,
                         post: {...thirdResponse.data,
                             tags_id: thirdResponse.data.tags.map((tag) => {
-                                return tag.tag_id
+                                return tag.id
                             })}
                     }, () => {
                         this.setState({
@@ -112,6 +120,11 @@ class AdminEditPost extends Component{
                     if(response.status === 200) {
                         this.props.history.push("/admin/posts");
                     }
+                })
+                .catch(error => {
+                    this.setState({
+                        validationErrors: error.response.data.errors
+                    });
                 });
         }
         if(this.props.type === "create") {
@@ -120,6 +133,11 @@ class AdminEditPost extends Component{
                     if(response.status === 200) {
                         this.props.history.push("/admin/posts");
                     }
+                })
+                .catch(error => {
+                    this.setState({
+                        validationErrors: error.response.data.errors
+                    });
                 });
         }
     }
@@ -153,6 +171,10 @@ class AdminEditPost extends Component{
                                     }
                                 )}
                             />}
+                            {
+                                this.state.validationErrors.author &&
+                                <small className="form-text text-danger">{this.state.validationErrors.author[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postPubDate">Дата публикации</label>
@@ -171,18 +193,34 @@ class AdminEditPost extends Component{
                                     }
                                 })}
                             />}
+                            {
+                                this.state.validationErrors.created_at &&
+                                <small className="form-text text-danger">{this.state.validationErrors.created_at[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postTitle">Заголовок</label>
                             <input type="text" className="form-control" id="postTitle" name="title" placeholder="Заголовок" onChange={this.handleChange} value={this.state.post.title}/>
+                            {
+                                this.state.validationErrors.title &&
+                                <small className="form-text text-danger">{this.state.validationErrors.title[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postDescription">Описание</label>
                             <input type="text" className="form-control" id="postDescription" name="description" placeholder="Описание" onChange={this.handleChange} value={this.state.post.description}/>
+                            {
+                                this.state.validationErrors.description &&
+                                <small className="form-text text-danger">{this.state.validationErrors.description[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postContent">Текст публикации</label>
                             <textarea rows="5" className="form-control" id="postContent" name="content" placeholder="Текст публикации" onChange={this.handleChange} value={this.state.post.content}/>
+                            {
+                                this.state.validationErrors.content &&
+                                <small className="form-text text-danger">{this.state.validationErrors.content[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postCategory">Категория</label>
@@ -191,15 +229,19 @@ class AdminEditPost extends Component{
                                 data={this.state.categories}
                                 valueField="id"
                                 textField="category"
-                                value={this.state.post.post_category_id}
+                                value={this.state.post.category_id}
                                 onChange={value => this.setState({
                                         post: {
                                             ...this.state.post,
-                                            post_category_id: value.id
+                                            category_id: value.id
                                         }
                                     }
                                 )}
                             />
+                            {
+                                this.state.validationErrors.category_id &&
+                                <small className="form-text text-danger">{this.state.validationErrors.category_id[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postTags">Тэги</label>
@@ -210,7 +252,8 @@ class AdminEditPost extends Component{
                                     value={this.state.post.tags}
                                     valueField="id"
                                     textField="tag"
-                                    onChange={value => this.setState({
+                                    onChange={value => {
+                                        this.setState({
                                             post: {
                                                 ...this.state.post,
                                                 tags_id: value.map((item) => {
@@ -219,7 +262,7 @@ class AdminEditPost extends Component{
                                                 tags: value
                                             }
                                         }
-                                    )}
+                                    )}}
                                 />
                             }
                             {

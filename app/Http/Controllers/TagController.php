@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\PostCategory;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class TagController extends Controller
 {
     public function getTagsWithPosts() {
-        $tags = Tag::has('posts')->select('tag')->get();
+        $tags = Tag::has('posts')->get();
         return response()->json($tags);
     }
 

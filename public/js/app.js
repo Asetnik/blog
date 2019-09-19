@@ -59413,8 +59413,16 @@ function (_Component) {
         title: '',
         description: '',
         content: '',
-        post_category_id: undefined,
+        category_id: undefined,
         tags_id: []
+      },
+      validationErrors: {
+        author: '',
+        created_at: '',
+        title: '',
+        description: '',
+        content: '',
+        category_id: ''
       },
       dataIsLoaded: false
     };
@@ -59439,7 +59447,7 @@ function (_Component) {
             tags: secondResponse.data,
             post: _objectSpread({}, thirdResponse.data, {
               tags_id: thirdResponse.data.tags.map(function (tag) {
-                return tag.tag_id;
+                return tag.id;
               })
             })
           }, function () {
@@ -59512,6 +59520,10 @@ function (_Component) {
           if (response.status === 200) {
             _this3.props.history.push("/admin/posts");
           }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
         });
       }
 
@@ -59520,6 +59532,10 @@ function (_Component) {
           if (response.status === 200) {
             _this3.props.history.push("/admin/posts");
           }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
         });
       }
     }
@@ -59558,7 +59574,9 @@ function (_Component) {
             })
           });
         }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.author && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.author[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postPubDate"
@@ -59576,7 +59594,9 @@ function (_Component) {
             })
           });
         }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.created_at && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.created_at[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postTitle"
@@ -59588,7 +59608,9 @@ function (_Component) {
         placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
         onChange: this.handleChange,
         value: this.state.post.title
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.title && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.title[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postDescription"
@@ -59600,7 +59622,9 @@ function (_Component) {
         placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
         onChange: this.handleChange,
         value: this.state.post.description
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.description && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.description[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postContent"
@@ -59612,7 +59636,9 @@ function (_Component) {
         placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
         onChange: this.handleChange,
         value: this.state.post.content
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.content && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.content[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postCategory"
@@ -59621,15 +59647,17 @@ function (_Component) {
         data: this.state.categories,
         valueField: "id",
         textField: "category",
-        value: this.state.post.post_category_id,
+        value: this.state.post.category_id,
         onChange: function onChange(value) {
           return _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
-              post_category_id: value.id
+              category_id: value.id
             })
           });
         }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }), this.state.validationErrors.category_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.category_id[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postTags"
@@ -59640,7 +59668,7 @@ function (_Component) {
         valueField: "id",
         textField: "tag",
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
               tags_id: value.map(function (item) {
                 return item.id;
