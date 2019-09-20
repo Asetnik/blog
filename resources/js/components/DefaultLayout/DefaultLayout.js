@@ -10,8 +10,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import Header from "../Header/Header";
-import CreatePost from "../CreatePost/CreatePost";
-import AdminEditPost from "../AdminEditPost/AdminEditPost";
+import EditPost from "../EditPost/EditPost";
 
 class DefaultLayout extends Component{
 
@@ -22,7 +21,7 @@ class DefaultLayout extends Component{
                 <div className="page-content container">
                     <Route path={'/'} exact component={ PostsList } />
                     <Route path={'/categories/:id'} exact component={ Category } />
-                    <Route path={'/create/posts'} exact component={ (props) => <AdminEditPost {...props} type="create"/> } />
+                    <Route path={'/create/posts'} exact component={ (props) => <EditPost {...props} type="create"/> } />
                     <Route path={'/posts/:id'} exact component={ PostFull } />
                     <Route path={'/users/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />

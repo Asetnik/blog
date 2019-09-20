@@ -7,7 +7,7 @@ import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
 import Multiselect from "react-widgets/lib/Multiselect";
 
-class AdminEditPost extends Component{
+class EditPost extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -200,25 +200,24 @@ class AdminEditPost extends Component{
                                     }
 
                                     {Type === "adminCreate" &&
-                                    <DropdownList
-                                        placeholder="Автор"
-                                        data={this.state.users}
-                                        valueField="id"
-                                        textField="fullname"
-                                        onChange={value => this.setState({
-                                                post: {
-                                                    ...this.state.post,
-                                                    author_id: value.id
+                                        <DropdownList
+                                            placeholder="Автор"
+                                            data={this.state.users}
+                                            valueField="id"
+                                            textField="fullname"
+                                            onChange={value => this.setState({
+                                                    post: {
+                                                        ...this.state.post,
+                                                        author_id: value.id
+                                                    }
                                                 }
-                                            }
-                                        )}
-                                    />
+                                            )}
+                                        />
                                     }
                                     {
                                         this.state.validationErrors.author &&
                                         <small
                                             className="form-text text-danger">{this.state.validationErrors.author[0]}</small>
-                                    }
                                     }
                                 </div>
                                 <div className="form-group">
@@ -342,4 +341,4 @@ class AdminEditPost extends Component{
     }
 }
 
-export default AdminEditPost;
+export default EditPost;

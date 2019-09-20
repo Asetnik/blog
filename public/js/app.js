@@ -59326,405 +59326,6 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED
 
 /***/ }),
 
-/***/ "./resources/js/components/AdminEditPost/AdminEditPost.js":
-/*!****************************************************************!*\
-  !*** ./resources/js/components/AdminEditPost/AdminEditPost.js ***!
-  \****************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-widgets/lib/DropdownList */ "./node_modules/react-widgets/lib/DropdownList.js");
-/* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
-/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-widgets/lib/DateTimePicker */ "./node_modules/react-widgets/lib/DateTimePicker.js");
-/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-widgets-moment */ "./node_modules/react-widgets-moment/index.js");
-/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__);
-/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-widgets/lib/Multiselect */ "./node_modules/react-widgets/lib/Multiselect.js");
-/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-
-
-
-
-
-
-
-var AdminEditPost =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(AdminEditPost, _Component);
-
-  function AdminEditPost(props) {
-    var _this;
-
-    _classCallCheck(this, AdminEditPost);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminEditPost).call(this, props));
-    _this.state = {
-      users: [],
-      categories: [],
-      tags: [],
-      post: {
-        author_id: undefined,
-        created_at: undefined,
-        title: '',
-        description: '',
-        content: '',
-        category_id: undefined,
-        tags_id: []
-      },
-      validationErrors: {
-        author: '',
-        created_at: '',
-        title: '',
-        description: '',
-        content: '',
-        category_id: ''
-      },
-      dataIsLoaded: false
-    };
-    _this.localizer = _this.localizer.bind(_assertThisInitialized(_this));
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
-    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
-    return _this;
-  }
-
-  _createClass(AdminEditPost, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      this.localizer();
-
-      if (this.props.type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id)]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
-          _this2.setState({
-            categories: firstResponse.data,
-            tags: secondResponse.data,
-            post: _objectSpread({}, thirdResponse.data, {
-              tags_id: thirdResponse.data.tags.map(function (tag) {
-                return tag.id;
-              })
-            })
-          }, function () {
-            _this2.setState({
-              dataIsLoaded: true
-            });
-          });
-        }))["catch"](function (error) {
-          return console.log(error);
-        });
-      }
-
-      if (this.props.type === "adminCreate") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
-          _this2.setState({
-            users: firstResponse.data.map(function (user) {
-              return {
-                id: user.id,
-                fullname: user.name + " " + user.surname
-              };
-            }),
-            categories: secondResponse.data,
-            tags: thirdResponse.data
-          }, function () {
-            _this2.setState({
-              dataIsLoaded: true
-            });
-          });
-        }))["catch"](function (error) {
-          return console.log(error);
-        });
-      }
-
-      if (this.props.type === "create") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
-          _this2.setState({
-            post: _objectSpread({}, _this2.state.post, {
-              author_id: firstResponse.data.id
-            }),
-            categories: secondResponse.data,
-            tags: thirdResponse.data
-          }, function () {
-            _this2.setState({
-              dataIsLoaded: true
-            });
-          });
-        }))["catch"](function (error) {
-          return console.log(error);
-        });
-      }
-    }
-  }, {
-    key: "componentDidUpdate",
-    value: function componentDidUpdate() {
-      this.datepickersSpellcheck();
-    }
-  }, {
-    key: "localizer",
-    value: function localizer() {
-      moment__WEBPACK_IMPORTED_MODULE_5___default.a.locale('ru');
-      react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default()();
-    }
-  }, {
-    key: "handleChange",
-    value: function handleChange() {
-      this.setState({
-        post: _objectSpread({}, this.state.post, _defineProperty({}, event.target.name, event.target.value))
-      });
-    }
-  }, {
-    key: "datepickersSpellcheck",
-    value: function datepickersSpellcheck() {
-      var datepickers = document.getElementsByClassName('rw-input');
-
-      for (var i = 0; i < datepickers.length; i++) {
-        datepickers[i].setAttribute("spellcheck", "false");
-      }
-    }
-  }, {
-    key: "submitForm",
-    value: function submitForm(event) {
-      var _this3 = this;
-
-      event.preventDefault();
-      var Type = this.props.type;
-
-      if (Type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/posts/' + this.props.match.params.id, this.state.post).then(function (response) {
-          if (response.status === 200) {
-            _this3.props.history.push("/admin/posts");
-          }
-        })["catch"](function (error) {
-          _this3.setState({
-            validationErrors: error.response.data.errors
-          });
-        });
-      }
-
-      if (Type === "adminCreate" || Type === "create") {
-        if (Type === "create") {
-          this.setState({
-            post: _objectSpread({}, this.state.post, {
-              created_at: new Date()
-            })
-          });
-        }
-
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', this.state.post).then(function (response) {
-          if (response.status === 200) {
-            if (Type === "adminCreate") {
-              _this3.props.history.push("/admin/posts");
-            } else {
-              _this3.props.history.push("/");
-            }
-          }
-        })["catch"](function (error) {
-          _this3.setState({
-            validationErrors: error.response.data.errors
-          });
-        });
-      }
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this4 = this;
-
-      var Type = this.props.type;
-      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "admin-post-create"
-      }, (Type === "adminCreate" || Type === "create") && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "page-header mb-3"
-      }, "\u0421\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u0441\u0442\u0430\u0442\u044C\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "page-header mb-3"
-      }, "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0441\u0442\u0430\u0442\u044C\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
-        className: "post-create-form",
-        onSubmit: this.submitForm
-      }, Type !== "create" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postAuthor"
-      }, "\u0410\u0432\u0442\u043E\u0440"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        value: this.state.post.author.name + " " + this.state.post.author.surname,
-        disabled: true,
-        onChange: function onChange() {}
-      }), Type === "adminCreate" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        placeholder: "\u0410\u0432\u0442\u043E\u0440",
-        data: this.state.users,
-        valueField: "id",
-        textField: "fullname",
-        onChange: function onChange(value) {
-          return _this4.setState({
-            post: _objectSpread({}, _this4.state.post, {
-              author_id: value.id
-            })
-          });
-        }
-      }), this.state.validationErrors.author && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.author[0]), "}"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postPubDate"
-      }, "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
-        value: new Date(this.state.post.created_at),
-        disabled: true,
-        onChange: function onChange() {}
-      }), Type === "adminCreate" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
-        placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
-        onChange: function onChange(value) {
-          return _this4.setState({
-            post: _objectSpread({}, _this4.state.post, {
-              created_at: value
-            })
-          });
-        }
-      }), this.state.validationErrors.created_at && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.created_at[0]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postTitle"
-      }, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "postTitle",
-        name: "title",
-        placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
-        onChange: this.handleChange,
-        value: this.state.post.title
-      }), this.state.validationErrors.title && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.title[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postDescription"
-      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
-        type: "text",
-        className: "form-control",
-        id: "postDescription",
-        name: "description",
-        placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
-        onChange: this.handleChange,
-        value: this.state.post.description
-      }), this.state.validationErrors.description && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.description[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postContent"
-      }, "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
-        rows: "5",
-        className: "form-control",
-        id: "postContent",
-        name: "content",
-        placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
-        onChange: this.handleChange,
-        value: this.state.post.content
-      }), this.state.validationErrors.content && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.content[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postCategory"
-      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
-        placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
-        data: this.state.categories,
-        valueField: "id",
-        textField: "category",
-        value: this.state.post.category_id,
-        onChange: function onChange(value) {
-          return _this4.setState({
-            post: _objectSpread({}, _this4.state.post, {
-              category_id: value.id
-            })
-          });
-        }
-      }), this.state.validationErrors.category_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
-        className: "form-text text-danger"
-      }, this.state.validationErrors.category_id[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "form-group"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "postTags"
-      }, "\u0422\u044D\u0433\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
-        placeholder: "\u0422\u044D\u0433\u0438",
-        data: this.state.tags,
-        value: this.state.post.tags,
-        valueField: "id",
-        textField: "tag",
-        onChange: function onChange(value) {
-          _this4.setState({
-            post: _objectSpread({}, _this4.state.post, {
-              tags_id: value.map(function (item) {
-                return item.id;
-              }),
-              tags: value
-            })
-          });
-        }
-      }), (Type === "adminCreate" || Type === "create") && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
-        placeholder: "\u0422\u044D\u0433\u0438",
-        data: this.state.tags,
-        valueField: "id",
-        textField: "tag",
-        onChange: function onChange(value) {
-          return _this4.setState({
-            post: _objectSpread({}, _this4.state.post, {
-              tags_id: value.map(function (item) {
-                return item.id;
-              })
-            })
-          });
-        }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        type: "submit",
-        className: "btn mt-3"
-      }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
-    }
-  }]);
-
-  return AdminEditPost;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (AdminEditPost);
-
-/***/ }),
-
 /***/ "./resources/js/components/AdminLayout/AdminLayout.js":
 /*!************************************************************!*\
   !*** ./resources/js/components/AdminLayout/AdminLayout.js ***!
@@ -59739,7 +59340,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _AdminMenu_AdminMenu__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../AdminMenu/AdminMenu */ "./resources/js/components/AdminMenu/AdminMenu.js");
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _AdminPostList_AdminPostList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../AdminPostList/AdminPostList */ "./resources/js/components/AdminPostList/AdminPostList.js");
-/* harmony import */ var _AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../AdminEditPost/AdminEditPost */ "./resources/js/components/AdminEditPost/AdminEditPost.js");
+/* harmony import */ var _EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../EditPost/EditPost */ "./resources/js/components/EditPost/EditPost.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -59792,7 +59393,7 @@ function (_Component) {
         path: '/admin/posts/edit/:id',
         exact: true,
         component: function component(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
             type: "adminEdit"
           }));
         }
@@ -59800,7 +59401,7 @@ function (_Component) {
         path: '/admin/posts/create',
         exact: true,
         component: function component(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
             type: "adminCreate"
           }));
         }
@@ -60351,82 +59952,6 @@ function (_Component) {
 
 /***/ }),
 
-/***/ "./resources/js/components/CreatePost/CreatePost.js":
-/*!**********************************************************!*\
-  !*** ./resources/js/components/CreatePost/CreatePost.js ***!
-  \**********************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
-/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-
-
-
-var CreatePost =
-/*#__PURE__*/
-function (_Component) {
-  _inherits(CreatePost, _Component);
-
-  function CreatePost(props) {
-    var _this;
-
-    _classCallCheck(this, CreatePost);
-
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(CreatePost).call(this, props));
-    _this.state = {
-      user: {}
-    };
-    return _this;
-  }
-
-  _createClass(CreatePost, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
-      var _this2 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user').then(function (response) {
-        _this2.setState({
-          user: response.data
-        });
-      });
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null);
-    }
-  }]);
-
-  return CreatePost;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
-
-/* harmony default export */ __webpack_exports__["default"] = (CreatePost);
-
-/***/ }),
-
 /***/ "./resources/js/components/DefaultLayout/DefaultLayout.js":
 /*!****************************************************************!*\
   !*** ./resources/js/components/DefaultLayout/DefaultLayout.js ***!
@@ -60449,8 +59974,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Login_Login__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../Login/Login */ "./resources/js/components/Login/Login.js");
 /* harmony import */ var _Logout_Logout__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../Logout/Logout */ "./resources/js/components/Logout/Logout.js");
 /* harmony import */ var _Header_Header__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Header/Header */ "./resources/js/components/Header/Header.js");
-/* harmony import */ var _CreatePost_CreatePost__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../CreatePost/CreatePost */ "./resources/js/components/CreatePost/CreatePost.js");
-/* harmony import */ var _AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../AdminEditPost/AdminEditPost */ "./resources/js/components/AdminEditPost/AdminEditPost.js");
+/* harmony import */ var _EditPost_EditPost__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../EditPost/EditPost */ "./resources/js/components/EditPost/EditPost.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -60470,7 +59994,6 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
 
 
 
@@ -60514,7 +60037,7 @@ function (_Component) {
         path: '/create/posts',
         exact: true,
         component: function component(props) {
-          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AdminEditPost_AdminEditPost__WEBPACK_IMPORTED_MODULE_13__["default"], _extends({}, props, {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditPost_EditPost__WEBPACK_IMPORTED_MODULE_12__["default"], _extends({}, props, {
             type: "create"
           }));
         }
@@ -60550,6 +60073,405 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (DefaultLayout);
+
+/***/ }),
+
+/***/ "./resources/js/components/EditPost/EditPost.js":
+/*!******************************************************!*\
+  !*** ./resources/js/components/EditPost/EditPost.js ***!
+  \******************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-widgets/lib/DropdownList */ "./node_modules/react-widgets/lib/DropdownList.js");
+/* harmony import */ var react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-widgets/lib/DateTimePicker */ "./node_modules/react-widgets/lib/DateTimePicker.js");
+/* harmony import */ var react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
+/* harmony import */ var moment__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(moment__WEBPACK_IMPORTED_MODULE_5__);
+/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react-widgets-moment */ "./node_modules/react-widgets-moment/index.js");
+/* harmony import */ var react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_widgets_moment__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react-widgets/lib/Multiselect */ "./node_modules/react-widgets/lib/Multiselect.js");
+/* harmony import */ var react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+
+
+
+
+var EditPost =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(EditPost, _Component);
+
+  function EditPost(props) {
+    var _this;
+
+    _classCallCheck(this, EditPost);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditPost).call(this, props));
+    _this.state = {
+      users: [],
+      categories: [],
+      tags: [],
+      post: {
+        author_id: undefined,
+        created_at: undefined,
+        title: '',
+        description: '',
+        content: '',
+        category_id: undefined,
+        tags_id: []
+      },
+      validationErrors: {
+        author: '',
+        created_at: '',
+        title: '',
+        description: '',
+        content: '',
+        category_id: ''
+      },
+      dataIsLoaded: false
+    };
+    _this.localizer = _this.localizer.bind(_assertThisInitialized(_this));
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
+    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(EditPost, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      this.localizer();
+
+      if (this.props.type === "adminEdit") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id)]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+          _this2.setState({
+            categories: firstResponse.data,
+            tags: secondResponse.data,
+            post: _objectSpread({}, thirdResponse.data, {
+              tags_id: thirdResponse.data.tags.map(function (tag) {
+                return tag.id;
+              })
+            })
+          }, function () {
+            _this2.setState({
+              dataIsLoaded: true
+            });
+          });
+        }))["catch"](function (error) {
+          return console.log(error);
+        });
+      }
+
+      if (this.props.type === "adminCreate") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+          _this2.setState({
+            users: firstResponse.data.map(function (user) {
+              return {
+                id: user.id,
+                fullname: user.name + " " + user.surname
+              };
+            }),
+            categories: secondResponse.data,
+            tags: thirdResponse.data
+          }, function () {
+            _this2.setState({
+              dataIsLoaded: true
+            });
+          });
+        }))["catch"](function (error) {
+          return console.log(error);
+        });
+      }
+
+      if (this.props.type === "create") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/user'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+          _this2.setState({
+            post: _objectSpread({}, _this2.state.post, {
+              author_id: firstResponse.data.id
+            }),
+            categories: secondResponse.data,
+            tags: thirdResponse.data
+          }, function () {
+            _this2.setState({
+              dataIsLoaded: true
+            });
+          });
+        }))["catch"](function (error) {
+          return console.log(error);
+        });
+      }
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate() {
+      this.datepickersSpellcheck();
+    }
+  }, {
+    key: "localizer",
+    value: function localizer() {
+      moment__WEBPACK_IMPORTED_MODULE_5___default.a.locale('ru');
+      react_widgets_moment__WEBPACK_IMPORTED_MODULE_6___default()();
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange() {
+      this.setState({
+        post: _objectSpread({}, this.state.post, _defineProperty({}, event.target.name, event.target.value))
+      });
+    }
+  }, {
+    key: "datepickersSpellcheck",
+    value: function datepickersSpellcheck() {
+      var datepickers = document.getElementsByClassName('rw-input');
+
+      for (var i = 0; i < datepickers.length; i++) {
+        datepickers[i].setAttribute("spellcheck", "false");
+      }
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm(event) {
+      var _this3 = this;
+
+      event.preventDefault();
+      var Type = this.props.type;
+
+      if (Type === "adminEdit") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/posts/' + this.props.match.params.id, this.state.post).then(function (response) {
+          if (response.status === 200) {
+            _this3.props.history.push("/admin/posts");
+          }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
+        });
+      }
+
+      if (Type === "adminCreate" || Type === "create") {
+        if (Type === "create") {
+          this.setState({
+            post: _objectSpread({}, this.state.post, {
+              created_at: new Date()
+            })
+          });
+        }
+
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', this.state.post).then(function (response) {
+          if (response.status === 200) {
+            if (Type === "adminCreate") {
+              _this3.props.history.push("/admin/posts");
+            } else {
+              _this3.props.history.push("/");
+            }
+          }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var _this4 = this;
+
+      var Type = this.props.type;
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "admin-post-create"
+      }, (Type === "adminCreate" || Type === "create") && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "page-header mb-3"
+      }, "\u0421\u043E\u0437\u0434\u0430\u043D\u0438\u0435 \u0441\u0442\u0430\u0442\u044C\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "page-header mb-3"
+      }, "\u0420\u0435\u0434\u0430\u043A\u0442\u0438\u0440\u043E\u0432\u0430\u043D\u0438\u0435 \u0441\u0442\u0430\u0442\u044C\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "post-create-form",
+        onSubmit: this.submitForm
+      }, Type !== "create" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postAuthor"
+      }, "\u0410\u0432\u0442\u043E\u0440"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        value: this.state.post.author.name + " " + this.state.post.author.surname,
+        disabled: true,
+        onChange: function onChange() {}
+      }), Type === "adminCreate" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        placeholder: "\u0410\u0432\u0442\u043E\u0440",
+        data: this.state.users,
+        valueField: "id",
+        textField: "fullname",
+        onChange: function onChange(value) {
+          return _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              author_id: value.id
+            })
+          });
+        }
+      }), this.state.validationErrors.author && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.author[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postPubDate"
+      }, "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        value: new Date(this.state.post.created_at),
+        disabled: true,
+        onChange: function onChange() {}
+      }), Type === "adminCreate" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
+        placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        onChange: function onChange(value) {
+          return _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              created_at: value
+            })
+          });
+        }
+      }), this.state.validationErrors.created_at && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.created_at[0]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postTitle"
+      }, "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postTitle",
+        name: "title",
+        placeholder: "\u0417\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A",
+        onChange: this.handleChange,
+        value: this.state.post.title
+      }), this.state.validationErrors.title && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.title[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postDescription"
+      }, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "postDescription",
+        name: "description",
+        placeholder: "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435",
+        onChange: this.handleChange,
+        value: this.state.post.description
+      }), this.state.validationErrors.description && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.description[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postContent"
+      }, "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("textarea", {
+        rows: "5",
+        className: "form-control",
+        id: "postContent",
+        name: "content",
+        placeholder: "\u0422\u0435\u043A\u0441\u0442 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
+        onChange: this.handleChange,
+        value: this.state.post.content
+      }), this.state.validationErrors.content && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.content[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postCategory"
+      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
+        data: this.state.categories,
+        valueField: "id",
+        textField: "category",
+        value: this.state.post.category_id,
+        onChange: function onChange(value) {
+          return _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              category_id: value.id
+            })
+          });
+        }
+      }), this.state.validationErrors.category_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.category_id[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "postTags"
+      }, "\u0422\u044D\u0433\u0438"), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        placeholder: "\u0422\u044D\u0433\u0438",
+        data: this.state.tags,
+        value: this.state.post.tags,
+        valueField: "id",
+        textField: "tag",
+        onChange: function onChange(value) {
+          _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              tags_id: value.map(function (item) {
+                return item.id;
+              }),
+              tags: value
+            })
+          });
+        }
+      }), (Type === "adminCreate" || Type === "create") && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
+        placeholder: "\u0422\u044D\u0433\u0438",
+        data: this.state.tags,
+        valueField: "id",
+        textField: "tag",
+        onChange: function onChange(value) {
+          return _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              tags_id: value.map(function (item) {
+                return item.id;
+              })
+            })
+          });
+        }
+      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn mt-3"
+      }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
+    }
+  }]);
+
+  return EditPost;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (EditPost);
 
 /***/ }),
 
