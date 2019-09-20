@@ -42,7 +42,7 @@ class AdminEditPost extends Component{
     componentWillMount() {
         this.localizer();
 
-        if(this.props.type === "edit") {
+        if(this.props.type === "adminEdit") {
             axios.all([
                 axios.get('/api/categories'),
                 axios.get('/api/tags'),
@@ -65,7 +65,7 @@ class AdminEditPost extends Component{
                 .catch(error => console.log(error));
         }
 
-        if(this.props.type === "create") {
+        if(this.props.type === "adminCreate") {
             axios.all([axios.get('/api/users'),
                 axios.get('/api/categories'),
                 axios.get('/api/tags')
@@ -75,6 +75,28 @@ class AdminEditPost extends Component{
                         users: firstResponse.data.map((user)=>{
                             return {id: user.id, fullname: user.name + " " + user.surname}
                         }),
+                        categories: secondResponse.data,
+                        tags: thirdResponse.data,
+                    }, () => {
+                        this.setState({
+                            dataIsLoaded: true
+                        });
+                    });
+                }))
+                .catch(error => console.log(error));
+        }
+
+        if(this.props.type === "create") {
+            axios.all([axios.get('/api/user'),
+                axios.get('/api/categories'),
+                axios.get('/api/tags')
+            ])
+                .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
+                    this.setState({
+                        post: {
+                            ...this.state.post,
+                            author_id: firstResponse.data.id
+                        },
                         categories: secondResponse.data,
                         tags: thirdResponse.data,
                     }, () => {
@@ -114,7 +136,8 @@ class AdminEditPost extends Component{
 
     submitForm(event){
         event.preventDefault();
-        if(this.props.type === "edit") {
+        const Type = this.props.type;
+        if(Type === "adminEdit") {
             axios.put('/api/posts/' + this.props.match.params.id, this.state.post)
                 .then(response => {
                     if(response.status === 200) {
@@ -127,11 +150,23 @@ class AdminEditPost extends Component{
                     });
                 });
         }
-        if(this.props.type === "create") {
+        if(Type === "adminCreate" || Type === "create") {
+            if(Type === "create"){
+                this.setState({
+                    post: {
+                        ...this.state.post,
+                        created_at: new Date()
+                    }
+                });
+            }
             axios.post('/api/posts', this.state.post)
                 .then(response => {
                     if(response.status === 200) {
-                        this.props.history.push("/admin/posts");
+                        if(Type === "adminCreate"){
+                            this.props.history.push("/admin/posts");
+                        } else {
+                            this.props.history.push("/");
+                        }
                     }
                 })
                 .catch(error => {
@@ -148,56 +183,72 @@ class AdminEditPost extends Component{
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
                 <div className="admin-post-create">
-                    {Type === "create" && <h3 className="page-header">Создание статьи</h3>}
-                    {Type === "edit" && <h3 className="page-header">Редактирование статьи</h3>}
+                    {(Type === "adminCreate" || Type === "create") && <h3 className="page-header mb-3">Создание статьи</h3>}
+                    {Type === "adminEdit" && <h3 className="page-header mb-3">Редактирование статьи</h3>}
                     <form className="post-create-form" onSubmit={this.submitForm}>
-                        <div className="form-group">
-                            <label htmlFor="postAuthor">Автор</label>
-                            {Type === "edit" && <DropdownList
-                                value={this.state.post.author.name + " " + this.state.post.author.surname}
-                                disabled
-                                onChange={() => {}}
-                            />}
-                            {Type === "create" && <DropdownList
-                                placeholder="Автор"
-                                data={this.state.users}
-                                valueField="id"
-                                textField="fullname"
-                                onChange={value => this.setState({
-                                        post: {
-                                            ...this.state.post,
-                                            author_id: value.id
-                                        }
+                        {Type !== "create" &&
+                            <React.Fragment>
+                                <div className="form-group">
+                                    <label htmlFor="postAuthor">Автор</label>
+                                    {Type === "adminEdit" &&
+                                    <DropdownList
+                                        value={this.state.post.author.name + " " + this.state.post.author.surname}
+                                        disabled
+                                        onChange={() => {
+                                        }}
+                                    />
                                     }
-                                )}
-                            />}
-                            {
-                                this.state.validationErrors.author &&
-                                <small className="form-text text-danger">{this.state.validationErrors.author[0]}</small>
-                            }
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="postPubDate">Дата публикации</label>
-                            {Type === "edit" && <DateTimePicker
-                                placeholder="Дата публикации"
-                                value={new Date(this.state.post.created_at)}
-                                disabled
-                                onChange={() => {}}
-                            />}
-                            {Type === "create" && <DateTimePicker
-                                placeholder="Дата публикации"
-                                onChange={value => this.setState({
-                                    post: {
-                                        ...this.state.post,
-                                        created_at: value
+
+                                    {Type === "adminCreate" &&
+                                    <DropdownList
+                                        placeholder="Автор"
+                                        data={this.state.users}
+                                        valueField="id"
+                                        textField="fullname"
+                                        onChange={value => this.setState({
+                                                post: {
+                                                    ...this.state.post,
+                                                    author_id: value.id
+                                                }
+                                            }
+                                        )}
+                                    />
                                     }
-                                })}
-                            />}
-                            {
-                                this.state.validationErrors.created_at &&
-                                <small className="form-text text-danger">{this.state.validationErrors.created_at[0]}</small>
-                            }
-                        </div>
+                                    {
+                                        this.state.validationErrors.author &&
+                                        <small
+                                            className="form-text text-danger">{this.state.validationErrors.author[0]}</small>
+                                    }
+                                    }
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="postPubDate">Дата публикации</label>
+                                    {Type === "adminEdit" &&
+                                        <DateTimePicker
+                                            placeholder="Дата публикации"
+                                            value={new Date(this.state.post.created_at)}
+                                            disabled
+                                            onChange={() => {}}
+                                        />
+                                    }
+                                    {Type === "adminCreate" &&
+                                        <DateTimePicker
+                                            placeholder="Дата публикации"
+                                            onChange={value => this.setState({
+                                                post: {
+                                                    ...this.state.post,
+                                                    created_at: value
+                                                }
+                                            })}
+                                        />
+                                    }
+                                    {
+                                        this.state.validationErrors.created_at &&
+                                        <small className="form-text text-danger">{this.state.validationErrors.created_at[0]}</small>
+                                    }
+                                </div>
+                            </React.Fragment>
+                        }
                         <div className="form-group">
                             <label htmlFor="postTitle">Заголовок</label>
                             <input type="text" className="form-control" id="postTitle" name="title" placeholder="Заголовок" onChange={this.handleChange} value={this.state.post.title}/>
@@ -246,7 +297,7 @@ class AdminEditPost extends Component{
                         <div className="form-group">
                             <label htmlFor="postTags">Тэги</label>
                             {
-                                Type === "edit" && <Multiselect
+                                Type === "adminEdit" && <Multiselect
                                     placeholder="Тэги"
                                     data={this.state.tags}
                                     value={this.state.post.tags}
@@ -266,21 +317,22 @@ class AdminEditPost extends Component{
                                 />
                             }
                             {
-                                Type === "create" && <Multiselect
-                                    placeholder="Тэги"
-                                    data={this.state.tags}
-                                    valueField="id"
-                                    textField="tag"
-                                    onChange={value => this.setState({
-                                            post: {
-                                                ...this.state.post,
-                                                tags_id: value.map((item) => {
-                                                    return item.id;
-                                                })
+                                (Type === "adminCreate" || Type === "create") &&
+                                    <Multiselect
+                                        placeholder="Тэги"
+                                        data={this.state.tags}
+                                        valueField="id"
+                                        textField="tag"
+                                        onChange={value => this.setState({
+                                                post: {
+                                                    ...this.state.post,
+                                                    tags_id: value.map((item) => {
+                                                        return item.id;
+                                                    })
+                                                }
                                             }
-                                        }
-                                    )}
-                                />
+                                        )}
+                                    />
                             }
                         </div>
                         <button type="submit" className="btn mt-3">Сохранить</button>

@@ -21,7 +21,7 @@ class CreateUsersTable extends Migration
             $table->string('patronymic')->nullable();
             $table->string('email')->unique();
             $table->string('description')->nullable();
-            $table->string('photo')->nullable();
+            $table->string('photo')->default("http://lorempixel.com/640/480/people/");
             $table->integer('status_id')->default(1);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

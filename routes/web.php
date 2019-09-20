@@ -11,11 +11,17 @@
 |
 */
 
+use Illuminate\Http\Request;
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->resource('/api/posts', 'PostController');
+
+Route::middleware('auth')->get('/api/user', function (Request $request) {
+    return response()->json($request->user());
+});
 
 Route::get('/isauth', 'UserController@isAuth');
 
