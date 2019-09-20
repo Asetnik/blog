@@ -35,9 +35,6 @@ class Filter extends Component{
         axios
             .get('/api/categorieswithposts')
             .then(response => {
-                response.data.map(author => {
-                    console.log();
-                });
                 this.setState({categories: response.data.map( category => category.category)});
             });
     }

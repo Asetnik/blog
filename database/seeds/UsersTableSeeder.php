@@ -3,6 +3,7 @@
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UsersTableSeeder extends Seeder
 {
@@ -20,6 +21,15 @@ class UsersTableSeeder extends Seeder
                     $user->posts()->save(factory(App\Post::class)->make());
                 }
             });;
+
+        DB::table('users')->insert([
+            'name' => 'Павел',
+            'surname' => 'Асетник',
+            'email' => 'pashka@mail.ru',
+            'photo' => 'https://pp.userapi.com/c852220/v852220631/1595c5/jkfh6p9pQ5c.jpg',
+            'password' => Hash::make('asdasdasd'),
+            'created_at' => Carbon::now()
+        ]);
 
         /*DB::table('users')->insert([
             'role_id' => 1,

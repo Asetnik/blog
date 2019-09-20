@@ -8,12 +8,14 @@ class Register extends Component{
         this.state = {
             registerData: {
                 name: '',
+                surname: '',
                 email: '',
                 password: '',
                 password_confirmation: ''
             },
             validationErrors: {
                 name: '',
+                surname: '',
                 email: '',
                 password: '',
                 password_confirmation: ''
@@ -53,11 +55,19 @@ class Register extends Component{
                 <div className="offset-4 col-4 blog-card registerForm">
                     <form onSubmit={this.registerSubmit}>
                         <div className="form-group">
-                            <label htmlFor="email">Имя</label>
+                            <label htmlFor="name">Имя</label>
                             <input type="text" className="form-control" value={this.state.registerData.name || ''} onChange={this.handleChange} name="name" id="name" autoComplete="name" required/>
                             {
                                 this.state.validationErrors.name &&
                                 <small className="form-text text-danger">{this.state.validationErrors.name[0]}</small>
+                            }
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="surname">Фамилия</label>
+                            <input type="text" className="form-control" value={this.state.registerData.surname || ''} onChange={this.handleChange} name="surname" id="surname" autoComplete="surname" required/>
+                            {
+                                this.state.validationErrors.surname &&
+                                <small className="form-text text-danger">{this.state.validationErrors.surname[0]}</small>
                             }
                         </div>
                         <div className="form-group">

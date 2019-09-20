@@ -60641,10 +60641,6 @@ function (_Component) {
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/categorieswithposts').then(function (response) {
-        response.data.map(function (author) {
-          console.log();
-        });
-
         _this2.setState({
           categories: response.data.map(function (category) {
             return category.category;
@@ -61811,12 +61807,14 @@ function (_Component) {
     _this.state = {
       registerData: {
         name: '',
+        surname: '',
         email: '',
         password: '',
         password_confirmation: ''
       },
       validationErrors: {
         name: '',
+        surname: '',
         email: '',
         password: '',
         password_confirmation: ''
@@ -61862,7 +61860,7 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
-        htmlFor: "email"
+        htmlFor: "name"
       }, "\u0418\u043C\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
         className: "form-control",
@@ -61875,6 +61873,21 @@ function (_Component) {
       }), this.state.validationErrors.name && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
       }, this.state.validationErrors.name[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "surname"
+      }, "\u0424\u0430\u043C\u0438\u043B\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        value: this.state.registerData.surname || '',
+        onChange: this.handleChange,
+        name: "surname",
+        id: "surname",
+        autoComplete: "surname",
+        required: true
+      }), this.state.validationErrors.surname && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.surname[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "email"
