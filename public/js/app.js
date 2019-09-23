@@ -59326,6 +59326,315 @@ Object(react_dom__WEBPACK_IMPORTED_MODULE_1__["render"])(react__WEBPACK_IMPORTED
 
 /***/ }),
 
+/***/ "./resources/js/components/AdminCategoryList/AdminCategoryList.js":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/AdminCategoryList/AdminCategoryList.js ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+var AdminCategoryList =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AdminCategoryList, _Component);
+
+  function AdminCategoryList(props) {
+    var _this;
+
+    _classCallCheck(this, AdminCategoryList);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminCategoryList).call(this, props));
+    _this.state = {
+      categories: [],
+      dataIsLoaded: false
+    };
+    _this.renderCategoriesList = _this.renderCategoriesList.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(AdminCategoryList, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories').then(function (response) {
+        _this2.setState({
+          categories: response.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "renderCategoriesList",
+    value: function renderCategoriesList(categories) {
+      var _this3 = this;
+
+      var removeCategory = function removeCategory(event) {
+        event.preventDefault();
+        var id = Number(event.target.parentNode.getAttribute("data-id"));
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('/api/categories/' + id).then(function (response) {
+          if (response.status === 200) {
+            _this3.setState({
+              categories: _this3.state.categories.filter(function (category) {
+                return category.id !== id;
+              })
+            });
+          }
+        });
+      };
+
+      if (categories instanceof Array) {
+        if (categories.length === 0) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+            className: "text-center mt-5"
+          }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B"));
+        }
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("table", {
+          className: "table table-striped table-hover"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
+          className: "thead-dark"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "id \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-pencil",
+          "aria-hidden": "true"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-trash",
+          "aria-hidden": "true"
+        })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, categories.map(function (category, index) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
+            key: index
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, category.category), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+            to: '/admin/categories/' + category.id + '/edit',
+            className: "admin-table-icon"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "fa fa-pencil",
+            "aria-hidden": "true"
+          }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+            to: '/admin/categories/' + category.id + '/delete',
+            onClick: removeCategory,
+            "data-id": category.id,
+            className: "admin-table-icon"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+            className: "fa fa-trash",
+            "aria-hidden": "true"
+          }))));
+        })));
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "admin-editlist-header mb-5"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "\u0421\u043F\u0438\u0441\u043E\u043A \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u0439")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+        to: "/admin/categories/create"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn"
+      }, "\u0414\u043E\u0431\u0430\u0432\u0438\u0442\u044C \u043A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044E")))), this.renderCategoriesList(this.state.categories));
+    }
+  }]);
+
+  return AdminCategoryList;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (AdminCategoryList);
+
+/***/ }),
+
+/***/ "./resources/js/components/AdminEditCategory/AdminEditCategory.js":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/AdminEditCategory/AdminEditCategory.js ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+var AdminEditCategory =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(AdminEditCategory, _Component);
+
+  function AdminEditCategory(props) {
+    var _this;
+
+    _classCallCheck(this, AdminEditCategory);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(AdminEditCategory).call(this, props));
+    _this.state = {
+      category: {},
+      validationErrors: {
+        category: ''
+      },
+      dataIsLoaded: false
+    };
+    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
+    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
+    return _this;
+  }
+
+  _createClass(AdminEditCategory, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      if (this.props.type === "create") {
+        this.setState({
+          dataIsLoaded: true
+        });
+      }
+
+      if (this.props.type === "edit") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories/' + this.props.match.params.id + '/edit').then(function (response) {
+          _this2.setState({
+            category: response.data
+          }, function () {
+            _this2.setState({
+              dataIsLoaded: true
+            });
+          });
+        });
+      }
+    }
+  }, {
+    key: "handleChange",
+    value: function handleChange(event) {
+      this.setState({
+        category: _objectSpread({}, this.state.category, _defineProperty({}, event.target.name, event.target.value))
+      });
+    }
+  }, {
+    key: "submitForm",
+    value: function submitForm(event) {
+      var _this3 = this;
+
+      event.preventDefault();
+
+      if (this.props.type === "create") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/categories', this.state.category).then(function (response) {
+          if (response.status === 200) {
+            _this3.props.history.push("/admin/categories");
+          }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
+        });
+      }
+
+      if (this.props.type === "edit") {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/categories/' + this.state.category.id, this.state.category).then(function (response) {
+          if (response.status === 200) {
+            _this3.props.history.push("/admin/categories");
+          }
+        })["catch"](function (error) {
+          _this3.setState({
+            validationErrors: error.response.data.errors
+          });
+        });
+      }
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "edit-category"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+        className: "post-create-form",
+        onSubmit: this.submitForm
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "category"
+      }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "category",
+        name: "category",
+        placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
+        onChange: this.handleChange,
+        value: this.state.category.category
+      }), this.state.validationErrors.category && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.category[0]), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        type: "submit",
+        className: "btn mt-3"
+      }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C"))));
+    }
+  }]);
+
+  return AdminEditCategory;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (AdminEditCategory);
+
+/***/ }),
+
 /***/ "./resources/js/components/AdminLayout/AdminLayout.js":
 /*!************************************************************!*\
   !*** ./resources/js/components/AdminLayout/AdminLayout.js ***!
@@ -59341,6 +59650,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _AdminPostList_AdminPostList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../AdminPostList/AdminPostList */ "./resources/js/components/AdminPostList/AdminPostList.js");
 /* harmony import */ var _EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../EditPost/EditPost */ "./resources/js/components/EditPost/EditPost.js");
+/* harmony import */ var _AdminCategoryList_AdminCategoryList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../AdminCategoryList/AdminCategoryList */ "./resources/js/components/AdminCategoryList/AdminCategoryList.js");
+/* harmony import */ var _AdminEditCategory_AdminEditCategory__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../AdminEditCategory/AdminEditCategory */ "./resources/js/components/AdminEditCategory/AdminEditCategory.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -59360,6 +59671,8 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
 
 
 
@@ -59390,7 +59703,7 @@ function (_Component) {
         exact: true,
         component: _AdminPostList_AdminPostList__WEBPACK_IMPORTED_MODULE_3__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
-        path: '/admin/posts/edit/:id',
+        path: '/admin/posts/:id/edit',
         exact: true,
         component: function component(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
@@ -59403,6 +59716,26 @@ function (_Component) {
         component: function component(props) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_EditPost_EditPost__WEBPACK_IMPORTED_MODULE_4__["default"], _extends({}, props, {
             type: "adminCreate"
+          }));
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: '/admin/categories',
+        exact: true,
+        component: _AdminCategoryList_AdminCategoryList__WEBPACK_IMPORTED_MODULE_5__["default"]
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: '/admin/categories/:id/edit',
+        exact: true,
+        component: function component(props) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AdminEditCategory_AdminEditCategory__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, props, {
+            type: "edit"
+          }));
+        }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Route"], {
+        path: '/admin/categories/create',
+        exact: true,
+        component: function component(props) {
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_AdminEditCategory_AdminEditCategory__WEBPACK_IMPORTED_MODULE_6__["default"], _extends({}, props, {
+            type: "create"
           }));
         }
       })));
@@ -59571,6 +59904,22 @@ function (_Component) {
   }, {
     key: "renderPostList",
     value: function renderPostList(posts) {
+      var _this3 = this;
+
+      var removePost = function removePost(event) {
+        event.preventDefault();
+        var id = Number(event.target.parentNode.getAttribute("data-id"));
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a["delete"]('/api/posts/' + id).then(function (response) {
+          if (response.status === 200) {
+            _this3.setState({
+              posts: _this3.state.posts.filter(function (post) {
+                return post.id !== id;
+              })
+            });
+          }
+        });
+      };
+
       if (posts instanceof Array) {
         if (posts.length === 0) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
@@ -59592,15 +59941,20 @@ function (_Component) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
             key: index
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.author.name + " " + post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.updated_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.views), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.comments.length), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
-            to: '/admin/posts/edit/' + post.id,
-            className: "admin-postlist-table-icon"
+            to: '/admin/posts/' + post.id + '/edit',
+            className: "admin-table-icon"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
             className: "fa fa-pencil",
             "aria-hidden": "true"
-          }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+            to: '/admin/posts/' + post.id + '/delete',
+            onClick: removePost,
+            "data-id": post.id,
+            className: "admin-table-icon"
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
             className: "fa fa-trash",
             "aria-hidden": "true"
-          })));
+          }))));
         })));
       }
     }
@@ -59608,7 +59962,7 @@ function (_Component) {
     key: "render",
     value: function render() {
       return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "admin-postlist-header mb-5"
+        className: "admin-editlist-header mb-5"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, "\u0421\u043F\u0438\u0441\u043E\u043A \u0441\u0442\u0430\u0442\u0435\u0439")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
         to: "/admin/posts/create"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
@@ -60180,7 +60534,7 @@ function (_Component) {
       this.localizer();
 
       if (this.props.type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id)]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id + '/edit')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
           _this2.setState({
             categories: firstResponse.data,
             tags: secondResponse.data,

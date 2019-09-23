@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\PostCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class PostCategoryController extends Controller
 {
@@ -42,7 +44,14 @@ class PostCategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+           'category' => 'required|unique:post_categories|max:255'
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        PostCategory::add($request->all());
+        return response('', 200);
     }
 
     /**
@@ -53,7 +62,7 @@ class PostCategoryController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('post_category_id', $id)->get();
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('category_id', $id)->get();
         return response()->json($posts);
     }
 
@@ -65,7 +74,8 @@ class PostCategoryController extends Controller
      */
     public function edit($id)
     {
-        //
+        $category = PostCategory::findOrFail($id);
+        return response()->json($category);
     }
 
     /**
@@ -77,7 +87,20 @@ class PostCategoryController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'category' => [
+                'required',
+                Rule::unique('post_categories')->ignore($id),
+                'max:255'
+            ]
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        $category = PostCategory::findOrFail($id);
+        $category->category = $request->get("category");
+        $category->save();
+        return response('', 200);
     }
 
     /**
@@ -88,6 +111,7 @@ class PostCategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $category = PostCategory::findOrFail($id);
+        $category->delete();
     }
 }

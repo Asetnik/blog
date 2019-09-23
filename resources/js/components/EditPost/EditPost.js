@@ -46,7 +46,7 @@ class EditPost extends Component{
             axios.all([
                 axios.get('/api/categories'),
                 axios.get('/api/tags'),
-                axios.get('/api/posts/' + this.props.match.params.id)
+                axios.get('/api/posts/' + this.props.match.params.id + '/edit')
             ])
                 .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
                     this.setState({
@@ -182,7 +182,7 @@ class EditPost extends Component{
 
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
-                <div className="admin-post-create">
+                <div className="admin-post-create">{/*исправить*/}
                     {(Type === "adminCreate" || Type === "create") && <h3 className="page-header mb-3">Создание статьи</h3>}
                     {Type === "adminEdit" && <h3 className="page-header mb-3">Редактирование статьи</h3>}
                     <form className="post-create-form" onSubmit={this.submitForm}>

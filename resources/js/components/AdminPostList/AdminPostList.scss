@@ -1,14 +1,1 @@
-.admin-postlist-header{
-    display: grid;
-    grid-template-columns: max-content auto;
-    justify-items: right;
-}
 
-.admin-postlist-table-icon{
-    text-decoration: none;
-    color: $lightgray;
-
-    &:hover{
-        color: $green;
-    }
-}

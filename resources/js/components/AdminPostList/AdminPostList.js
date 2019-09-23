@@ -23,6 +23,18 @@ class AdminPostList extends Component{
     }
 
     renderPostList(posts){
+        let removePost = event => {
+            event.preventDefault();
+            let id = Number(event.target.parentNode.getAttribute("data-id"));
+            axios.delete('/api/posts/' + id)
+                .then(response => {
+                    if(response.status === 200) {
+                        this.setState({
+                            posts: this.state.posts.filter(post => {return post.id !== id})
+                        });
+                    }
+                });
+        };
         if (posts instanceof Array) {
             if(posts.length === 0) {
                 return (<div>
@@ -54,8 +66,8 @@ class AdminPostList extends Component{
                             <td>{post.updated_at}</td>
                             <td>{post.views}</td>
                             <td>{post.comments.length}</td>
-                            <td><NavLink to={'/admin/posts/edit/' + post.id} className="admin-postlist-table-icon"><i className="fa fa-pencil" aria-hidden="true"></i></NavLink></td>
-                            <td><i className="fa fa-trash" aria-hidden="true"></i></td>
+                            <td><NavLink to={'/admin/posts/' + post.id + '/edit'} className="admin-table-icon"><i className="fa fa-pencil" aria-hidden="true"></i></NavLink></td>
+                            <td><NavLink to={'/admin/posts/' + post.id + '/delete'} onClick={removePost} data-id={post.id} className="admin-table-icon"><i className="fa fa-trash" aria-hidden="true"></i></NavLink></td>
                         </tr>
                     })
                 }
@@ -68,7 +80,7 @@ class AdminPostList extends Component{
         return (
             !this.state.dataIsLoaded ? (<Spinner/>) : (
                 <React.Fragment>
-                    <div className="admin-postlist-header mb-5">
+                    <div className="admin-editlist-header mb-5">
                         <div><h3>Список статей</h3></div>
                         <div>
                             <NavLink to="/admin/posts/create">

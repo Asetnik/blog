@@ -18,6 +18,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->resource('/api/posts', 'PostController');
+Route::middleware('auth')->resource('/api/categories', 'PostCategoryController');
 
 Route::middleware('auth')->get('/api/user', function (Request $request) {
     return response()->json($request->user());

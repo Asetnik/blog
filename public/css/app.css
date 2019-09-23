@@ -12611,6 +12611,22 @@ li {
   margin-bottom: 35px;
 }
 
+.admin-table-icon {
+  text-decoration: none;
+  color: #4f5050;
+}
+
+.admin-table-icon:hover {
+  color: #4aa951;
+}
+
+.admin-editlist-header {
+  display: grid;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  justify-items: right;
+}
+
 .admin-menu {
   height: 100vh;
   background-color: #4f5050;
@@ -12628,22 +12644,6 @@ li {
 }
 
 .admin-menu .admin-menu-link:hover {
-  color: #4aa951;
-}
-
-.admin-postlist-header {
-  display: grid;
-  grid-template-columns: -webkit-max-content auto;
-  grid-template-columns: max-content auto;
-  justify-items: right;
-}
-
-.admin-postlist-table-icon {
-  text-decoration: none;
-  color: #4f5050;
-}
-
-.admin-postlist-table-icon:hover {
   color: #4aa951;
 }
 

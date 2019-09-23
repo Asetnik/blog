@@ -6,13 +6,20 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostCategory extends Model
 {
+    protected $fillable = [
+        'category'
+    ];
+
+    public $timestamps = false;
+
     public function posts() {
         return $this->belongsToMany(Post::class);
     }
 
-    public static function add($category) {
+    public static function add($fields) {
         $postCategory = new static();
-        $postCategory->category = $category;
+        $postCategory->fill($fields);
+        $postCategory->save();
         return $postCategory;
     }
 

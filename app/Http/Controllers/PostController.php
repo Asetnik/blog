@@ -53,10 +53,9 @@ class PostController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
-        } else {
-            Post::add($request->all());
-            return response('', 200);
         }
+        Post::add($request->all());
+        return response('', 200);
     }
 
     /**
@@ -81,7 +80,9 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Post::with('author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')
+            ->findOrFail($id);
+        return response()->json($post);
     }
 
     /**
@@ -101,18 +102,17 @@ class PostController extends Controller
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
-        } else {
-            $post = Post::findOrFail($id);
-            $post->title = $request->get('title');
-            $post->description = $request->get('description');
-            $post->content = $request->get('content');
-            $tags = $request->get('tags_id');
-            $post->category_id = $request->get('category_id');
-            $post->tags()->sync($tags);
-            $post->updated_at = Carbon::now();
-            $post->save();
-            return response('', 200);
         }
+        $post = Post::findOrFail($id);
+        $post->title = $request->get('title');
+        $post->description = $request->get('description');
+        $post->content = $request->get('content');
+        $tags = $request->get('tags_id');
+        $post->category_id = $request->get('category_id');
+        $post->tags()->sync($tags);
+        $post->updated_at = Carbon::now();
+        $post->save();
+        return response('', 200);
     }
 
     /**
@@ -123,6 +123,7 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::findOrFail($id);
+        $post->delete();
     }
 }
