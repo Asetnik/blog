@@ -12259,7 +12259,7 @@ a.text-dark:focus {
 }
 
 .active {
-  color: #4aa951;
+  color: #4aa951 !important;
 }
 
 .form-control {

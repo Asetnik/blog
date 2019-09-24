@@ -20,7 +20,7 @@ use Illuminate\Support\Str;
 $factory->define(User::class, function () {
     $faker = Factory::create('ru_RU');
     return [
-        'role_id' => 1,
+        'role_id' => rand(1,3),
         'name' => $faker->firstName,
         'surname' => $faker->lastName,
         'patronymic' => $faker->firstNameMale,
@@ -29,6 +29,6 @@ $factory->define(User::class, function () {
         'remember_token' => Str::random(10),
         'description' => $faker->realText(100),
         'photo' => $faker->imageUrl(640, 480, 'people'),
-        'status_id' => 1
+        'status_id' => rand(1,2)
     ];
 });

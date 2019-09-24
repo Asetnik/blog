@@ -13,16 +13,13 @@ class UserRolesTableSeeder extends Seeder
     public function run()
     {
         DB::table('user_roles')->insert([
-            'role' => 'defaultUser',
-            'created_at' => Carbon::now()
+            'role' => 'Пользователь'
         ]);
         DB::table('user_roles')->insert([
-            'role' => 'moderator',
-            'created_at' => Carbon::now()
+            'role' => 'Модератор'
         ]);
         DB::table('user_roles')->insert([
-            'role' => 'admin',
-            'created_at' => Carbon::now()
+            'role' => 'Администратор'
         ]);
     }
 }

@@ -83,7 +83,7 @@ class EditPost extends Component{
                         });
                     });
                 }))
-                .catch(error => console.log(error));
+                .catch(error => {});
         }
 
         if(this.props.type === "create") {

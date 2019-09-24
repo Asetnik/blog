@@ -13,12 +13,10 @@ class UserStatusesTableSeeder extends Seeder
     public function run()
     {
         DB::table('user_statuses')->insert([
-            'status' => 'active',
-            'created_at' => Carbon::now()
+            'status' => 'Активный'
         ]);
         DB::table('user_statuses')->insert([
-            'status' => 'blocked',
-            'created_at' => Carbon::now()
+            'status' => 'Заблокированный'
         ]);
     }
 }

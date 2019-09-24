@@ -78,17 +78,19 @@ class AdminEditCategory extends Component {
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
             <div className="edit-category">
-                <div className="form-group">
-                    <form className="post-create-form" onSubmit={this.submitForm}>
+                {this.props.type === "create" && <h3 className="page-header mb-3">Создание категории</h3>}
+                {this.props.type === "edit" && <h3 className="page-header mb-3">Редактирование категории</h3>}
+                <form className="post-create-form" onSubmit={this.submitForm}>
+                    <div className="form-group">
                         <label htmlFor="category">Категория</label>
                         <input type="text" className="form-control" id="category" name="category" placeholder="Категория" onChange={this.handleChange} value={this.state.category.category}/>
                         {
                             this.state.validationErrors.category &&
                             <small className="form-text text-danger">{this.state.validationErrors.category[0]}</small>
                         }
-                        <button type="submit" className="btn mt-3">Сохранить</button>
-                    </form>
-                </div>
+                    </div>
+                    <button type="submit" className="btn mt-3">Сохранить</button>
+                </form>
             </div>
         );
     }

@@ -6,8 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class UserRole extends Model
 {
+    public $timestamps = false;
+
     public function user(){
-        return $this->belongsToMany(User::class);
+        return $this->hasMany(User::class);
     }
 
     public static function add($role) {

@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\User;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -31,7 +35,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        $users = User::with(['status', 'role'])->get();
         return response()->json($users);
     }
 
@@ -53,7 +57,22 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:255',
+            'surname' => 'required|string|max:255',
+            'patronymic' => 'string|max:255',
+            'description' => 'string|max:255',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'status_id' => 'required|numeric|between:1,2',
+            'role_id' => 'required|numeric|between:1,3'
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        $user = User::add($request->all());
+        $user->save();
+        return response('', 200);
     }
 
     /**
@@ -76,7 +95,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::with(['status', 'role'])->findOrFail($id);
+        return response()->json($user);
     }
 
     /**
@@ -88,7 +108,28 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'name' => 'string|max:255',
+            'surname' => 'string|max:255',
+            'patronymic' => 'string|max:255',
+            'description' => 'string|max:255',
+            'email' => [
+                'string',
+                'email',
+                Rule::unique('users')->ignore($id),
+            ],
+            'password' => 'string|min:8|confirmed',
+            'status_id' => 'numeric|between:1,2',
+            'role_id' => 'numeric|between:1,3'
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        $user = User::findOrFail($id);
+        $user->fill($request->all());
+        $user->updated_at = Carbon::now();
+        $user->save();
+        return response('', 200);
     }
 
     /**
@@ -99,6 +140,7 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        $user->delete();
     }
 }

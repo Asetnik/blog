@@ -3,7 +3,7 @@ import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
 import {NavLink} from "react-router-dom";
 
-class AdminCategoryList extends Component {
+class AdminCategoriesList extends Component {
     constructor(props){
         super(props);
         this.state= {
@@ -90,4 +90,4 @@ class AdminCategoryList extends Component {
     }
 }
 
-export default AdminCategoryList;
+export default AdminCategoriesList;

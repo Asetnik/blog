@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'surname', 'email', 'password'
+        'name', 'surname', 'patronymic', 'description', 'email', 'password', 'status_id', 'role_id'
     ];
 
     /**
@@ -25,7 +25,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $hidden = [
-        'role_id', 'password', 'remember_token',
+        'password', 'remember_token',
     ];
 
     /**
@@ -38,11 +38,11 @@ class User extends Authenticatable
     ];
 
     public function role() {
-        return $this->hasOne(UserRole::class);
+        return $this->belongsTo(UserRole::class);
     }
 
     public function status() {
-        return $this->hasOne(UserStatus::class);
+        return $this->belongsTo(UserStatus::class);
     }
 
     public function posts() {
