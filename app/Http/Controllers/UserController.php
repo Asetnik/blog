@@ -24,6 +24,7 @@ class UserController extends Controller
         ];
         if(Auth::check()){
             $isAuth['isAuth'] = true;
+            $isAuth['user'] = Auth::user();
         }
         return response()->json($isAuth);
     }

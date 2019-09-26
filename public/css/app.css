@@ -12308,6 +12308,24 @@ li {
   justify-self: right;
 }
 
+.nav .nav-links .user-info-wrapper {
+  position: relative;
+}
+
+.nav .nav-links .user-info-wrapper p {
+  margin-right: 50px;
+}
+
+.nav .nav-links .user-info-wrapper img {
+  object-fit: cover;
+  position: absolute;
+  top: -5px;
+  right: 0;
+  height: 50px;
+  width: 50px;
+  border-radius: 50px;
+}
+
 .nav .nav-link {
   float: left;
 }

@@ -6,6 +6,7 @@ import DateTimePicker from "react-widgets/lib/DateTimePicker";
 import Moment from "moment";
 import momentLocalizer from "react-widgets-moment";
 import Multiselect from "react-widgets/lib/Multiselect";
+import {connect} from "react-redux";
 
 class EditPost extends Component{
     constructor(props){
@@ -62,7 +63,7 @@ class EditPost extends Component{
                         });
                     });
                 }))
-                .catch(error => console.log(error));
+                .catch(error => {});
         }
 
         if(this.props.type === "adminCreate") {
@@ -87,25 +88,24 @@ class EditPost extends Component{
         }
 
         if(this.props.type === "create") {
-            axios.all([axios.get('/api/user'),
+            axios.all([
                 axios.get('/api/categories'),
                 axios.get('/api/tags')
             ])
-                .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
+                .then(axios.spread((firstResponse, secondResponse) => {
                     this.setState({
                         post: {
                             ...this.state.post,
-                            author_id: firstResponse.data.id
                         },
-                        categories: secondResponse.data,
-                        tags: thirdResponse.data,
+                        categories: firstResponse.data,
+                        tags: secondResponse.data,
                     }, () => {
                         this.setState({
                             dataIsLoaded: true
                         });
                     });
                 }))
-                .catch(error => console.log(error));
+                .catch(error => {});
         }
     }
 
@@ -137,6 +137,7 @@ class EditPost extends Component{
     submitForm(event){
         event.preventDefault();
         const Type = this.props.type;
+
         if(Type === "adminEdit") {
             axios.put('/api/posts/' + this.props.match.params.id, this.state.post)
                 .then(response => {
@@ -150,23 +151,12 @@ class EditPost extends Component{
                     });
                 });
         }
-        if(Type === "adminCreate" || Type === "create") {
-            if(Type === "create"){
-                this.setState({
-                    post: {
-                        ...this.state.post,
-                        created_at: new Date()
-                    }
-                });
-            }
+
+        if(Type === "adminCreate") {
             axios.post('/api/posts', this.state.post)
                 .then(response => {
                     if(response.status === 200) {
-                        if(Type === "adminCreate"){
-                            this.props.history.push("/admin/posts");
-                        } else {
-                            this.props.history.push("/");
-                        }
+                        this.props.history.push("/admin/posts");
                     }
                 })
                 .catch(error => {
@@ -174,6 +164,32 @@ class EditPost extends Component{
                         validationErrors: error.response.data.errors
                     });
                 });
+        }
+
+        if(Type === "create") {
+            this.setState({
+                post: {
+                    ...this.state.post,
+                    author_id: this.props.store.user.id,
+                    created_at: new Date()
+                }
+            }, () => {
+                axios.post('/api/posts', this.state.post)
+                    .then(response => {
+                        if(response.status === 200) {
+                            if(Type === "adminCreate"){
+                                this.props.history.push("/admin/posts");
+                            } else {
+                                this.props.history.push("/");
+                            }
+                        }
+                    })
+                    .catch(error => {
+                        this.setState({
+                            validationErrors: error.response.data.errors
+                        });
+                    });
+            });
         }
     }
 
@@ -341,4 +357,9 @@ class EditPost extends Component{
     }
 }
 
-export default EditPost;
+export default connect(
+    state => ({
+        store: state
+    }),
+    dispatch => ({})
+)(EditPost);

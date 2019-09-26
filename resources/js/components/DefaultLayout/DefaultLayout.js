@@ -25,9 +25,6 @@ class DefaultLayout extends Component{
                     <Route path={'/posts/:id'} exact component={ PostFull } />
                     <Route path={'/users/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
-                    <Route path={'/a/register'} exact component={ Register } />
-                    <Route path={'/a/login'} exact component={ Login } />
-                    <Route path={'/a/logout'} exact component={ Logout } />
                 </div>
             </React.Fragment>
         );

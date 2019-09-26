@@ -49,7 +49,6 @@ class LoginController extends Controller
     {
         $request->session()->regenerate();
         $this->clearLoginAttempts($request);
-
         return response()->json(Auth::user());
     }
 }

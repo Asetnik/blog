@@ -26,7 +26,7 @@ Route::middleware('auth')->get('/api/user', function (Request $request) {
     return response()->json($request->user());
 });
 
-Route::get('/isauth', 'UserController@isAuth');
+Route::get('/api/isauth', 'UserController@isAuth');
 
 Route::fallback(function () {
     return view('index');

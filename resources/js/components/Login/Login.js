@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import {connect} from "react-redux";
 
 class Login extends Component{
 
@@ -33,6 +34,10 @@ class Login extends Component{
         axios.post('/login', this.state.loginData)
             .then(response => {
                 if(response.status === 200) {
+                    this.props.onLogin({
+                        isAuth: true,
+                        user: response.data
+                    });
                     this.props.history.push("/");
                 }
             })
@@ -70,4 +75,13 @@ class Login extends Component{
 
 }
 
-export default Login;
+export default connect(
+    state => ({
+        store: state
+    }),
+    dispatch => ({
+        onLogin: (data) => {
+            dispatch({ type: 'LOGIN', data: data })
+        }
+    })
+)(Login);

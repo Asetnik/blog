@@ -19,6 +19,24 @@
 
     .nav-links{
         justify-self: right;
+
+        .user-info-wrapper{
+            position: relative;
+
+            p{
+                margin-right: 50px;
+            }
+
+            img{
+                object-fit: cover;
+                position: absolute;
+                top: -5px;
+                right: 0;
+                height: 50px;
+                width: 50px;
+                border-radius: 50px;
+            }
+        }
     }
 
     .nav-link{
