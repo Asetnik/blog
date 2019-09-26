@@ -171,6 +171,7 @@ class PostsList extends Component {
                     !dataIsLoaded ? (<Spinner />) :
                         (<div>
                             <Filter
+                                className={"mb-5"}
                                 type={'default'}
                                 updateCategoryFilter={this.updateCategoryFilter}
                                 updateAuthorFilter={this.updateAuthorFilter}

@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
+    public function getUserPosts(Request $request){
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id)->get();
+        return response()->json($posts);
+    }
+
     /**
      * Display a listing of the resource.
      *

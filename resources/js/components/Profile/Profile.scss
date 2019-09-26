@@ -1,0 +1,39 @@
+.profile-page{
+
+    .profile-info-wrapper{
+        display: grid;
+        grid-template-columns: max-content auto;
+        grid-template-rows: max-content;
+        grid-column-gap: 35px;
+        position: relative;
+
+        img{
+            width: 150px;
+            height: 150px;
+            border-radius: 150px;
+            object-fit: cover;
+        }
+
+        .profile-info{
+            display: grid;
+            height: max-content;
+            grid-template-columns: max-content auto;
+            grid-column-gap: 100px;
+            align-self: center;
+
+            .profile-info-label{
+                color: $lightgray;
+            }
+
+            .profile-info-labeled{
+                color: $black;
+            }
+
+            .edit-profile-button{
+                position: absolute;
+                top: 0;
+                right: 0;
+            }
+        }
+    }
+}

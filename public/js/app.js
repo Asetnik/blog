@@ -63515,16 +63515,17 @@ function (_PostsList) {
       var dataIsLoaded = this.state.dataIsLoaded;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-page"
-      }, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+        className: "badge badge-primary category-page-title"
+      }, "Категория " + this.state.posts[0].category.category), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "mb-5",
         type: 'category',
         updateAuthorFilter: this.updateAuthorFilter,
         updateTagFilter: this.updateTagFilter,
         updateSearchFilter: this.updateSearchFilter,
         updateDateSinceFilter: this.updateDateSinceFilter,
         updateDateUntilFilter: this.updateDateUntilFilter
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
-        className: "badge badge-primary category-page-title"
-      }, "Категория " + this.state.posts[0].category.category), this.renderPosts(this.state.filteredPosts)));
+      }), this.renderPosts(this.state.filteredPosts)));
     }
   }]);
 
@@ -64357,7 +64358,7 @@ function (_Component) {
 
       var type = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "blog-card filter-wrapper mb-5"
+        className: "blog-card filter-wrapper " + this.props.className
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "filter filter-" + type
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -65387,6 +65388,7 @@ function (_Component) {
     value: function render() {
       var dataIsLoaded = this.state.dataIsLoaded;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        className: "mb-5",
         type: 'default',
         updateCategoryFilter: this.updateCategoryFilter,
         updateAuthorFilter: this.updateAuthorFilter,
@@ -65416,6 +65418,12 @@ function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _Filter_Filter__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Filter/Filter */ "./resources/js/components/Filter/Filter.js");
+/* harmony import */ var _PostsList_PostsList__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../PostsList/PostsList */ "./resources/js/components/PostsList/PostsList.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65436,28 +65444,110 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
+
+
+
 var Profile =
 /*#__PURE__*/
-function (_Component) {
-  _inherits(Profile, _Component);
+function (_PostsList) {
+  _inherits(Profile, _PostsList);
 
-  function Profile() {
+  function Profile(props) {
+    var _this;
+
     _classCallCheck(this, Profile);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(Profile).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(Profile).call(this, props));
+    _this.state = {
+      posts: [],
+      filteredPosts: [],
+      categoryFilter: [],
+      tagFilter: [],
+      searchFilter: [],
+      dateSinceFilter: '',
+      dateUntilFilter: '',
+      dataIsLoaded: false
+    };
+    return _this;
   }
 
   _createClass(Profile, [{
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('/api/getuserposts').then(function (response) {
+        _this2.setState({
+          posts: response.data,
+          filteredPosts: response.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", null, "Profile");
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_5__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-page"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "page-header mb-4"
+      }, "\u041C\u043E\u0439 \u043F\u0440\u043E\u0444\u0438\u043B\u044C"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-wrapper"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: this.props.store.user.photo,
+        alt: "\u0410\u0432\u0430\u0442\u0430\u0440"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-label"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u0424\u0418\u041E:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-labeled"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.store.user.surname + " " + this.props.store.user.name + " " + (this.props.store.user.patronymic || ""))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-label"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "E-mail:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-labeled"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.store.user.email)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-label"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u0414\u0430\u0442\u0430 \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-labeled"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.store.user.created_at)), this.props.store.user.description && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-label"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435:")), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "profile-info-labeled"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.store.user.description))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+        className: "btn edit-profile-button"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        className: "fa fa-pencil",
+        "aria-hidden": "true"
+      })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "page-header mt-5"
+      }, "\u041C\u043E\u0438 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        className: "mt-5 mb-5",
+        type: 'user',
+        updateCategoryFilter: this.updateCategoryFilter,
+        updateTagFilter: this.updateTagFilter,
+        updateSearchFilter: this.updateSearchFilter,
+        updateDateSinceFilter: this.updateDateSinceFilter,
+        updateDateUntilFilter: this.updateDateUntilFilter
+      }), this.renderPosts(this.state.filteredPosts));
     }
   }]);
 
   return Profile;
-}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+}(_PostsList_PostsList__WEBPACK_IMPORTED_MODULE_3__["default"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (Profile);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(function (state) {
+  return {
+    store: state
+  };
+}, function (dispatch) {
+  return {};
+})(Profile));
 
 /***/ }),
 
@@ -65970,6 +66060,7 @@ function (_PostsList) {
     _this = _possibleConstructorReturn(this, _getPrototypeOf(UserPage).call(this, props));
     _this.state = {
       user: {},
+      posts: {},
       filteredPosts: {},
       categoryFilter: [],
       tagFilter: [],
@@ -65988,7 +66079,9 @@ function (_PostsList) {
 
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.match.params.id).then(function (response) {
         _this2.setState({
-          user: response.data
+          user: response.data,
+          posts: response.data.posts,
+          filteredPosts: response.data.posts
         }, function () {
           _this2.setState({
             dataIsLoaded: true
@@ -66012,13 +66105,14 @@ function (_PostsList) {
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "info-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", null, this.state.user.name + " " + this.state.user.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041E\u043F\u0438\u0441\u0430\u043D\u0438\u0435:"), " ", this.state.user.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", null, "\u041A\u043E\u043B\u0438\u0447\u0435\u0441\u0442\u0432\u043E \u0441\u0442\u0430\u0442\u0435\u0439:"), " ", this.state.user.posts.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        className: "mt-5 mb-5",
         type: 'user',
         updateCategoryFilter: this.updateCategoryFilter,
         updateTagFilter: this.updateTagFilter,
         updateSearchFilter: this.updateSearchFilter,
         updateDateSinceFilter: this.updateDateSinceFilter,
         updateDateUntilFilter: this.updateDateUntilFilter
-      }), this.renderPosts(this.state.user.posts)));
+      }), this.renderPosts(this.state.filteredPosts)));
     }
   }]);
 

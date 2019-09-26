@@ -42,7 +42,10 @@ class Category extends PostsList {
                 {
                     !dataIsLoaded ? (<Spinner/>) : (
                         <div>
+                            <span
+                                className="badge badge-primary category-page-title">{"Категория " + this.state.posts[0].category.category}</span>
                             <Filter
+                                className={"mb-5"}
                                 type={'category'}
                                 updateAuthorFilter={this.updateAuthorFilter}
                                 updateTagFilter={this.updateTagFilter}
@@ -50,8 +53,6 @@ class Category extends PostsList {
                                 updateDateSinceFilter={this.updateDateSinceFilter}
                                 updateDateUntilFilter={this.updateDateUntilFilter}
                             />
-                            <span
-                                className="badge badge-primary category-page-title">{"Категория " + this.state.posts[0].category.category}</span>
                             {this.renderPosts(this.state.filteredPosts)}
                         </div>
                     )

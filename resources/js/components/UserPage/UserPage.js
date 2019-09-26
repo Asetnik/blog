@@ -10,6 +10,7 @@ class UserPage extends PostsList {
         super(props);
         this.state = {
             user: {},
+            posts: {},
             filteredPosts: {},
             categoryFilter: [],
             tagFilter: [],
@@ -25,7 +26,9 @@ class UserPage extends PostsList {
             .get('/api/users/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    user: response.data
+                    user: response.data,
+                    posts: response.data.posts,
+                    filteredPosts: response.data.posts
                 }, () => {
                     this.setState({dataIsLoaded: true})
                 });
@@ -50,6 +53,7 @@ class UserPage extends PostsList {
                         </div>
 
                         <Filter
+                            className={"mt-5 mb-5"}
                             type={'user'}
                             updateCategoryFilter={this.updateCategoryFilter}
                             updateTagFilter={this.updateTagFilter}
@@ -58,7 +62,7 @@ class UserPage extends PostsList {
                             updateDateUntilFilter={this.updateDateUntilFilter}
                         />
 
-                        {this.renderPosts(this.state.user.posts)}
+                        {this.renderPosts(this.state.filteredPosts)}
                     </div>
                 )
             }

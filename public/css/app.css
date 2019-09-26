@@ -12457,6 +12457,48 @@ li {
   margin-bottom: 35px;
 }
 
+.profile-page .profile-info-wrapper {
+  display: grid;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  grid-template-rows: -webkit-max-content;
+  grid-template-rows: max-content;
+  grid-column-gap: 35px;
+  position: relative;
+}
+
+.profile-page .profile-info-wrapper img {
+  width: 150px;
+  height: 150px;
+  border-radius: 150px;
+  object-fit: cover;
+}
+
+.profile-page .profile-info-wrapper .profile-info {
+  display: grid;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  grid-column-gap: 100px;
+  align-self: center;
+}
+
+.profile-page .profile-info-wrapper .profile-info .profile-info-label {
+  color: #4f5050;
+}
+
+.profile-page .profile-info-wrapper .profile-info .profile-info-labeled {
+  color: #000000;
+}
+
+.profile-page .profile-info-wrapper .profile-info .edit-profile-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+
 .user-page .user-info {
   display: grid;
   grid-template-columns: -webkit-max-content auto;
