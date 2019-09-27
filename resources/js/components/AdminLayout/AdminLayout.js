@@ -6,7 +6,7 @@ import EditPost from "../EditPost/EditPost";
 import AdminCategoriesList from "../AdminCategoriesList/AdminCategoriesList";
 import AdminEditCategory from "../AdminEditCategory/AdminEditCategory";
 import AdminUsersList from "../AdminUsersList/AdminUsersList";
-import AdminEditUser from "../AdminEditUser/AdminEditUser";
+import EditUser from "../EditUser/EditUser";
 
 class AdminLayout extends Component{
 
@@ -22,8 +22,8 @@ class AdminLayout extends Component{
                     <Route path={'/admin/categories/:id/edit'} exact component={ (props) => <AdminEditCategory {...props} type="edit"/> } />
                     <Route path={'/admin/categories/create'} exact component={ (props) => <AdminEditCategory {...props} type="create"/> } />
                     <Route path={'/admin/users'} exact component={ AdminUsersList } />
-                    <Route path={'/admin/users/:id/edit'} exact component={ (props) => <AdminEditUser {...props} type="edit"/> } />
-                    <Route path={'/admin/users/create'} exact component={ (props) => <AdminEditUser {...props} type="create"/> } />
+                    <Route path={'/admin/users/:id/edit'} exact component={ (props) => <EditUser {...props} type="adminEdit"/> } />
+                    <Route path={'/admin/users/create'} exact component={ (props) => <EditUser {...props} type="adminCreate"/> } />
 {/*                  <Route path={'/post/:id'} exact component={ PostFull } />
                     <Route path={'/user/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />

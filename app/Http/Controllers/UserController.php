@@ -112,7 +112,7 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
             'surname' => 'string|max:255',
-            'patronymic' => 'string|max:255',
+            'patronymic' => 'sometimes|nullable|string|max:255',
             'description' => 'string|max:255',
             'email' => [
                 'string',

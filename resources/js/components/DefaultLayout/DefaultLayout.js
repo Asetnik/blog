@@ -11,6 +11,7 @@ import Login from "../Login/Login";
 import Logout from "../Logout/Logout";
 import Header from "../Header/Header";
 import EditPost from "../EditPost/EditPost";
+import EditUser from "../EditUser/EditUser"
 
 class DefaultLayout extends Component{
 
@@ -25,6 +26,7 @@ class DefaultLayout extends Component{
                     <Route path={'/posts/:id'} exact component={ PostFull } />
                     <Route path={'/users/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
+                    <Route path={'/myprofile/edit'} exact component={ (props) => <EditUser {...props} type="edit"/> } />
                 </div>
             </React.Fragment>
         );

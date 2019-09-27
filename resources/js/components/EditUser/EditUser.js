@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
 import DropdownList from "react-widgets/lib/DropdownList";
+import {connect} from "react-redux";
 
-class AdminEditUser extends Component {
+class EditUser extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -38,7 +39,7 @@ class AdminEditUser extends Component {
     }
 
     componentWillMount() {
-        if(this.props.type === "create"){
+        if(this.props.type === "adminCreate"){
             axios.all([
                 axios.get('/api/roles'),
                 axios.get('/api/statuses')
@@ -55,11 +56,11 @@ class AdminEditUser extends Component {
                 }));
         }
 
-        if(this.props.type === "edit"){
+        if(this.props.type === "adminEdit"){
             axios.all([
                 axios.get('/api/roles'),
                 axios.get('/api/statuses'),
-                axios.get('/api/users/' + this.props.match.params.id + '/edit')
+                axios.get('/api/users/' + (this.props.match.params.id) + '/edit')
             ])
                 .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
                     this.setState({
@@ -76,6 +77,22 @@ class AdminEditUser extends Component {
                         });
                     });
                 }));
+        }
+
+        if(this.props.type === "edit"){
+            axios.get('/api/users/' + (this.props.store.user.id ) + '/edit')
+                .then(response => {
+                    this.setState({
+                        user: {
+                            ...response.data,
+                            patronymic: response.data.patronymic || ""
+                        }
+                    }, () => {
+                        this.setState({
+                            dataIsLoaded: true
+                        });
+                    });
+                });
         }
     }
 
@@ -94,7 +111,7 @@ class AdminEditUser extends Component {
 
     submitForm(event){
         event.preventDefault();
-        if(this.props.type === "create"){
+        if(this.props.type === "adminCreate"){
             axios.post('/api/users', this.state.editedUser)
                 .then(response => {
                         if(response.status === 200) {
@@ -108,11 +125,15 @@ class AdminEditUser extends Component {
                     });
                 });
         }
-        if(this.props.type === "edit"){
+        if(this.props.type === "adminEdit" || this.props.type === "edit"){
             axios.put('/api/users/' + this.state.user.id, this.state.editedUser)
                 .then(response => {
                     if(response.status === 200) {
-                        this.props.history.push("/admin/users");
+                        if(this.props.type === "adminEdit"){
+                            this.props.history.push("/admin/users");
+                        } else {
+                            this.props.history.push("/myprofile");
+                        }
                     }
                 })
                 .catch(error => {
@@ -128,8 +149,8 @@ class AdminEditUser extends Component {
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
                 <div className="edit-user">
-                    {this.props.type === "create" && <h3 className="page-header mb-3">Создание пользователя</h3>}
-                    {this.props.type === "edit" && <h3 className="page-header mb-3">Редактирование пользователя</h3>}
+                    {this.props.type === "adminCreate" && <h3 className="page-header mb-3">Создание пользователя</h3>}
+                    {this.props.type === "adminEdit" && <h3 className="page-header mb-3">Редактирование пользователя</h3>}
                     <form className="post-create-form" onSubmit={this.submitForm} autoComplete="true">
                         <div className="form-group">
                             <label htmlFor="name">Имя</label>
@@ -171,6 +192,7 @@ class AdminEditUser extends Component {
                                 <small className="form-text text-danger">{this.state.validationErrors.email[0]}</small>
                             }
                         </div>
+                        {(this.props.type !== "edit") && <React.Fragment>
                         <div className="form-group">
                             <label htmlFor="password">Пароль</label>
                             <input type="password" className="form-control" id="password" name="password" placeholder="Пароль" onChange={this.handleChange} value={this.state.user.password} autoComplete="new-password"/>
@@ -233,6 +255,7 @@ class AdminEditUser extends Component {
                                 <small className="form-text text-danger">{this.state.validationErrors.role_id[0]}</small>
                             }
                         </div>
+                        </React.Fragment>}
                         <button type="submit" className="btn mt-3">Сохранить</button>
                     </form>
                 </div>
@@ -240,4 +263,9 @@ class AdminEditUser extends Component {
     }
 }
 
-export default AdminEditUser;
+export default connect(
+    state => ({
+        store: state
+    }),
+    dispatch => ({})
+)(EditUser);

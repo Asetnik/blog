@@ -4,6 +4,7 @@ import Filter from "../Filter/Filter";
 import PostsList from "../PostsList/PostsList";
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
+import { NavLink } from "react-router-dom";
 
 class Profile extends PostsList {
     constructor(props){
@@ -21,15 +22,19 @@ class Profile extends PostsList {
     }
 
     componentWillMount() {
-        axios.get('/api/getuserposts')
-            .then(response => {
+        axios.all([
+            axios.get('/api/isauth'),
+            axios.get('/api/getuserposts')
+        ])
+            .then(axios.spread((firstResponse, secondResponse) => {
+                this.props.onLogin({...firstResponse.data});
                 this.setState({
-                    posts: response.data,
-                    filteredPosts: response.data
+                    posts: secondResponse.data,
+                    filteredPosts: secondResponse.data
                 }, () => {
                     this.setState({dataIsLoaded: true});
                 });
-            });
+            }));
     }
 
     render() {
@@ -52,7 +57,7 @@ class Profile extends PostsList {
                                 <div className="profile-info-labeled"><p>{this.props.store.user.description}</p></div>
                             </React.Fragment>
                             }
-                            <button className="btn edit-profile-button"><i className="fa fa-pencil" aria-hidden="true"></i></button>
+                            <NavLink to='/myprofile/edit'><button className="btn edit-profile-button"><i className="fa fa-pencil" aria-hidden="true"></i></button></NavLink>
                         </div>
                     </div>
 
@@ -77,5 +82,9 @@ export default connect(
     state => ({
         store: state
     }),
-    dispatch => ({})
+    dispatch => ({
+        onLogin: (data) => {
+            dispatch({ type: 'LOGIN', data: data })
+        }
+    })
 )(Profile);

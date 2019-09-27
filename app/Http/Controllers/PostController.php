@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\PostCategory;
-use App\Tag;
-use App\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Post;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 
