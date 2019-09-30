@@ -35,7 +35,7 @@ class Filter extends Component{
         axios
             .get('/api/categorieswithposts')
             .then(response => {
-                this.setState({categories: response.data.map( category => category.category)});
+                this.setState({categories: response.data});
             });
     }
 
@@ -43,7 +43,13 @@ class Filter extends Component{
         axios
             .get('/api/authorswithposts')
             .then(response => {
-                this.setState({authors: response.data.map( author => author.name + " " + author.surname )});
+                this.setState({authors: response.data.map( author => {
+                        return {
+                            id: author.id,
+                            fullname: author.name + " " + author.surname
+                        }
+                    }
+                )});
             });
     }
 
@@ -51,7 +57,7 @@ class Filter extends Component{
         axios
             .get('/api/gettagswithposts')
             .then(response => {
-                this.setState({tags: response.data.map( tag => tag.tag)});
+                this.setState({tags: response.data});
             });
     }
 
@@ -101,21 +107,27 @@ class Filter extends Component{
                         <Multiselect
                             placeholder="Категория"
                             data={this.state.categories}
-                            onChange={value => this.props.updateCategoryFilter(value)}
+                            valueField="id"
+                            textField="category"
+                            onChange={value => this.props.updateCategoryFilter(value.map(value => value.id).join(","))}
                         />
                     </div>}
                     { (type !== 'user') && <div className="author-column">
                         <Multiselect
                             placeholder="Автор"
                             data={this.state.authors}
-                            onChange={value => this.props.updateAuthorFilter(value)}
+                            valueField="id"
+                            textField="fullname"
+                            onChange={value => this.props.updateAuthorFilter(value.map(value => value.id).join(","))}
                         />
                     </div>}
                     <div className="tag-column">
                         <Multiselect
                             placeholder="Тэг"
                             data={this.state.tags}
-                            onChange={value => this.props.updateTagFilter(value)}
+                            valueField="id"
+                            textField="tag"
+                            onChange={value => this.props.updateTagFilter(value.map(value => value.id).join(","))}
                         />
                     </div>
                 </div>

@@ -11,6 +11,8 @@ class Post extends Model
         'author_id', 'title', 'description', 'content', 'category_id'
     ];
 
+    protected $dates = ['created_at'];
+
 /*    protected $casts = [
         'created_at' => 'datetime',
     ];*/
