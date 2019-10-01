@@ -37,17 +37,19 @@ class PostController extends Controller
                     ->orWhere('description', 'like', '%'.$searchData.'%');
             });
         }
-        return $postsQuery->get();
+        return $postsQuery;
     }
 
     public function getUserPosts(Request $request, $id = null){
         if($id){
             $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $id);
-            $filteredPosts = $this->filterPosts($request, $posts);
+            $filteredPostsQuery = $this->filterPosts($request, $posts);
+            $filteredPosts = $filteredPostsQuery->paginate(5);
             return response()->json($filteredPosts);
         }
         $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id);
-        $filteredPosts = $this->filterPosts($request, $posts);
+        $filteredPostsQuery = $this->filterPosts($request, $posts);
+        $filteredPosts = $filteredPostsQuery->paginate(5);
         return response()->json($filteredPosts);
     }
 
@@ -59,7 +61,8 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
-        $filteredPosts = $this->filterPosts($request, $posts);
+        $filteredPostsQuery = $this->filterPosts($request, $posts);
+        $filteredPosts = $filteredPostsQuery->paginate(5);
         return response()->json($filteredPosts);
     }
 

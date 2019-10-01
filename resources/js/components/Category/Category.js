@@ -23,6 +23,7 @@ class Category extends PostsList {
             postsIsLoaded: false
         };
         this.updateFilter = this.updateFilter.bind(this);
+        this.toPage = this.toPage.bind(this);
     }
 
     componentWillMount() {
@@ -64,6 +65,66 @@ class Category extends PostsList {
                     });
                 });
         });
+    }
+
+    toPrevPage(){
+        event.preventDefault();
+        this.setState({
+            postsIsLoaded: false
+        });
+        axios
+            .get(this.state.posts.prev_page_url, {
+                params: this.state.filter
+            })
+            .then(response => {
+                this.setState({
+                    posts: response.data.posts
+                }, () => {
+                    this.setState({
+                        postsIsLoaded: true
+                    });
+                });
+            });
+    }
+
+    toPage(event){
+        event.preventDefault();
+        this.setState({
+            postsIsLoaded: false
+        });
+        axios
+            .get('/api/categories/' + this.props.match.params.id + '/?page=' + event.target.innerText, {
+                params: this.state.filter
+            })
+            .then(response => {
+                this.setState({
+                    posts: response.data.posts
+                }, () => {
+                    this.setState({
+                        postsIsLoaded: true
+                    });
+                });
+            });
+    }
+
+    toNextPage(){
+        event.preventDefault();
+        this.setState({
+            postsIsLoaded: false
+        });
+        axios
+            .get(this.state.posts.next_page_url, {
+                params: this.state.filter
+            })
+            .then(response => {
+                this.setState({
+                    posts: response.data.posts
+                }, () => {
+                    this.setState({
+                        postsIsLoaded: true
+                    });
+                });
+            });
     }
 
     render() {

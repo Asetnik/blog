@@ -63167,6 +63167,7 @@ function (_PostsList) {
       postsIsLoaded: false
     };
     _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
+    _this.toPage = _this.toPage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -63207,6 +63208,69 @@ function (_PostsList) {
             _this3.setState({
               postsIsLoaded: true
             });
+          });
+        });
+      });
+    }
+  }, {
+    key: "toPrevPage",
+    value: function toPrevPage() {
+      var _this4 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.state.posts.prev_page_url, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this4.setState({
+          posts: response.data.posts
+        }, function () {
+          _this4.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "toPage",
+    value: function toPage(event) {
+      var _this5 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/categories/' + this.props.match.params.id + '/?page=' + event.target.innerText, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this5.setState({
+          posts: response.data.posts
+        }, function () {
+          _this5.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "toNextPage",
+    value: function toNextPage() {
+      var _this6 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_2___default.a.get(this.state.posts.next_page_url, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this6.setState({
+          posts: response.data.posts
+        }, function () {
+          _this6.setState({
+            postsIsLoaded: true
           });
         });
       });
@@ -65262,10 +65326,14 @@ function (_Component) {
         dateSince: '',
         dateUntil: ''
       },
-      dataIsLoaded: false
+      dataIsLoaded: false,
+      postsIsLoaded: false
     };
     _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
     _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
+    _this.toPrevPage = _this.toPrevPage.bind(_assertThisInitialized(_this));
+    _this.toPage = _this.toPage.bind(_assertThisInitialized(_this));
+    _this.toNextPage = _this.toNextPage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -65277,7 +65345,8 @@ function (_Component) {
       axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
         _this2.setState({
           posts: response.data,
-          dataIsLoaded: true
+          dataIsLoaded: true,
+          postsIsLoaded: true
         });
       });
     }
@@ -65306,31 +65375,143 @@ function (_Component) {
       });
     }
   }, {
+    key: "toPrevPage",
+    value: function toPrevPage() {
+      var _this4 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.state.posts.prev_page_url, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this4.setState({
+          posts: response.data
+        }, function () {
+          _this4.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "toPage",
+    value: function toPage(event) {
+      var _this5 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts?page=' + event.target.innerText, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this5.setState({
+          posts: response.data
+        }, function () {
+          _this5.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "toNextPage",
+    value: function toNextPage() {
+      var _this6 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get(this.state.posts.next_page_url, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this6.setState({
+          posts: response.data
+        }, function () {
+          _this6.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
     key: "renderPosts",
     value: function renderPosts(posts) {
-      if (posts instanceof Array) {
-        if (posts.length === 0) {
+      var _this7 = this;
+
+      if (posts.data instanceof Array) {
+        if (posts.data.length === 0) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
             className: "text-center mt-5"
           }, "\u041F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u044B"));
         }
 
-        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, posts.map(function (post, index) {
+        var pages = [];
+
+        for (var i = 1; i <= posts.last_page; i++) {
+          pages.push(i);
+        }
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, posts.data.map(function (post, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFolded_PostFolded__WEBPACK_IMPORTED_MODULE_2__["default"], {
             key: index,
             post: post
           });
-        }));
+        }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("nav", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("ul", {
+          className: "pagination justify-content-center"
+        }, posts.current_page === 1 ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "page-item disabled"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "page-link",
+          tabIndex: "-1"
+        }, "\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "page-item"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "page-link",
+          onClick: this.toPrevPage
+        }, "\u041F\u0440\u0435\u0434\u044B\u0434\u0443\u0449\u0430\u044F")), pages.map(function (page, index) {
+          if (page === posts.current_page) {
+            return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+              className: "page-item active",
+              key: index
+            }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+              className: "page-link"
+            }, page, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
+              className: "sr-only"
+            }, "(current)")));
+          }
+
+          return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+            className: "page-item",
+            key: index
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            className: "page-link",
+            onClick: _this7.toPage
+          }, page));
+        }), posts.current_page === posts.last_page ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "page-item disabled"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "page-link",
+          tabIndex: "-1"
+        }, "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F")) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("li", {
+          className: "page-item"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "page-link",
+          onClick: this.toNextPage
+        }, "\u0421\u043B\u0435\u0434\u0443\u044E\u0449\u0430\u044F")))));
       }
     }
   }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
         className: "mb-5",
         type: 'default',
         updateFilter: this.updateFilter
-      }), !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.renderPosts(this.state.posts)));
+      }), !this.state.postsIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.renderPosts(this.state.posts)));
     }
   }]);
 

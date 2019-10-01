@@ -38,7 +38,7 @@ class PostCategoryController extends Controller
                     ->orWhere('description', 'like', '%'.$searchData.'%');
             });
         }
-        return $postsQuery->get();
+        return $postsQuery;
     }
 
     public function categoriesWithPosts() {
@@ -95,7 +95,8 @@ class PostCategoryController extends Controller
     {
         $category = PostCategory::findOrFail($id);
         $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('category_id', $id);
-        $filteredPosts = $this->filterPosts($request, $posts);
+        $filteredPostsQuery = $this->filterPosts($request, $posts);
+        $filteredPosts = $filteredPostsQuery->paginate(5);
         return response()->json([
             "category" => $category,
             "posts" => $filteredPosts
