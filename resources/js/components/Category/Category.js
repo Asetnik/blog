@@ -9,15 +9,20 @@ class Category extends PostsList {
     constructor(props) {
         super(props);
         this.state = {
+            category: {},
             posts: [],
-            filteredPosts: [],
-            authorFilter: [],
-            tagFilter: [],
-            searchFilter: [],
-            dateSinceFilter: '',
-            dateUntilFilter: '',
-            dataIsLoaded: false
+            filter: {
+                category: '',
+                author: '',
+                tag: '',
+                search: '',
+                dateSince: '',
+                dateUntil: ''
+            },
+            dataIsLoaded: false,
+            postsIsLoaded: false
         };
+        this.updateFilter = this.updateFilter.bind(this);
     }
 
     componentWillMount() {
@@ -25,14 +30,40 @@ class Category extends PostsList {
             .get('/api/categories/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
-                    posts: response.data,
-                    filteredPosts: response.data
+                    category: response.data.category,
+                    posts: response.data.posts
                 }, () => {
                     this.setState({
-                        dataIsLoaded: true
+                        dataIsLoaded: true,
+                        postsIsLoaded: true
                     });
                 });
             });
+    }
+
+    updateFilter(filter){
+        this.setState({
+            postsIsLoaded: false
+        });
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                ...filter
+            }
+        }, () => {
+            axios.get('/api/categories/' + this.props.match.params.id, {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data.posts
+                    }, () => {
+                        this.setState({
+                            postsIsLoaded: true
+                        });
+                    });
+                });
+        });
     }
 
     render() {
@@ -43,17 +74,19 @@ class Category extends PostsList {
                     !dataIsLoaded ? (<Spinner/>) : (
                         <div>
                             <span
-                                className="badge badge-primary category-page-title">{"Категория " + this.state.posts[0].category.category}</span>
+                                className="badge badge-primary category-page-title">{"Категория " + this.state.category.category}</span>
                             <Filter
                                 className={"mb-5"}
                                 type={'category'}
-                                updateAuthorFilter={this.updateAuthorFilter}
-                                updateTagFilter={this.updateTagFilter}
-                                updateSearchFilter={this.updateSearchFilter}
-                                updateDateSinceFilter={this.updateDateSinceFilter}
-                                updateDateUntilFilter={this.updateDateUntilFilter}
+                                updateFilter={this.updateFilter}
                             />
-                            {this.renderPosts(this.state.filteredPosts)}
+
+                            {
+                                !this.state.postsIsLoaded ? (<Spinner />) :
+                                    (<React.Fragment>
+                                        {this.renderPosts(this.state.posts)}
+                                    </React.Fragment>)
+                            }
                         </div>
                     )
                 }

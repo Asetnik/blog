@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
 use App\User;
 
 use Illuminate\Http\Request;
@@ -84,7 +85,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['posts.tags:tag_id,tag', 'posts.category:id,category', 'posts.comments', 'posts.author:id,name,surname,photo'])->findOrFail($id);
+        $user = User::withCount('posts')->findOrFail($id);
         return response()->json($user);
     }
 
@@ -112,8 +113,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
             'surname' => 'string|max:255',
-            'patronymic' => 'sometimes|nullable|string|max:255',
-            'description' => 'string|max:255',
+            'patronymic' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
             'email' => [
                 'string',
                 'email',

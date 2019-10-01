@@ -10,23 +10,18 @@ class PostsList extends Component {
         super(props);
         this.state = {
             posts: [],
-            filteredPosts: [],
-            categoryFilter: [],
-            authorFilter: [],
-            tagFilter: [],
-            searchFilter: [],
-            dateSinceFilter: '',
-            dateUntilFilter: '',
+            filter: {
+                category: '',
+                author: '',
+                tag: '',
+                search: '',
+                dateSince: '',
+                dateUntil: ''
+            },
             dataIsLoaded: false
         };
         this.renderPosts = this.renderPosts.bind(this);
-        this.updateCategoryFilter = this.updateCategoryFilter.bind(this);
-        this.updateAuthorFilter = this.updateAuthorFilter.bind(this);
-        this.updateTagFilter = this.updateTagFilter.bind(this);
-        this.updateSearchFilter = this.updateSearchFilter.bind(this);
-        this.updateDateSinceFilter = this.updateDateSinceFilter.bind(this);
-        this.updateDateUntilFilter = this.updateDateUntilFilter.bind(this);
-        this.filterPosts = this.filterPosts.bind(this);
+        this.updateFilter = this.updateFilter.bind(this);
     }
 
     componentWillMount() {
@@ -35,112 +30,34 @@ class PostsList extends Component {
             .then(response => {
                 this.setState({
                     posts: response.data,
-                    filteredPosts: response.data,
                     dataIsLoaded: true
                 });
             });
     }
 
-    updateCategoryFilter(value) {
-        this.setState({categoryFilter: value}, () => {
-            this.filterPosts();
+    updateFilter(filter){
+        this.setState({
+            dataIsLoaded: false
         });
-    }
-
-    updateAuthorFilter(value) {
-        this.setState({authorFilter: value}, () => {
-            this.filterPosts();
-        });
-    }
-
-    updateTagFilter(value) {
-        this.setState({tagFilter: value}, () => {
-            this.filterPosts();
-        });
-    }
-
-    updateSearchFilter(value) {
-        this.setState({searchFilter: value}, () => {
-            this.filterPosts();
-        });
-    }
-
-    updateDateSinceFilter(value) {
-        this.setState({dateSinceFilter: value}, () => {
-            this.filterPosts();
-        });
-    }
-
-    updateDateUntilFilter(value) {
-        this.setState({dateUntilFilter: value}, () => {
-            this.filterPosts();
-        });
-    }
-
-    filterPosts() {
-        let filteredPosts = this.state.posts;
-
-        if (this.state.categoryFilter) {
-            if (this.state.categoryFilter.length > 0) {
-                filteredPosts = filteredPosts.filter(post => {
-                    for (let i = 0; i < this.state.categoryFilter.length; i++) {
-                        if (post.category.category === this.state.categoryFilter[i]) return true;
-                    }
-                    return false;
-                });
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                ...filter
             }
-        }
-
-        if (this.state.authorFilter) {
-            if (this.state.authorFilter.length > 0) {
-                filteredPosts = filteredPosts.filter(post => {
-                    let authorFullName = post.author.name + " " + post.author.surname;
-                    for (let i = 0; i < this.state.authorFilter.length; i++) {
-                        if (authorFullName === this.state.authorFilter[i]) return true;
-                    }
-                    return false;
+        }, () => {
+            axios.get('/api/posts', {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    }, () => {
+                        this.setState({
+                            dataIsLoaded: true
+                        });
+                    });
                 });
-            }
-        }
-
-        if(this.state.tagFilter.length > 0) {
-            filteredPosts = filteredPosts.filter(post => {
-                for(let i = 0; i < this.state.tagFilter.length; i++) {
-                    for(let j = 0; j < post.tags.length; j++) {
-                        if(post.tags[j].tag === this.state.tagFilter[i]) return true;
-                    }
-                }
-                return false;
-            });
-        }
-
-        if(this.state.searchFilter.length > 0) {
-            let searchFilter = this.state.searchFilter.toLowerCase();
-            filteredPosts = filteredPosts.filter(post => {
-                if(~post.title.toLowerCase().indexOf(searchFilter) || ~post.description.toLowerCase().indexOf(searchFilter)) return true;
-                return false;
-            });
-        }
-
-        if(this.state.dateSinceFilter) {
-            let dateSinceFilter = this.state.dateSinceFilter;
-            filteredPosts = filteredPosts.filter(post => {
-                let created_at = new Date(post.created_at);
-                if(created_at >= dateSinceFilter) return true;
-                return false;
-            });
-        }
-
-        if(this.state.dateUntilFilter) {
-            let dateUntilFilter = this.state.dateUntilFilter;
-            filteredPosts = filteredPosts.filter(post => {
-                let created_at = new Date(post.created_at);
-                if(created_at <= dateUntilFilter) return true;
-                return false;
-            });
-        }
-
-        this.setState({filteredPosts: filteredPosts});
+        });
     }
 
     renderPosts(posts) {
@@ -164,24 +81,18 @@ class PostsList extends Component {
     }
 
     render() {
-        const dataIsLoaded = this.state.dataIsLoaded;
         return (
             <div>
+                <Filter
+                    className={"mb-5"}
+                    type={'default'}
+                    updateFilter={this.updateFilter}
+                />
                 {
-                    !dataIsLoaded ? (<Spinner />) :
-                        (<div>
-                            <Filter
-                                className={"mb-5"}
-                                type={'default'}
-                                updateCategoryFilter={this.updateCategoryFilter}
-                                updateAuthorFilter={this.updateAuthorFilter}
-                                updateTagFilter={this.updateTagFilter}
-                                updateSearchFilter={this.updateSearchFilter}
-                                updateDateSinceFilter={this.updateDateSinceFilter}
-                                updateDateUntilFilter={this.updateDateUntilFilter}
-                            />
-                            {this.renderPosts(this.state.filteredPosts)}
-                        </div>)
+                    !this.state.dataIsLoaded ? (<Spinner />) :
+                        (<React.Fragment>
+                            {this.renderPosts(this.state.posts)}
+                        </React.Fragment>)
                 }
             </div>
         );
