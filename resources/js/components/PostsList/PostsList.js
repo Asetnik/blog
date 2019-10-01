@@ -10,7 +10,6 @@ class PostsList extends Component {
         super(props);
         this.state = {
             posts: [],
-            filteredPosts: [],
             filter: {
                 category: '',
                 author: '',
@@ -31,7 +30,6 @@ class PostsList extends Component {
             .then(response => {
                 this.setState({
                     posts: response.data,
-                    filteredPosts: response.data,
                     dataIsLoaded: true
                 });
             });

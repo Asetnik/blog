@@ -10,9 +10,45 @@ use Illuminate\Support\Facades\Validator;
 
 class PostController extends Controller
 {
-    public function getUserPosts(Request $request){
-        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id)->get();
-        return response()->json($posts);
+    private function filterPosts(Request $request, $postsQuery){
+        if($authors = $request->get('author')){
+            $authorsArray = explode(',', $authors);
+            $postsQuery->whereIn('author_id', $authorsArray);
+        }
+        if($category = $request->get('category')){
+            $categoriesArray = explode(',', $category);
+            $postsQuery->whereIn('category_id', $categoriesArray);
+        }
+        if($tag = $request->get('tag')){
+            $tagsArray = explode(',', $tag);
+            $postsQuery->whereIn('category_id', $tagsArray);
+        }
+        if($dateSince = $request->get('dateSince')){
+            $date = new Carbon($dateSince, 'Europe/Moscow');
+            $postsQuery->where('created_at', '>=', $date);
+        }
+        if($dateUntil = $request->get('dateUntil')){
+            $date = new Carbon($dateUntil, 'Europe/Moscow');
+            $postsQuery->where('created_at', '<=', $date);
+        }
+        if($searchData = $request->get('search')){
+            $postsQuery->where(function ($query) use ($searchData){
+                $query->where('title', 'like', '%'.$searchData.'%')
+                    ->orWhere('description', 'like', '%'.$searchData.'%');
+            });
+        }
+        return $postsQuery->get();
+    }
+
+    public function getUserPosts(Request $request, $id = null){
+        if($id){
+            $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $id);
+            $filteredPosts = $this->filterPosts($request, $posts);
+            return response()->json($filteredPosts);
+        }
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id);
+        $filteredPosts = $this->filterPosts($request, $posts);
+        return response()->json($filteredPosts);
     }
 
     /**
@@ -23,33 +59,7 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
-        if($authors = $request->get('author')){
-            $authorsArray = explode(',', $authors);
-            $posts->whereIn('author_id', $authorsArray);
-        }
-        if($category = $request->get('category')){
-            $categoriesArray = explode(',', $category);
-            $posts->whereIn('category_id', $categoriesArray);
-        }
-        if($tag = $request->get('tag')){
-            $tagsArray = explode(',', $tag);
-            $posts->whereIn('category_id', $tagsArray);
-        }
-        if($dateSince = $request->get('dateSince')){
-            $date = new Carbon($dateSince, 'Europe/Moscow');
-            $posts->where('created_at', '>=', $date);
-        }
-        if($dateUntil = $request->get('dateUntil')){
-            $date = new Carbon($dateUntil, 'Europe/Moscow');
-            $posts->where('created_at', '<=', $date);
-        }
-        if($searchData = $request->get('search')){
-            $posts->where(function ($query) use ($searchData){
-                $query->where('title', 'like', '%'.$searchData.'%')
-                    ->orWhere('description', 'like', '%'.$searchData.'%');
-            });
-        }
-        $filteredPosts = $posts->get();
+        $filteredPosts = $this->filterPosts($request, $posts);
         return response()->json($filteredPosts);
     }
 

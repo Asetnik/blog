@@ -4,12 +4,43 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\PostCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class PostCategoryController extends Controller
 {
+    private function filterPosts(Request $request, $postsQuery){
+        if($authors = $request->get('author')){
+            $authorsArray = explode(',', $authors);
+            $postsQuery->whereIn('author_id', $authorsArray);
+        }
+        if($category = $request->get('category')){
+            $categoriesArray = explode(',', $category);
+            $postsQuery->whereIn('category_id', $categoriesArray);
+        }
+        if($tag = $request->get('tag')){
+            $tagsArray = explode(',', $tag);
+            $postsQuery->whereIn('category_id', $tagsArray);
+        }
+        if($dateSince = $request->get('dateSince')){
+            $date = new Carbon($dateSince, 'Europe/Moscow');
+            $postsQuery->where('created_at', '>=', $date);
+        }
+        if($dateUntil = $request->get('dateUntil')){
+            $date = new Carbon($dateUntil, 'Europe/Moscow');
+            $postsQuery->where('created_at', '<=', $date);
+        }
+        if($searchData = $request->get('search')){
+            $postsQuery->where(function ($query) use ($searchData){
+                $query->where('title', 'like', '%'.$searchData.'%')
+                    ->orWhere('description', 'like', '%'.$searchData.'%');
+            });
+        }
+        return $postsQuery->get();
+    }
+
     public function categoriesWithPosts() {
         $categories = PostCategory::whereIn('id', Post::all()->pluck('category_id'))->get();
         return response()->json($categories);
@@ -60,10 +91,15 @@ class PostCategoryController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request, $id)
     {
-        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('category_id', $id)->get();
-        return response()->json($posts);
+        $category = PostCategory::findOrFail($id);
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('category_id', $id);
+        $filteredPosts = $this->filterPosts($request, $posts);
+        return response()->json([
+            "category" => $category,
+            "posts" => $filteredPosts
+        ]);
     }
 
     /**

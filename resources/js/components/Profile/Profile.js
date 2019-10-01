@@ -11,14 +11,23 @@ class Profile extends PostsList {
         super(props);
         this.state = {
             posts: [],
-            filteredPosts: [],
+            filter: {
+                category: '',
+                author: '',
+                tag: '',
+                search: '',
+                dateSince: '',
+                dateUntil: ''
+            },
             categoryFilter: [],
             tagFilter: [],
             searchFilter: [],
             dateSinceFilter: '',
             dateUntilFilter: '',
-            dataIsLoaded: false
+            dataIsLoaded: false,
+            postsIsLoaded: false
         };
+        this.updateFilter = this.updateFilter.bind(this);
     }
 
     componentWillMount() {
@@ -30,11 +39,38 @@ class Profile extends PostsList {
                 this.props.onLogin({...firstResponse.data});
                 this.setState({
                     posts: secondResponse.data,
-                    filteredPosts: secondResponse.data
                 }, () => {
-                    this.setState({dataIsLoaded: true});
+                    this.setState({
+                        dataIsLoaded: true,
+                        postsIsLoaded: true
+                    });
                 });
             }));
+    }
+
+    updateFilter(filter){
+        this.setState({
+            postsIsLoaded: false
+        });
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                ...filter
+            }
+        }, () => {
+            axios.get('/api/getuserposts', {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    }, () => {
+                        this.setState({
+                            postsIsLoaded: true
+                        });
+                    });
+                });
+        });
     }
 
     render() {
@@ -65,14 +101,15 @@ class Profile extends PostsList {
                     <Filter
                         className={"mt-5 mb-5"}
                         type={'user'}
-                        updateCategoryFilter={this.updateCategoryFilter}
-                        updateTagFilter={this.updateTagFilter}
-                        updateSearchFilter={this.updateSearchFilter}
-                        updateDateSinceFilter={this.updateDateSinceFilter}
-                        updateDateUntilFilter={this.updateDateUntilFilter}
+                        updateFilter={this.updateFilter}
                     />
 
-                    {this.renderPosts(this.state.filteredPosts)}
+                    {
+                        !this.state.postsIsLoaded ? (<Spinner />) :
+                            (<React.Fragment>
+                                {this.renderPosts(this.state.posts)}
+                            </React.Fragment>)
+                    }
                 </div>
         );
     }

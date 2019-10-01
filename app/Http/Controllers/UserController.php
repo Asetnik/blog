@@ -85,7 +85,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with(['posts.tags:tag_id,tag', 'posts.category:id,category', 'posts.comments', 'posts.author:id,name,surname,photo'])->findOrFail($id);
+        $user = User::withCount('posts')->findOrFail($id);
         return response()->json($user);
     }
 

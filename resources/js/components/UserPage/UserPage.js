@@ -11,7 +11,14 @@ class UserPage extends PostsList {
         this.state = {
             user: {},
             posts: {},
-            filteredPosts: {},
+            filter: {
+                category: '',
+                author: '',
+                tag: '',
+                search: '',
+                dateSince: '',
+                dateUntil: ''
+            },
             categoryFilter: [],
             tagFilter: [],
             searchFilter: [],
@@ -22,17 +29,57 @@ class UserPage extends PostsList {
     }
 
     componentWillMount() {
-        axios
+/*        axios
             .get('/api/users/' + this.props.match.params.id)
             .then(response => {
                 this.setState({
                     user: response.data,
                     posts: response.data.posts,
-                    filteredPosts: response.data.posts
                 }, () => {
                     this.setState({dataIsLoaded: true})
                 });
-            });
+            });*/
+
+        axios.all([
+            axios.get('/api/users/' + this.props.match.params.id),
+            axios.get('/api/getuserposts/' + this.props.match.params.id)
+        ])
+            .then(axios.spread((firstResponse, secondResponse) => {
+                this.setState({
+                    user: firstResponse.data,
+                    posts: secondResponse.data,
+                }, () => {
+                    this.setState({
+                        dataIsLoaded: true,
+                        postsIsLoaded: true
+                    });
+                });
+            }));
+    }
+
+    updateFilter(filter){
+        this.setState({
+            postsIsLoaded: false
+        });
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                ...filter
+            }
+        }, () => {
+            axios.get('/api/getuserposts/' + this.props.match.params.id, {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    }, () => {
+                        this.setState({
+                            postsIsLoaded: true
+                        });
+                    });
+                });
+        });
     }
 
     render() {
@@ -48,21 +95,17 @@ class UserPage extends PostsList {
                             <div className="info-wrapper">
                                 <h3>{this.state.user.name + " " + this.state.user.surname}</h3>
                                 <p><span>Описание:</span> {this.state.user.description}</p>
-                                <p><span>Количество статей:</span> {this.state.user.posts.length}</p>
+                                <p><span>Количество статей:</span> {this.state.user.posts_count}</p>
                             </div>
                         </div>
 
                         <Filter
                             className={"mt-5 mb-5"}
                             type={'user'}
-                            updateCategoryFilter={this.updateCategoryFilter}
-                            updateTagFilter={this.updateTagFilter}
-                            updateSearchFilter={this.updateSearchFilter}
-                            updateDateSinceFilter={this.updateDateSinceFilter}
-                            updateDateUntilFilter={this.updateDateUntilFilter}
+                            updateFilter={this.updateFilter}
                         />
 
-                        {this.renderPosts(this.state.filteredPosts)}
+                        {this.renderPosts(this.state.posts)}
                     </div>
                 )
             }
