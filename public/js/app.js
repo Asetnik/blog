@@ -64314,57 +64314,27 @@ function (_Component) {
     };
     _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
     _this.localizer = _this.localizer.bind(_assertThisInitialized(_this));
-    _this.getPostsCategories = _this.getPostsCategories.bind(_assertThisInitialized(_this));
-    _this.getPostsAuthors = _this.getPostsAuthors.bind(_assertThisInitialized(_this));
-    _this.getPostsTags = _this.getPostsTags.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(Filter, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      this.localizer();
-      this.getPostsCategories();
-      this.getPostsAuthors();
-      this.getPostsTags();
-    }
-  }, {
-    key: "getPostsCategories",
-    value: function getPostsCategories() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/categorieswithposts').then(function (response) {
+      this.localizer();
+      axios__WEBPACK_IMPORTED_MODULE_6___default.a.all([axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/categorieswithposts'), axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/authorswithposts'), axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/gettagswithposts')]).then(axios__WEBPACK_IMPORTED_MODULE_6___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
         _this2.setState({
-          categories: response.data
-        });
-      });
-    }
-  }, {
-    key: "getPostsAuthors",
-    value: function getPostsAuthors() {
-      var _this3 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/authorswithposts').then(function (response) {
-        _this3.setState({
-          authors: response.data.map(function (author) {
+          categories: firstResponse.data,
+          authors: secondResponse.data.map(function (author) {
             return {
               id: author.id,
               fullname: author.name + " " + author.surname
             };
-          })
+          }),
+          tags: thirdResponse.data
         });
-      });
-    }
-  }, {
-    key: "getPostsTags",
-    value: function getPostsTags() {
-      var _this4 = this;
-
-      axios__WEBPACK_IMPORTED_MODULE_6___default.a.get('/api/gettagswithposts').then(function (response) {
-        _this4.setState({
-          tags: response.data
-        });
-      });
+      }));
     }
   }, {
     key: "localizer",
@@ -64389,7 +64359,7 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this5 = this;
+      var _this3 = this;
 
       var type = this.props.type;
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
@@ -64403,21 +64373,27 @@ function (_Component) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
         placeholder: "\u041E\u0442",
         onChange: function onChange(value) {
-          return _this5.props.updateDateSinceFilter(value);
+          return _this3.props.updateFilter({
+            dateSince: value
+          });
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "date-until"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
         placeholder: "\u0414\u043E",
         onChange: function onChange(value) {
-          return _this5.props.updateDateUntilFilter(value);
+          return _this3.props.updateFilter({
+            dateUntil: value
+          });
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "search-row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Search_Search__WEBPACK_IMPORTED_MODULE_5__["default"], {
         placeholder: "\u041F\u043E\u0438\u0441\u043A \u043F\u043E \u043D\u0430\u0437\u0432\u0430\u043D\u0438\u044E \u0438 \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u044E",
         onChange: function onChange(value) {
-          return _this5.props.updateSearchFilter(value);
+          return _this3.props.updateFilter({
+            search: value
+          });
         }
       })), type !== 'category' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-column"
@@ -64427,9 +64403,11 @@ function (_Component) {
         valueField: "id",
         textField: "category",
         onChange: function onChange(value) {
-          return _this5.props.updateCategoryFilter(value.map(function (value) {
-            return value.id;
-          }).join(","));
+          return _this3.props.updateFilter({
+            category: value.map(function (value) {
+              return value.id;
+            }).join(",")
+          });
         }
       })), type !== 'user' && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-column"
@@ -64439,9 +64417,11 @@ function (_Component) {
         valueField: "id",
         textField: "fullname",
         onChange: function onChange(value) {
-          return _this5.props.updateAuthorFilter(value.map(function (value) {
-            return value.id;
-          }).join(","));
+          return _this3.props.updateFilter({
+            author: value.map(function (value) {
+              return value.id;
+            }).join(",")
+          });
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tag-column"
@@ -64451,9 +64431,11 @@ function (_Component) {
         valueField: "id",
         textField: "tag",
         onChange: function onChange(value) {
-          return _this5.props.updateTagFilter(value.map(function (value) {
-            return value.id;
-          }).join(","));
+          return _this3.props.updateFilter({
+            tag: value.map(function (value) {
+              return value.id;
+            }).join(",")
+          });
         }
       }))));
     }
@@ -65254,12 +65236,14 @@ function (_Component) {
       dataIsLoaded: false
     };
     _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
-    _this.updateCategoryFilter = _this.updateCategoryFilter.bind(_assertThisInitialized(_this));
-    _this.updateAuthorFilter = _this.updateAuthorFilter.bind(_assertThisInitialized(_this));
-    _this.updateTagFilter = _this.updateTagFilter.bind(_assertThisInitialized(_this));
-    _this.updateSearchFilter = _this.updateSearchFilter.bind(_assertThisInitialized(_this));
-    _this.updateDateSinceFilter = _this.updateDateSinceFilter.bind(_assertThisInitialized(_this));
-    _this.updateDateUntilFilter = _this.updateDateUntilFilter.bind(_assertThisInitialized(_this));
+    /*        this.updateCategoryFilter = this.updateCategoryFilter.bind(this);
+            this.updateAuthorFilter = this.updateAuthorFilter.bind(this);
+            this.updateTagFilter = this.updateTagFilter.bind(this);
+            this.updateSearchFilter = this.updateSearchFilter.bind(this);
+            this.updateDateSinceFilter = this.updateDateSinceFilter.bind(this);
+            this.updateDateUntilFilter = this.updateDateUntilFilter.bind(this);*/
+
+    _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -65277,121 +65261,156 @@ function (_Component) {
       });
     }
   }, {
-    key: "updateCategoryFilter",
-    value: function updateCategoryFilter(value) {
+    key: "updateFilter",
+    value: function updateFilter(filter) {
       var _this3 = this;
 
       this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          category: value
-        })
+        dataIsLoaded: false
+      });
+      this.setState({
+        filter: _objectSpread({}, this.state.filter, filter)
       }, function () {
-        /*this.filterPosts();*/
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
           params: _this3.state.filter
         }).then(function (response) {
           _this3.setState({
             posts: response.data
+          }, function () {
+            _this3.setState({
+              dataIsLoaded: true
+            });
           });
         });
       });
     }
-  }, {
-    key: "updateAuthorFilter",
-    value: function updateAuthorFilter(value) {
-      var _this4 = this;
+    /*updateCategoryFilter(value) {
+        this.setState({
+            dataIsLoaded: false
+        }, () => {
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    category: value
+                }
+            }, () => {
+                axios.get('/api/posts', {
+                    params: this.state.filter
+                })
+                    .then(response => {
+                        this.setState({
+                            posts: response.data
+                        }, () => {
+                            this.setState({
+                                dataIsLoaded: true
+                            });
+                        });
+                    });
+            });
+        });
+    }
+     updateAuthorFilter(value) {
+        this.setState({
+            dataIsLoaded: false
+        }, () => {
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    author: value
+                }
+            }, () => {
+                axios.get('/api/posts/', {
+                    params: this.state.filter
+                })
+                    .then(response => {
+                        this.setState({
+                            posts: response.data
+                        }, () => {
+                            this.setState({
+                                dataIsLoaded: true
+                            });
+                        });
+                    });
+            });
+        });
+    }
+     updateTagFilter(value) {
+        this.setState({
+            dataIsLoaded: false
+        }, () => {
+            this.setState({
+                filter: {
+                    ...this.state.filter,
+                    tag: value
+                }
+            }, () => {
+                axios.get('/api/posts/', {
+                    params: this.state.filter
+                })
+                    .then(response => {
+                        this.setState({
+                            posts: response.data
+                        }, () => {
+                            this.setState({
+                                dataIsLoaded: true
+                            });
+                        });
+                    });
+            });
+        });
+    }
+     updateSearchFilter(value) {
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                search: value
+            }
+        }, () => {
+             axios.get('/api/posts', {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    });
+                });
+        });
+    }
+     updateDateSinceFilter(value) {
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                dateSince: value.addHours(3)
+            }
+        }, () => {
+            axios.get('/api/posts', {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    });
+                });
+        });
+    }
+     updateDateUntilFilter(value) {
+        this.setState({
+            filter: {
+                ...this.state.filter,
+                dateUntil: value
+            }
+        }, () => {
+            axios.get('/api/posts', {
+                params: this.state.filter
+            })
+                .then(response => {
+                    this.setState({
+                        posts: response.data
+                    });
+                });
+        });
+    }*/
 
-      this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          author: value
-        })
-      }, function () {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/', {
-          params: _this4.state.filter
-        }).then(function (response) {
-          _this4.setState({
-            posts: response.data
-          });
-        });
-      });
-    }
-  }, {
-    key: "updateTagFilter",
-    value: function updateTagFilter(value) {
-      var _this5 = this;
-
-      this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          tag: value
-        })
-      }, function () {
-        /*this.filterPosts();*/
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
-          params: _this5.state.filter
-        }).then(function (response) {
-          _this5.setState({
-            posts: response.data
-          });
-        });
-      });
-    }
-  }, {
-    key: "updateSearchFilter",
-    value: function updateSearchFilter(value) {
-      var _this6 = this;
-
-      this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          search: value
-        })
-      }, function () {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
-          params: _this6.state.filter
-        }).then(function (response) {
-          _this6.setState({
-            posts: response.data
-          });
-        });
-      });
-    }
-  }, {
-    key: "updateDateSinceFilter",
-    value: function updateDateSinceFilter(value) {
-      var _this7 = this;
-
-      this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          dateSince: value.addHours(3)
-        })
-      }, function () {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
-          params: _this7.state.filter
-        }).then(function (response) {
-          _this7.setState({
-            posts: response.data
-          });
-        });
-      });
-    }
-  }, {
-    key: "updateDateUntilFilter",
-    value: function updateDateUntilFilter(value) {
-      var _this8 = this;
-
-      this.setState({
-        filter: _objectSpread({}, this.state.filter, {
-          dateUntil: value
-        })
-      }, function () {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts', {
-          params: _this8.state.filter
-        }).then(function (response) {
-          _this8.setState({
-            posts: response.data
-          });
-        });
-      });
-    }
   }, {
     key: "renderPosts",
     value: function renderPosts(posts) {
@@ -65413,17 +65432,18 @@ function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var dataIsLoaded = this.state.dataIsLoaded;
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, !dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Filter_Filter__WEBPACK_IMPORTED_MODULE_4__["default"], {
         className: "mb-5",
         type: 'default',
-        updateCategoryFilter: this.updateCategoryFilter,
-        updateAuthorFilter: this.updateAuthorFilter,
-        updateTagFilter: this.updateTagFilter,
-        updateSearchFilter: this.updateSearchFilter,
-        updateDateSinceFilter: this.updateDateSinceFilter,
-        updateDateUntilFilter: this.updateDateUntilFilter
-      }), this.renderPosts(this.state.posts)));
+        updateFilter: this.updateFilter
+        /*                    updateCategoryFilter={this.updateCategoryFilter}
+                            updateAuthorFilter={this.updateAuthorFilter}
+                            updateTagFilter={this.updateTagFilter}
+                            updateSearchFilter={this.updateSearchFilter}
+                            updateDateSinceFilter={this.updateDateSinceFilter}
+                            updateDateUntilFilter={this.updateDateUntilFilter}*/
+
+      }), !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.renderPosts(this.state.posts)));
     }
   }]);
 
@@ -65847,6 +65867,7 @@ function (_Component) {
     key: "onBlur",
     value: function onBlur(event) {
       event.target.classList.remove("rw-state-focus");
+      this.props.onChange(this.state.searchValue);
     }
   }, {
     key: "onChange",
@@ -65854,7 +65875,6 @@ function (_Component) {
       this.setState({
         searchValue: event.target.value
       });
-      this.props.onChange(event.target.value);
 
       if (event.target.value) {
         this.setState({

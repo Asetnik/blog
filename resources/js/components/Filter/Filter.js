@@ -19,46 +19,27 @@ class Filter extends Component{
         };
         this.datepickersSpellcheck = this.datepickersSpellcheck.bind(this);
         this.localizer = this.localizer.bind(this);
-        this.getPostsCategories = this.getPostsCategories.bind(this);
-        this.getPostsAuthors = this.getPostsAuthors.bind(this);
-        this.getPostsTags = this.getPostsTags.bind(this);
     }
 
     componentWillMount() {
         this.localizer();
-        this.getPostsCategories();
-        this.getPostsAuthors();
-        this.getPostsTags();
-    }
-
-    getPostsCategories() {
-        axios
-            .get('/api/categorieswithposts')
-            .then(response => {
-                this.setState({categories: response.data});
-            });
-    }
-
-    getPostsAuthors() {
-        axios
-            .get('/api/authorswithposts')
-            .then(response => {
-                this.setState({authors: response.data.map( author => {
+        axios.all([
+            axios.get('/api/categorieswithposts'),
+            axios.get('/api/authorswithposts'),
+            axios.get('/api/gettagswithposts')
+        ])
+            .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
+                this.setState({
+                    categories: firstResponse.data,
+                    authors: secondResponse.data.map( author => {
                         return {
                             id: author.id,
                             fullname: author.name + " " + author.surname
                         }
-                    }
-                )});
-            });
-    }
-
-    getPostsTags() {
-        axios
-            .get('/api/gettagswithposts')
-            .then(response => {
-                this.setState({tags: response.data});
-            });
+                    }),
+                    tags: thirdResponse.data
+                });
+            }));
     }
 
     localizer() {
@@ -88,19 +69,19 @@ class Filter extends Component{
                     <div className="date-since">
                         <DateTimePicker
                             placeholder="От"
-                            onChange={value => this.props.updateDateSinceFilter(value)}
+                            onChange={ value => this.props.updateFilter( {dateSince: value} ) }
                         />
                     </div>
                     <div className="date-until">
                         <DateTimePicker
                             placeholder="До"
-                            onChange={value => this.props.updateDateUntilFilter(value)}
+                            onChange={ value => this.props.updateFilter( {dateUntil: value} ) }
                         />
                     </div>
                     <div className="search-row">
                         <Search
                             placeholder="Поиск по названию и описанию"
-                            onChange={value => this.props.updateSearchFilter(value)}
+                            onChange={ value => this.props.updateFilter( {search: value} ) }
                         />
                     </div>
                     { (type !== 'category') && <div className="category-column">
@@ -109,7 +90,7 @@ class Filter extends Component{
                             data={this.state.categories}
                             valueField="id"
                             textField="category"
-                            onChange={value => this.props.updateCategoryFilter(value.map(value => value.id).join(","))}
+                            onChange={value => this.props.updateFilter( {category: value.map(value => value.id).join(",")} ) }
                         />
                     </div>}
                     { (type !== 'user') && <div className="author-column">
@@ -118,7 +99,7 @@ class Filter extends Component{
                             data={this.state.authors}
                             valueField="id"
                             textField="fullname"
-                            onChange={value => this.props.updateAuthorFilter(value.map(value => value.id).join(","))}
+                            onChange={value => this.props.updateFilter( {author: value.map(value => value.id).join(",")} ) }
                         />
                     </div>}
                     <div className="tag-column">
@@ -127,7 +108,7 @@ class Filter extends Component{
                             data={this.state.tags}
                             valueField="id"
                             textField="tag"
-                            onChange={value => this.props.updateTagFilter(value.map(value => value.id).join(","))}
+                            onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
                         />
                     </div>
                 </div>

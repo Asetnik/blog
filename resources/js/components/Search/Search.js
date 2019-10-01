@@ -19,11 +19,11 @@ class Search extends Component{
 
     onBlur(event){
         event.target.classList.remove("rw-state-focus");
+        this.props.onChange(this.state.searchValue);
     }
 
     onChange(event){
         this.setState({searchValue: event.target.value});
-        this.props.onChange(event.target.value);
         if(event.target.value){
             this.setState({searchIsEmpty: false});
         } else {
