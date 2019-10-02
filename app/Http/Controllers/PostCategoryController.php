@@ -22,7 +22,9 @@ class PostCategoryController extends Controller
         }
         if($tag = $request->get('tag')){
             $tagsArray = explode(',', $tag);
-            $postsQuery->whereIn('category_id', $tagsArray);
+            $postsQuery->whereHas('tags', function ($query) use ($tagsArray) {
+                $query->whereIn('tags.id', $tagsArray);
+            });
         }
         if($dateSince = $request->get('dateSince')){
             $date = new Carbon($dateSince, 'Europe/Moscow');

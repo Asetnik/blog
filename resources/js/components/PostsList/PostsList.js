@@ -42,7 +42,7 @@ class PostsList extends Component {
 
     updateFilter(filter){
         this.setState({
-            dataIsLoaded: false
+            postsIsLoaded: false
         });
         this.setState({
             filter: {
@@ -58,7 +58,7 @@ class PostsList extends Component {
                         posts: response.data
                     }, () => {
                         this.setState({
-                            dataIsLoaded: true
+                            postsIsLoaded: true
                         });
                     });
                 });

@@ -12700,3 +12700,7 @@ li {
   color: #4aa951;
 }
 
+.page-item {
+  cursor: pointer;
+}
+

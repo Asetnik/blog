@@ -26,20 +26,10 @@ class UserPage extends PostsList {
             dateUntilFilter: '',
             dataIsLoaded: false
         };
+        this.toPage = this.toPage.bind(this);
     }
 
     componentWillMount() {
-/*        axios
-            .get('/api/users/' + this.props.match.params.id)
-            .then(response => {
-                this.setState({
-                    user: response.data,
-                    posts: response.data.posts,
-                }, () => {
-                    this.setState({dataIsLoaded: true})
-                });
-            });*/
-
         axios.all([
             axios.get('/api/users/' + this.props.match.params.id),
             axios.get('/api/getuserposts/' + this.props.match.params.id)
@@ -55,6 +45,26 @@ class UserPage extends PostsList {
                     });
                 });
             }));
+    }
+
+    toPage(event){
+        event.preventDefault();
+        this.setState({
+            postsIsLoaded: false
+        });
+        axios
+            .get('/api/getuserposts/' + this.props.match.params.id + '?page=' + event.target.innerText, {
+                params: this.state.filter
+            })
+            .then(response => {
+                this.setState({
+                    posts: response.data
+                }, () => {
+                    this.setState({
+                        postsIsLoaded: true
+                    });
+                });
+            });
     }
 
     updateFilter(filter){
@@ -105,7 +115,12 @@ class UserPage extends PostsList {
                             updateFilter={this.updateFilter}
                         />
 
-                        {this.renderPosts(this.state.posts)}
+                        {
+                            !this.state.postsIsLoaded ? (<Spinner />) :
+                                (<React.Fragment>
+                                    {this.renderPosts(this.state.posts)}
+                                </React.Fragment>)
+                        }
                     </div>
                 )
             }

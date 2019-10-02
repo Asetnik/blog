@@ -62625,7 +62625,7 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/admin/posts').then(function (response) {
         _this2.setState({
           posts: response.data
         }, function () {
@@ -65356,7 +65356,7 @@ function (_Component) {
       var _this3 = this;
 
       this.setState({
-        dataIsLoaded: false
+        postsIsLoaded: false
       });
       this.setState({
         filter: _objectSpread({}, this.state.filter, filter)
@@ -65368,7 +65368,7 @@ function (_Component) {
             posts: response.data
           }, function () {
             _this3.setState({
-              dataIsLoaded: true
+              postsIsLoaded: true
             });
           });
         });
@@ -66198,9 +66198,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
@@ -66241,6 +66241,7 @@ function (_PostsList) {
       dateUntilFilter: '',
       dataIsLoaded: false
     };
+    _this.toPage = _this.toPage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -66272,9 +66273,30 @@ function (_PostsList) {
       }));
     }
   }, {
+    key: "toPage",
+    value: function toPage(event) {
+      var _this3 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getuserposts/' + this.props.match.params.id + '?page=' + event.target.innerText, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this3.setState({
+          posts: response.data
+        }, function () {
+          _this3.setState({
+            postsIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
     key: "updateFilter",
     value: function updateFilter(filter) {
-      var _this3 = this;
+      var _this4 = this;
 
       this.setState({
         postsIsLoaded: false
@@ -66282,13 +66304,13 @@ function (_PostsList) {
       this.setState({
         filter: _objectSpread({}, this.state.filter, filter)
       }, function () {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getuserposts/' + _this3.props.match.params.id, {
-          params: _this3.state.filter
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/getuserposts/' + _this4.props.match.params.id, {
+          params: _this4.state.filter
         }).then(function (response) {
-          _this3.setState({
+          _this4.setState({
             posts: response.data
           }, function () {
-            _this3.setState({
+            _this4.setState({
               postsIsLoaded: true
             });
           });
@@ -66314,7 +66336,7 @@ function (_PostsList) {
         className: "mt-5 mb-5",
         type: 'user',
         updateFilter: this.updateFilter
-      }), this.renderPosts(this.state.posts)));
+      }), !this.state.postsIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.renderPosts(this.state.posts))));
     }
   }]);
 

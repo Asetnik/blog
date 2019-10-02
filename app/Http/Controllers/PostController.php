@@ -21,7 +21,9 @@ class PostController extends Controller
         }
         if($tag = $request->get('tag')){
             $tagsArray = explode(',', $tag);
-            $postsQuery->whereIn('category_id', $tagsArray);
+            $postsQuery->whereHas('tags', function ($query) use ($tagsArray) {
+                $query->whereIn('tags.id', $tagsArray);
+            });
         }
         if($dateSince = $request->get('dateSince')){
             $date = new Carbon($dateSince, 'Europe/Moscow');
@@ -50,6 +52,14 @@ class PostController extends Controller
         $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id);
         $filteredPostsQuery = $this->filterPosts($request, $posts);
         $filteredPosts = $filteredPostsQuery->paginate(5);
+        return response()->json($filteredPosts);
+    }
+
+    public function adminIndex(Request $request)
+    {
+        $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
+        $filteredPostsQuery = $this->filterPosts($request, $posts);
+        $filteredPosts = $filteredPostsQuery->get();
         return response()->json($filteredPosts);
     }
 
