@@ -62665,7 +62665,7 @@ function (_Component) {
           className: "table table-striped table-hover"
         }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("thead", {
           className: "thead-dark"
-        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "id \u0441\u0442\u0430\u0442\u044C\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0430\u0432\u0442\u043E\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0434\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0434\u0430\u0442\u0430 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u043A\u043E\u043B-\u0432\u043E \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u043A\u043E\u043B-\u0432\u043E \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0435\u0432"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "id \u0441\u0442\u0430\u0442\u044C\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0430\u0432\u0442\u043E\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0437\u0430\u0433\u043E\u043B\u043E\u0432\u043E\u043A"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0434\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0434\u0430\u0442\u0430 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u043A\u043E\u043B-\u0432\u043E \u043F\u0440\u043E\u0441\u043C\u043E\u0442\u0440\u043E\u0432"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u043A\u043E\u043B-\u0432\u043E \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0435\u0432"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, "\u0441\u0442\u0430\u0442\u0443\u0441"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
           className: "fa fa-pencil",
           "aria-hidden": "true"
         })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("th", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -62674,7 +62674,13 @@ function (_Component) {
         })))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tbody", null, posts.map(function (post, index) {
           return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("tr", {
             key: index
-          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.author.name + " " + post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.updated_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.views), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.comments.length), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
+          }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.id), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.author.name + " " + post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.created_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.updated_at), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.views), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.comments.length), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, post.status_id === 1 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            className: ""
+          }, post.status.status), post.status_id === 2 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            className: "text-primary"
+          }, post.status.status), post.status_id === 3 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+            className: "text-danger"
+          }, post.status.status)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("td", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["NavLink"], {
             to: '/admin/posts/' + post.id + '/edit',
             className: "admin-table-icon"
           }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
@@ -63648,6 +63654,7 @@ function (_Component) {
       users: [],
       categories: [],
       tags: [],
+      statuses: [],
       post: {
         author_id: undefined,
         created_at: undefined,
@@ -63655,7 +63662,8 @@ function (_Component) {
         description: '',
         content: '',
         category_id: undefined,
-        tags_id: []
+        tags_id: [],
+        status_id: undefined
       },
       validationErrors: {
         author: '',
@@ -63663,7 +63671,8 @@ function (_Component) {
         title: '',
         description: '',
         content: '',
-        category_id: ''
+        category_id: '',
+        status_id: ''
       },
       dataIsLoaded: false
     };
@@ -63682,7 +63691,7 @@ function (_Component) {
       this.localizer();
 
       if (this.props.type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id + '/edit')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts/' + this.props.match.params.id + '/edit'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/poststatuses')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse, fourthResponse) {
           _this2.setState({
             categories: firstResponse.data,
             tags: secondResponse.data,
@@ -63690,7 +63699,8 @@ function (_Component) {
               tags_id: thirdResponse.data.tags.map(function (tag) {
                 return tag.id;
               })
-            })
+            }),
+            statuses: fourthResponse.data
           }, function () {
             _this2.setState({
               dataIsLoaded: true
@@ -63700,7 +63710,7 @@ function (_Component) {
       }
 
       if (this.props.type === "adminCreate") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/poststatuses')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse, fourthResponse) {
           _this2.setState({
             users: firstResponse.data.map(function (user) {
               return {
@@ -63709,7 +63719,8 @@ function (_Component) {
               };
             }),
             categories: secondResponse.data,
-            tags: thirdResponse.data
+            tags: thirdResponse.data,
+            statuses: fourthResponse.data
           }, function () {
             _this2.setState({
               dataIsLoaded: true
@@ -63966,7 +63977,26 @@ function (_Component) {
             })
           });
         }
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      })), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "role"
+      }, "\u0421\u0442\u0430\u0442\u0443\u0441"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
+        placeholder: "\u0421\u0442\u0430\u0442\u0443\u0441",
+        data: this.state.statuses,
+        valueField: "id",
+        textField: "status",
+        value: this.state.post.status_id,
+        onChange: function onChange(value) {
+          return _this4.setState({
+            post: _objectSpread({}, _this4.state.post, {
+              status_id: value.id
+            })
+          });
+        }
+      }), this.state.validationErrors.status_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.status_id[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn mt-3"
       }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));
@@ -64080,7 +64110,7 @@ function (_Component) {
       var _this2 = this;
 
       if (this.props.type === "adminCreate") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/statuses')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/userstatuses')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse) {
           _this2.setState({
             roles: firstResponse.data,
             statuses: secondResponse.data
@@ -64093,7 +64123,7 @@ function (_Component) {
       }
 
       if (this.props.type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/statuses'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.match.params.id + '/edit')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/userstatuses'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.match.params.id + '/edit')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
           _this2.setState({
             roles: firstResponse.data,
             statuses: secondResponse.data,
@@ -65229,14 +65259,14 @@ function (_Post) {
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-wrapper"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: '/user/' + this.state.post.author.id
+        to: '/users/' + this.state.post.author.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.state.post.author.photo,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__["Link"], {
-        to: '/user/' + this.state.post.author.id,
+        to: '/users/' + this.state.post.author.id,
         className: "text-link author-name"
       }, this.state.post.author.name + " " + this.state.post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "category-wrapper"

@@ -15,6 +15,7 @@ class EditPost extends Component{
             users: [],
             categories: [],
             tags: [],
+            statuses: [],
             post: {
                 author_id: undefined,
                 created_at: undefined,
@@ -23,6 +24,7 @@ class EditPost extends Component{
                 content: '',
                 category_id: undefined,
                 tags_id: [],
+                status_id: undefined
             },
             validationErrors: {
                 author: '',
@@ -30,7 +32,8 @@ class EditPost extends Component{
                 title: '',
                 description: '',
                 content: '',
-                category_id: ''
+                category_id: '',
+                status_id: ''
             },
             dataIsLoaded: false
         };
@@ -47,16 +50,18 @@ class EditPost extends Component{
             axios.all([
                 axios.get('/api/categories'),
                 axios.get('/api/tags'),
-                axios.get('/api/posts/' + this.props.match.params.id + '/edit')
+                axios.get('/api/posts/' + this.props.match.params.id + '/edit'),
+                axios.get('/api/poststatuses')
             ])
-                .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
+                .then(axios.spread((firstResponse, secondResponse, thirdResponse, fourthResponse) => {
                     this.setState({
                         categories: firstResponse.data,
                         tags: secondResponse.data,
                         post: {...thirdResponse.data,
                             tags_id: thirdResponse.data.tags.map((tag) => {
                                 return tag.id
-                            })}
+                            })},
+                        statuses: fourthResponse.data
                     }, () => {
                         this.setState({
                             dataIsLoaded: true
@@ -69,15 +74,17 @@ class EditPost extends Component{
         if(this.props.type === "adminCreate") {
             axios.all([axios.get('/api/users'),
                 axios.get('/api/categories'),
-                axios.get('/api/tags')
+                axios.get('/api/tags'),
+                axios.get('/api/poststatuses')
             ])
-                .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {
+                .then(axios.spread((firstResponse, secondResponse, thirdResponse, fourthResponse) => {
                     this.setState({
                         users: firstResponse.data.map((user)=>{
                             return {id: user.id, fullname: user.name + " " + user.surname}
                         }),
                         categories: secondResponse.data,
                         tags: thirdResponse.data,
+                        statuses: fourthResponse.data
                     }, () => {
                         this.setState({
                             dataIsLoaded: true
@@ -350,6 +357,28 @@ class EditPost extends Component{
                                     />
                             }
                         </div>
+                        {(Type === "adminEdit") &&
+                        <div className="form-group">
+                            <label htmlFor="role">Статус</label>
+                            <DropdownList
+                                placeholder="Статус"
+                                data={this.state.statuses}
+                                valueField="id"
+                                textField="status"
+                                value={this.state.post.status_id}
+                                onChange={value => this.setState({
+                                        post: {
+                                            ...this.state.post,
+                                            status_id: value.id
+                                        }
+                                    }
+                                )}
+                            />
+                            {
+                                this.state.validationErrors.status_id &&
+                                <small className="form-text text-danger">{this.state.validationErrors.status_id[0]}</small>
+                            }
+                        </div>}
                         <button type="submit" className="btn mt-3">Сохранить</button>
                     </form>
                 </div>

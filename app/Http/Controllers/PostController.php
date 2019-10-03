@@ -57,7 +57,7 @@ class PostController extends Controller
 
     public function adminIndex(Request $request)
     {
-        $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
+        $posts = Post::query()->latest()->with('status', 'author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
         $filteredPostsQuery = $this->filterPosts($request, $posts);
         $filteredPosts = $filteredPostsQuery->get();
         return response()->json($filteredPosts);
@@ -100,7 +100,7 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'content' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
@@ -131,7 +131,7 @@ class PostController extends Controller
      */
     public function edit($id)
     {
-        $post = Post::with('author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')
+        $post = Post::with('status', 'author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')
             ->findOrFail($id);
         return response()->json($post);
     }
@@ -149,17 +149,17 @@ class PostController extends Controller
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'content' => 'required',
-            'category_id' => 'required'
+            'category_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $post = Post::findOrFail($id);
-        $post->title = $request->get('title');
-        $post->description = $request->get('description');
-        $post->content = $request->get('content');
+        $post->fill($request->all());
+        if($status = $request->get('status_id')){
+            $post->status = $status;
+        }
         $tags = $request->get('tags_id');
-        $post->category_id = $request->get('category_id');
         $post->tags()->sync($tags);
         $post->updated_at = Carbon::now();
         $post->save();

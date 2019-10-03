@@ -56,9 +56,9 @@ class PostFull extends Post {
                     <div className="blog-card post post-full">
                         <div className="head-wrapper">
                             <div className="author-wrapper">
-                                <Link to={'/user/' + this.state.post.author.id}><img src={this.state.post.author.photo} alt=""/></Link>
+                                <Link to={'/users/' + this.state.post.author.id}><img src={this.state.post.author.photo} alt=""/></Link>
                                 <div className="author-info">
-                                    <Link to={'/user/' + this.state.post.author.id} className="text-link author-name">{this.state.post.author.name + " " + this.state.post.author.surname}</Link>
+                                    <Link to={'/users/' + this.state.post.author.id} className="text-link author-name">{this.state.post.author.name + " " + this.state.post.author.surname}</Link>
                                     <p>{new Date(this.state.post.created_at).toLocaleString("ru", this.state.dateOptions)}</p>
                                 </div>
                             </div>

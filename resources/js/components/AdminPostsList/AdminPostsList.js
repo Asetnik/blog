@@ -51,6 +51,7 @@ class AdminPostsList extends Component{
                         <th>дата изменения</th>
                         <th>кол-во просмотров</th>
                         <th>кол-во комментариев</th>
+                        <th>статус</th>
                         <th><i className="fa fa-pencil" aria-hidden="true"></i></th>
                         <th><i className="fa fa-trash" aria-hidden="true"></i></th>
                     </tr>
@@ -66,6 +67,11 @@ class AdminPostsList extends Component{
                             <td>{post.updated_at}</td>
                             <td>{post.views}</td>
                             <td>{post.comments.length}</td>
+                            <td>
+                                {post.status_id === 1 && <p className="">{post.status.status}</p>}
+                                {post.status_id === 2 && <p className="text-primary">{post.status.status}</p>}
+                                {post.status_id === 3 && <p className="text-danger">{post.status.status}</p>}
+                            </td>
                             <td><NavLink to={'/admin/posts/' + post.id + '/edit'} className="admin-table-icon"><i className="fa fa-pencil" aria-hidden="true"></i></NavLink></td>
                             <td><NavLink to={'/admin/posts/' + post.id + '/delete'} onClick={removePost} data-id={post.id} className="admin-table-icon"><i className="fa fa-trash" aria-hidden="true"></i></NavLink></td>
                         </tr>

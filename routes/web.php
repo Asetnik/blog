@@ -22,7 +22,8 @@ Route::middleware('auth')->get('/api/admin/posts', 'PostController@adminIndex');
 Route::middleware('auth')->get('/api/getuserposts/{id?}', 'PostController@getUserPosts');
 Route::middleware('auth')->resource('/api/categories', 'PostCategoryController');
 Route::middleware('auth')->resource('/api/roles', 'UserRoleController');
-Route::middleware('auth')->resource('/api/statuses', 'UserStatusesController');
+Route::middleware('auth')->get('/api/userstatuses', 'UserStatusesController@index');
+Route::middleware('auth')->get('/api/poststatuses', 'PostStatusesController@index');
 
 Route::middleware('auth')->get('/api/user', function (Request $request) {
     return response()->json($request->user());

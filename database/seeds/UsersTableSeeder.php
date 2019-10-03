@@ -28,6 +28,7 @@ class UsersTableSeeder extends Seeder
             'email' => 'pashka@mail.ru',
             'photo' => 'https://pp.userapi.com/c852220/v852220631/1595c5/jkfh6p9pQ5c.jpg',
             'password' => Hash::make('asdasdasd'),
+            'role_id' => 3,
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now()
         ]);

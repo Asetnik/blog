@@ -13,15 +13,15 @@ class PostStatusesTableSeeder extends Seeder
     public function run()
     {
         DB::table('post_statuses')->insert([
-            'status' => 'published',
+            'status' => 'Опубликован',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_statuses')->insert([
-            'status' => 'moderation',
+            'status' => 'На модерации',
             'created_at' => Carbon::now()
         ]);
         DB::table('post_statuses')->insert([
-            'status' => 'blocked',
+            'status' => 'Заблокирован',
             'created_at' => Carbon::now()
         ]);
     }

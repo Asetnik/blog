@@ -42,7 +42,7 @@ class EditUser extends Component {
         if(this.props.type === "adminCreate"){
             axios.all([
                 axios.get('/api/roles'),
-                axios.get('/api/statuses')
+                axios.get('/api/userstatuses')
             ])
                 .then(axios.spread((firstResponse, secondResponse) => {
                     this.setState({
@@ -59,7 +59,7 @@ class EditUser extends Component {
         if(this.props.type === "adminEdit"){
             axios.all([
                 axios.get('/api/roles'),
-                axios.get('/api/statuses'),
+                axios.get('/api/userstatuses'),
                 axios.get('/api/users/' + (this.props.match.params.id) + '/edit')
             ])
                 .then(axios.spread((firstResponse, secondResponse, thirdResponse) => {

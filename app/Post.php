@@ -22,7 +22,7 @@ class Post extends Model
     }
 
     public function status() {
-        return $this->hasOne(PostStatus::class);
+        return $this->belongsTo(PostStatus::class);
     }
 
     public function category() {
@@ -44,9 +44,9 @@ class Post extends Model
     public static function add($fields) {
         $post = new static();
         $post->fill($fields);
+        $post->status_id = 1;
         $post->created_at = Carbon::create($fields["created_at"]);
         $post->updated_at = Carbon::create($fields["created_at"]);
-        $post->category_id = $fields["category_id"];
         $post->save();
         $tags = $fields["tags_id"];
         $post->tags()->sync($tags);
