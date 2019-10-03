@@ -24,7 +24,6 @@ class App extends Component {
     }
 
     render() {
-        console.log('App', this.props.store);
         return ( !this.state.dataIsLoaded ? <Spinner /> :
             <BrowserRouter>
                 <Switch>

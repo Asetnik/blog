@@ -18,8 +18,7 @@ class Header extends Component {
                             {this.props.store.isAuth ? (
                                     <React.Fragment>
                                         <NavLink to='/' exact={true} activeClassName='active' className="nav-link text-link">Главная</NavLink>
-                                        <NavLink to='/create/posts' exact={true} activeClassName='active' className="nav-link text-link">Создать публикацию</NavLink>
-                                        <NavLink to='/myprofile' activeClassName='active' className="nav-link text-link">Мой профиль</NavLink>
+                                        <NavLink to='/create/posts' activeClassName='active' className="nav-link text-link">Создать публикацию</NavLink>
                                         <NavLink to='/auth/logout' className="nav-link text-link active">Выйти</NavLink>
                                         <NavLink to='/myprofile' className="nav-link text-link user-info-wrapper">
                                             <p>{this.props.store.user.name}</p>

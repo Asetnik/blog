@@ -11,6 +11,7 @@ class Filter extends Component{
     constructor(props){
         super(props);
         this.state = {
+            prevSearch: '',
             categories: [],
             authors: [],
             tags: [],
@@ -81,7 +82,12 @@ class Filter extends Component{
                     <div className="search-row">
                         <Search
                             placeholder="Поиск по названию и описанию"
-                            onChange={ value => this.props.updateFilter( {search: value} ) }
+                            onChange={ value => {
+                                if(value !== this.state.prevSearch){
+                                    this.props.updateFilter( {search: value} )
+                                }
+                                this.setState({prevSearch: value});
+                            } }
                         />
                     </div>
                     { (type !== 'category') && <div className="category-column">
@@ -103,13 +109,28 @@ class Filter extends Component{
                         />
                     </div>}
                     <div className="tag-column">
-                        <Multiselect
-                            placeholder="Тэг"
-                            data={this.state.tags}
-                            valueField="id"
-                            textField="tag"
-                            onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
-                        />
+                        {
+                            (this.props.filter && this.props.filter.tag) ? (
+                                <Multiselect
+                                    placeholder="Тэг"
+                                    data={this.state.tags}
+                                    valueField="id"
+                                    textField="tag"
+                                    value={this.state.tags.filter((tag) => {
+                                        if(tag.id === this.props.filter.tag) return true;
+                                    })}
+                                    onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
+                                />
+                            ) : (
+                                <Multiselect
+                                    placeholder="Тэг"
+                                    data={this.state.tags}
+                                    valueField="id"
+                                    textField="tag"
+                                    onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
+                                />
+                            )
+                        }
                     </div>
                 </div>
             </div>

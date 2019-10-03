@@ -19,7 +19,8 @@ class TagTile extends Component{
 
     render() {
         return (
-            <Link to={'/tag/'+this.props.tag.id} className="tag-wrapper">
+            <Link to={'/search?tag='+this.props.tag.tag_id}
+                  className="tag-wrapper">
                 <span className="badge badge-secondary tag" onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}><i className="fa fa-tag" aria-hidden="true"></i> {this.props.tag.tag}</span>
             </Link>
         );
