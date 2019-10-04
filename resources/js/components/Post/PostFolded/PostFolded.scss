@@ -1,4 +1,12 @@
 .post-folded{
+    position: relative;
+
+    .post-trash{
+        position: absolute;
+        color: $red;
+        bottom: 40px;
+        right: 35px;
+    }
 
     .read-more-wrapper{
         display: grid;

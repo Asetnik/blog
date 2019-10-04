@@ -65027,6 +65027,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Post__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../Post */ "./resources/js/components/Post/Post.js");
 /* harmony import */ var _CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../CategoryTile/CategoryTile */ "./resources/js/components/CategoryTile/CategoryTile.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65050,6 +65053,8 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
+
 var PostFolded =
 /*#__PURE__*/
 function (_Post) {
@@ -65062,6 +65067,7 @@ function (_Post) {
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFolded).call(this, props));
     _this.state = {
+      isDeleted: false,
       dateOptions: {
         year: 'numeric',
         month: 'short',
@@ -65076,59 +65082,95 @@ function (_Post) {
   _createClass(PostFolded, [{
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "blog-card post post-folded mb-5"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "head-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "author-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/users/' + this.props.post.author.id
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.post.author.photo,
-        alt: this.props.post.author.name + " " + this.props.post.author.surname
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "author-info"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/users/' + this.props.post.author.id,
-        className: "text-link author-name"
-      }, this.props.post.author.name + " " + this.props.post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "category-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
-        category_id: this.props.post.category.id,
-        category: this.props.post.category.category
-      }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "post-info"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
-        className: "post-title"
-      }, this.props.post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
-        className: "post-description"
-      }, this.props.post.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
-        src: this.props.post.photo,
-        alt: this.props.post.name + " " + this.props.post.surname
-      })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "post-footer"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "tags-wrapper"
-      }, this.renderPostTags(this.props.post.tags)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "icons-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
-        className: "fa fa-comment-o",
-        "aria-hidden": "true"
-      }), " ", this.props.post.comments.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
-        className: "read-more-wrapper mt-3"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
-        to: '/posts/' + this.props.post.id
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
-        className: "btn"
-      }, "\u0427\u0438\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E"))));
+      var _this2 = this;
+
+      if (this.state.isDeleted) {
+        return null;
+      } else {
+        var removePost;
+
+        if (this.props.post.author.id === this.props.store.user.id) {
+          removePost = function removePost(event) {
+            event.preventDefault();
+            var id = Number(event.target.parentNode.getAttribute("data-id"));
+            axios__WEBPACK_IMPORTED_MODULE_5___default.a["delete"]('/api/posts/' + id).then(function (response) {
+              if (response.status === 200) {
+                _this2.setState({
+                  isDeleted: true
+                });
+              }
+            });
+          };
+        }
+
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "blog-card post post-folded mb-5"
+        }, this.props.post.author.id === this.props.store.user.id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["NavLink"], {
+          to: '/posts/' + this.props.post.id + '/delete',
+          onClick: removePost,
+          "data-id": this.props.post.id,
+          className: "post-trash"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-trash fa-2x",
+          "aria-hidden": "true"
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "head-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "author-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: '/users/' + this.props.post.author.id
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: this.props.post.author.photo,
+          alt: this.props.post.author.name + " " + this.props.post.author.surname
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "author-info"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: '/users/' + this.props.post.author.id,
+          className: "text-link author-name"
+        }, this.props.post.author.name + " " + this.props.post.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, new Date(this.props.post.created_at).toLocaleString("ru", this.state.dateOptions)))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "category-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_CategoryTile_CategoryTile__WEBPACK_IMPORTED_MODULE_3__["default"], {
+          category_id: this.props.post.category.id,
+          category: this.props.post.category.category
+        }))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "post-info"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+          className: "post-title"
+        }, this.props.post.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
+          className: "post-description"
+        }, this.props.post.description), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+          src: this.props.post.photo,
+          alt: this.props.post.name + " " + this.props.post.surname
+        })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "post-footer"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "tags-wrapper"
+        }, this.renderPostTags(this.props.post.tags)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "icons-wrapper"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {
+          className: "fa fa-comment-o",
+          "aria-hidden": "true"
+        }), " ", this.props.post.comments.length))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+          className: "read-more-wrapper mt-3"
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+          to: '/posts/' + this.props.post.id
+        }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+          className: "btn"
+        }, "\u0427\u0438\u0442\u0430\u0442\u044C \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E"))));
+      }
     }
   }]);
 
   return PostFolded;
 }(_Post__WEBPACK_IMPORTED_MODULE_2__["default"]);
 
-/* harmony default export */ __webpack_exports__["default"] = (PostFolded);
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_4__["connect"])(function (state) {
+  return {
+    store: state
+  };
+}, function (dispatch) {
+  return {};
+})(PostFolded));
 
 /***/ }),
 

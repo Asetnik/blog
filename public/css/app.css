@@ -12418,6 +12418,17 @@ li {
   font-size: 15px;
 }
 
+.post-folded {
+  position: relative;
+}
+
+.post-folded .post-trash {
+  position: absolute;
+  color: #e3342f;
+  bottom: 40px;
+  right: 35px;
+}
+
 .post-folded .read-more-wrapper {
   display: grid;
   -webkit-justify-content: center;
