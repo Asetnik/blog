@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\User;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,11 @@ class UserController extends Controller
             $isAuth['user'] = Auth::user();
         }
         return response()->json($isAuth);
+    }
+
+    public function getPopularAuthors() {
+        $authors = User::withCount('posts')->orderBy('posts_count', 'desc')->limit(5)->get();
+        return response()->json($authors);
     }
 
     /**

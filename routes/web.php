@@ -24,6 +24,7 @@ Route::middleware('auth')->resource('/api/categories', 'PostCategoryController')
 Route::middleware('auth')->resource('/api/roles', 'UserRoleController');
 Route::middleware('auth')->get('/api/userstatuses', 'UserStatusesController@index');
 Route::middleware('auth')->get('/api/poststatuses', 'PostStatusesController@index');
+Route::middleware('auth')->get('/api/popularauthors', 'UserController@getPopularAuthors');
 
 Route::middleware('auth')->get('/api/user', function (Request $request) {
     return response()->json($request->user());

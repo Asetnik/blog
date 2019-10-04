@@ -12715,3 +12715,28 @@ li {
   cursor: pointer;
 }
 
+.top-authors .author-folded {
+  display: grid;
+  grid-template-columns: -webkit-max-content auto;
+  grid-template-columns: max-content auto;
+  grid-column-gap: 10px;
+  -webkit-align-items: center;
+          align-items: center;
+}
+
+.top-authors .author-folded:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.top-authors .author-folded img {
+  width: 60px;
+  height: 60px;
+  border-radius: 60px;
+  object-fit: cover;
+}
+
+.top-authors .author-folded .author-name {
+  display: block;
+  font-size: 22px;
+}
+

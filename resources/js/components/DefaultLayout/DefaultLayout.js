@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PostFolded from "../Post/PostFolded/PostFolded";
-import PostFull from "../Post/PostFull/PostFull";
+import PostFullPage from "../PostFullPage/PostFullPage";
 import Category from "../Category/Category";
 import UserPage from "../UserPage/UserPage";
 import Profile from "../Profile/Profile";
@@ -23,7 +23,7 @@ class DefaultLayout extends Component{
                     <Route path={'/'} exact component={ PostsList } />
                     <Route path={'/categories/:id'} exact component={ Category } />
                     <Route path={'/create/posts'} exact component={ (props) => <EditPost {...props} type="create"/> } />
-                    <Route path={'/posts/:id'} exact component={ PostFull } />
+                    <Route path={'/posts/:id'} exact component={ PostFullPage } />
                     <Route path={'/users/:id'} exact component={ UserPage } />
                     <Route path={'/myprofile'} exact component={ Profile } />
                     <Route path={'/myprofile/edit'} exact component={ (props) => <EditUser {...props} type="edit"/> } />
