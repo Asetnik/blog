@@ -21,7 +21,6 @@ class DefaultLayout extends Component{
                 <Header />
                 <div className="page-content container">
                     <Route path={'/'} exact component={ PostsList } />
-                    <Route path={'/search'} component={ PostsList } />
                     <Route path={'/categories/:id'} exact component={ Category } />
                     <Route path={'/create/posts'} exact component={ (props) => <EditPost {...props} type="create"/> } />
                     <Route path={'/posts/:id'} exact component={ PostFull } />

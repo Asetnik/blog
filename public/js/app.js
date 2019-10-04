@@ -63535,9 +63535,6 @@ function (_Component) {
         exact: true,
         component: _PostsList_PostsList__WEBPACK_IMPORTED_MODULE_7__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
-        path: '/search',
-        component: _PostsList_PostsList__WEBPACK_IMPORTED_MODULE_7__["default"]
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         path: '/categories/:id',
         exact: true,
         component: _Category_Category__WEBPACK_IMPORTED_MODULE_3__["default"]
@@ -64560,22 +64557,7 @@ function (_Component) {
         }
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "tag-column"
-      }, this.props.filter && this.props.filter.tag ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
-        placeholder: "\u0422\u044D\u0433",
-        data: this.state.tags,
-        valueField: "id",
-        textField: "tag",
-        value: this.state.tags.filter(function (tag) {
-          if (tag.id === _this3.props.filter.tag) return true;
-        }),
-        onChange: function onChange(value) {
-          return _this3.props.updateFilter({
-            tag: value.map(function (value) {
-              return value.id;
-            }).join(",")
-          });
-        }
-      }) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_1___default.a, {
         placeholder: "\u0422\u044D\u0433",
         data: this.state.tags,
         valueField: "id",
@@ -65381,7 +65363,6 @@ function (_Component) {
       postsIsLoaded: false
     };
     _this.renderPosts = _this.renderPosts.bind(_assertThisInitialized(_this));
-    _this.parseSearchURL = _this.parseSearchURL.bind(_assertThisInitialized(_this));
     _this.updateFilter = _this.updateFilter.bind(_assertThisInitialized(_this));
     _this.toPrevPage = _this.toPrevPage.bind(_assertThisInitialized(_this));
     _this.toPage = _this.toPage.bind(_assertThisInitialized(_this));
@@ -65394,44 +65375,13 @@ function (_Component) {
     value: function componentWillMount() {
       var _this2 = this;
 
-      if (this.props.location.search) {
-        this.setState({
-          dataIsLoaded: true
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
+        _this2.setState({
+          posts: response.data,
+          dataIsLoaded: true,
+          postsIsLoaded: true
         });
-        var filter = this.parseSearchURL(this.props.location.search);
-        this.setState({
-          filter: filter
-        });
-        this.updateFilter(filter);
-      } else {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/posts').then(function (response) {
-          _this2.setState({
-            posts: response.data,
-            dataIsLoaded: true,
-            postsIsLoaded: true
-          });
-        });
-      }
-    }
-  }, {
-    key: "parseSearchURL",
-    value: function parseSearchURL(url) {
-      var substr = url.slice(1);
-      var params = {};
-
-      while (substr.indexOf('=') !== -1) {
-        var paramEnd = substr.indexOf('=');
-
-        if (substr.indexOf('&') !== -1) {
-          params[substr.slice(0, paramEnd)] = Number(substr.slice(paramEnd + 1, substr.indexOf('&')));
-          substr = substr.slice(substr.indexOf('&') + 1);
-        } else {
-          params[substr.slice(0, paramEnd)] = Number(substr.slice(paramEnd + 1));
-          substr = substr.slice(paramEnd + 1);
-        }
-      }
-
-      return params;
+      });
     }
   }, {
     key: "updateFilter",

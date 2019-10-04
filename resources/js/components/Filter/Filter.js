@@ -109,28 +109,13 @@ class Filter extends Component{
                         />
                     </div>}
                     <div className="tag-column">
-                        {
-                            (this.props.filter && this.props.filter.tag) ? (
-                                <Multiselect
-                                    placeholder="Тэг"
-                                    data={this.state.tags}
-                                    valueField="id"
-                                    textField="tag"
-                                    value={this.state.tags.filter((tag) => {
-                                        if(tag.id === this.props.filter.tag) return true;
-                                    })}
-                                    onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
-                                />
-                            ) : (
-                                <Multiselect
-                                    placeholder="Тэг"
-                                    data={this.state.tags}
-                                    valueField="id"
-                                    textField="tag"
-                                    onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
-                                />
-                            )
-                        }
+                        <Multiselect
+                            placeholder="Тэг"
+                            data={this.state.tags}
+                            valueField="id"
+                            textField="tag"
+                            onChange={value => this.props.updateFilter( {tag: value.map(value => value.id).join(",")} ) }
+                        />
                     </div>
                 </div>
             </div>

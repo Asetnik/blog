@@ -22,7 +22,6 @@ class PostsList extends Component {
             postsIsLoaded: false
         };
         this.renderPosts = this.renderPosts.bind(this);
-        this.parseSearchURL = this.parseSearchURL.bind(this);
         this.updateFilter = this.updateFilter.bind(this);
         this.toPrevPage = this.toPrevPage.bind(this);
         this.toPage = this.toPage.bind(this);
@@ -30,40 +29,15 @@ class PostsList extends Component {
     }
 
     componentWillMount() {
-        if(this.props.location.search){
-            this.setState({dataIsLoaded: true});
-            let filter = this.parseSearchURL(this.props.location.search);
-            this.setState({
-                filter: filter
-            });
-            this.updateFilter(filter);
-        } else {
-            axios
-                .get('/api/posts')
-                .then(response => {
-                    this.setState({
-                        posts: response.data,
-                        dataIsLoaded: true,
-                        postsIsLoaded: true
-                    });
+        axios
+            .get('/api/posts')
+            .then(response => {
+                this.setState({
+                    posts: response.data,
+                    dataIsLoaded: true,
+                    postsIsLoaded: true
                 });
-        }
-    }
-
-    parseSearchURL(url){
-        let substr = url.slice(1);
-        let params = {};
-        while(substr.indexOf('=') !== -1){
-            let paramEnd = substr.indexOf('=');
-            if(substr.indexOf('&') !== -1){
-                params[substr.slice(0, paramEnd)] = Number(substr.slice(paramEnd + 1, substr.indexOf('&')));
-                substr = substr.slice(substr.indexOf('&') + 1);
-            } else {
-                params[substr.slice(0, paramEnd)] = Number(substr.slice(paramEnd + 1));
-                substr = substr.slice(paramEnd + 1);
-            }
-        }
-        return params;
+            });
     }
 
     updateFilter(filter){
