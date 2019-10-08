@@ -15,7 +15,13 @@ class TopAuthors extends Component{
     componentWillMount() {
         axios.get('/api/popularauthors')
             .then(response => {
-                this.setState({authors: response.data});
+                this.setState({
+                    authors: response.data
+                }, () => {
+                    this.setState({
+                        dataIsLoaded: true
+                    });
+                });
             });
     }
 
@@ -23,7 +29,7 @@ class TopAuthors extends Component{
         return (
             <div className="blog-card top-authors">
                 <h3 className="mb-3">5 популярных авторов</h3>
-                {this.state.dataIsLoaded ? <Spinner /> : (
+                {!this.state.dataIsLoaded ? <Spinner /> : (
                     <React.Fragment>
                         {
                             this.state.authors.map((author, index) => {

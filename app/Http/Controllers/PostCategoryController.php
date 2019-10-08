@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Arr;
 
 class PostCategoryController extends Controller
 {
@@ -46,6 +47,20 @@ class PostCategoryController extends Controller
     public function categoriesWithPosts() {
         $categories = PostCategory::whereIn('id', Post::all()->pluck('category_id'))->get();
         return response()->json($categories);
+    }
+
+    public function getPopularCategories() {
+        $categories = PostCategory::all();
+        foreach ($categories as $category){
+            $posts = $category->posts;
+            $category->views = $posts->sum("views");
+        };
+        $categories = array_values(Arr::sort($categories, function ($value) {
+            return $value['views'];
+        }));
+        $categories = array_reverse($categories);
+        $popular_categories = array_slice($categories, 0, 5);
+        return response()->json($popular_categories);
     }
 
     /**

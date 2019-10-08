@@ -9,7 +9,6 @@ import {connect} from "react-redux";
 class AuthLayout extends Component{
 
     render() {
-        console.log('authlayout', this.props.store.isAuth);
         return (
             <React.Fragment>
                 <Header />

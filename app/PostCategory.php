@@ -13,7 +13,7 @@ class PostCategory extends Model
     public $timestamps = false;
 
     public function posts() {
-        return $this->belongsToMany(Post::class);
+        return $this->hasMany(Post::class, "category_id", "id");
     }
 
     public static function add($fields) {

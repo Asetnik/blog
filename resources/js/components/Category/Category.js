@@ -3,6 +3,7 @@ import PostsList from "../PostsList/PostsList";
 import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
 import Filter from "../Filter/Filter";
+import TopAuthors from "../TopAuthors/TopAuthors";
 
 class Category extends PostsList {
 
@@ -133,22 +134,29 @@ class Category extends PostsList {
             <div className="category-page">
                 {
                     !dataIsLoaded ? (<Spinner/>) : (
-                        <div>
-                            <span
-                                className="badge badge-primary category-page-title">{"Категория " + this.state.category.category}</span>
-                            <Filter
-                                className={"mb-5"}
-                                type={'category'}
-                                updateFilter={this.updateFilter}
-                            />
+                        <React.Fragment>
+                            <span className="badge badge-primary category-page-title">{"Категория " + this.state.category.category}</span>
+                            <div className="row">
+                                <div className="col-9">
+                                    <Filter
+                                        className={"mb-5"}
+                                        type={'category'}
+                                        updateFilter={this.updateFilter}
+                                    />
 
-                            {
-                                !this.state.postsIsLoaded ? (<Spinner />) :
-                                    (<React.Fragment>
-                                        {this.renderPosts(this.state.posts)}
-                                    </React.Fragment>)
-                            }
-                        </div>
+                                    {
+                                        !this.state.postsIsLoaded ? (<Spinner />) :
+                                            (<React.Fragment>
+                                                {this.renderPosts(this.state.posts)}
+                                            </React.Fragment>)
+                                    }
+                                </div>
+                                <div className="col-3">
+                                    <TopAuthors />
+                                </div>
+                            </div>
+                        </React.Fragment>
+
                     )
                 }
             </div>

@@ -12368,6 +12368,10 @@ li {
   font-size: 14px;
 }
 
+.post .head-wrapper .category-wrapper {
+  justify-self: right;
+}
+
 .post .head-wrapper .category-wrapper span {
   font-size: 14px;
 }
@@ -12738,5 +12742,16 @@ li {
 .top-authors .author-folded .author-name {
   display: block;
   font-size: 22px;
+  line-height: 22px;
+}
+
+.top-categories .category-name {
+  display: block;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.top-categories span {
+  font-size: 14px;
 }
 

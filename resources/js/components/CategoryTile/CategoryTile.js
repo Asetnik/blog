@@ -19,7 +19,7 @@ class CategoryTile extends Component {
 
     render() {
         return (
-            <Link to={'/categories/'+this.props.category_id} className="float-right">
+            <Link to={'/categories/'+this.props.category_id} className="d-block">
                 <span className="badge badge-primary" onMouseOver={this.onMouseOver} onMouseOut={this.onMouseOut}>{this.props.category}</span>
             </Link>
         );

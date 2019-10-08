@@ -26,7 +26,7 @@ class Post extends Model
     }
 
     public function category() {
-        return $this->hasOne(PostCategory::class, 'id', 'category_id');
+        return $this->belongsTo(PostCategory::class, 'category_id', 'id');
     }
 
     public function tags() {
