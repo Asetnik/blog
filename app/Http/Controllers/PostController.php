@@ -63,6 +63,12 @@ class PostController extends Controller
         return response()->json($filteredPosts);
     }
 
+    public function getSimilarPosts($id) {
+        $post = Post::findOrFail($id);
+        $posts = Post::where('category_id', $post->category_id)->whereNotIn('id', [$post->id])->limit(5)->get();
+        return response()->json($posts);
+    }
+
     /**
      * Display a listing of the resource.
      *

@@ -22,9 +22,10 @@ class PostFull extends Post {
             }
         };
         this.commentDisplayToggle = this.commentDisplayToggle.bind(this);
+        this.getPosts = this.getPosts.bind(this);
     }
 
-    componentWillMount() {
+    getPosts(){
         axios
             .get('/api/posts/' + this.props.match.params.id)
             .then(response => {
@@ -34,6 +35,22 @@ class PostFull extends Post {
                     this.setState({dataIsLoaded: true});
                 });
             })
+    }
+
+    componentWillMount() {
+        this.getPosts();
+    }
+
+    componentDidUpdate(prevProps, prevState) {
+        if(this.props.match.params.id !== prevProps.match.params.id){
+            window.scrollTo(0, 0);
+            this.setState({
+                dataIsLoaded: false
+            }, () => {
+
+                this.getPosts();
+            });
+        }
     }
 
     componentDidMount() {

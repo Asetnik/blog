@@ -65247,12 +65247,13 @@ function (_Post) {
       }
     };
     _this.commentDisplayToggle = _this.commentDisplayToggle.bind(_assertThisInitialized(_this));
+    _this.getPosts = _this.getPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
 
   _createClass(PostFull, [{
-    key: "componentWillMount",
-    value: function componentWillMount() {
+    key: "getPosts",
+    value: function getPosts() {
       var _this2 = this;
 
       axios__WEBPACK_IMPORTED_MODULE_2___default.a.get('/api/posts/' + this.props.match.params.id).then(function (response) {
@@ -65264,6 +65265,25 @@ function (_Post) {
           });
         });
       });
+    }
+  }, {
+    key: "componentWillMount",
+    value: function componentWillMount() {
+      this.getPosts();
+    }
+  }, {
+    key: "componentDidUpdate",
+    value: function componentDidUpdate(prevProps, prevState) {
+      var _this3 = this;
+
+      if (this.props.match.params.id !== prevProps.match.params.id) {
+        window.scrollTo(0, 0);
+        this.setState({
+          dataIsLoaded: false
+        }, function () {
+          _this3.getPosts();
+        });
+      }
     }
   }, {
     key: "componentDidMount",
@@ -65357,6 +65377,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Post/PostFull/PostFull */ "./resources/js/components/Post/PostFull/PostFull.js");
 /* harmony import */ var _TopAuthors_TopAuthors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TopAuthors/TopAuthors */ "./resources/js/components/TopAuthors/TopAuthors.js");
 /* harmony import */ var _TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../TopCategories/TopCategories */ "./resources/js/components/TopCategories/TopCategories.js");
+/* harmony import */ var _SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../SimilarPosts/SimilarPosts */ "./resources/js/components/SimilarPosts/SimilarPosts.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -65374,6 +65395,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -65400,7 +65422,9 @@ function (_Component) {
         className: "col-9"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_1__["default"], this.props)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-3"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopAuthors_TopAuthors__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_3__["default"], null)));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopAuthors_TopAuthors__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_4__["default"], {
+        post_id: this.props.match.params.id
+      })));
     }
   }]);
 
@@ -66170,6 +66194,103 @@ function (_Component) {
 }(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (Search);
+
+/***/ }),
+
+/***/ "./resources/js/components/SimilarPosts/SimilarPosts.js":
+/*!**************************************************************!*\
+  !*** ./resources/js/components/SimilarPosts/SimilarPosts.js ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+
+
+
+var SimilarPosts =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(SimilarPosts, _Component);
+
+  function SimilarPosts(props) {
+    var _this;
+
+    _classCallCheck(this, SimilarPosts);
+
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(SimilarPosts).call(this, props));
+    _this.state = {
+      posts: [],
+      dataIsLoaded: false
+    };
+    return _this;
+  }
+
+  _createClass(SimilarPosts, [{
+    key: "componentDidMount",
+    value: function componentDidMount() {
+      var _this2 = this;
+
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/similarposts/' + this.props.post_id, {
+        maxRedirects: 1
+      }).then(function (respone) {
+        _this2.setState({
+          posts: respone.data
+        }, function () {
+          _this2.setState({
+            dataIsLoaded: true
+          });
+        });
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "blog-card similar-posts mt-4"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h3", {
+        className: "mb-3"
+      }, "\u041F\u043E\u0445\u043E\u0436\u0438\u0435 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_3__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, this.state.posts.map(function (post, index) {
+        return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_2__["Link"], {
+          key: index,
+          to: "/posts/" + post.id,
+          className: "text-link d-block similar-post mb-3"
+        }, post.title);
+      })));
+    }
+  }]);
+
+  return SimilarPosts;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (SimilarPosts);
 
 /***/ }),
 

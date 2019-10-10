@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PostFull from "../Post/PostFull/PostFull";
 import TopAuthors from "../TopAuthors/TopAuthors";
 import TopCategories from "../TopCategories/TopCategories";
+import SimilarPosts from "../SimilarPosts/SimilarPosts";
 
 class PostFullPage extends Component{
     constructor(props){
@@ -16,6 +17,7 @@ class PostFullPage extends Component{
             <div className="col-3">
                 <TopAuthors />
                 <TopCategories />
+                <SimilarPosts post_id={this.props.match.params.id}/>
             </div>
         </div>
     }
