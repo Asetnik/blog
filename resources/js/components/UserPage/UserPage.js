@@ -3,6 +3,7 @@ import axios from "axios";
 import Filter from "../Filter/Filter";
 import Spinner from "../Spinner/Spinner";
 import PostsList from "../PostsList/PostsList";
+import UserTopPosts from "../UserTopPosts/UserTopPosts";
 
 class UserPage extends PostsList {
 
@@ -108,6 +109,8 @@ class UserPage extends PostsList {
                                 <p><span>Количество статей:</span> {this.state.user.posts_count}</p>
                             </div>
                         </div>
+
+                        <UserTopPosts user_id={this.state.user.id} />
 
                         <Filter
                             className={"mt-5 mb-5"}

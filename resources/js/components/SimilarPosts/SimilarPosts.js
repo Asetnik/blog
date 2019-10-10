@@ -12,7 +12,7 @@ class SimilarPosts extends Component{
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get('/api/similarposts/' + this.props.post_id)
             .then(respone => {
                this.setState({
@@ -26,7 +26,7 @@ class SimilarPosts extends Component{
     }
 
     render() {
-        return(<div className="blog-card similar-posts mt-4">
+        return(<div className="blog-card similar-posts">
             <h3 className="mb-3">Похожие публикации</h3>
             {!this.state.dataIsLoaded ? <Spinner /> : (
                 <React.Fragment>

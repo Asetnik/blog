@@ -13,7 +13,7 @@ class TopCategories extends Component {
         }
     }
 
-    componentWillMount() {
+    componentDidMount() {
         axios.get('/api/popularcategories')
             .then(response => {
                this.setState({
@@ -28,7 +28,7 @@ class TopCategories extends Component {
 
     render() {
         return (
-            <div className="blog-card top-categories mt-4">
+            <div className="blog-card top-categories mb-4">
                 <h3 className="mb-3">5 популярных категорий</h3>
                 {!this.state.dataIsLoaded ? <Spinner /> : (
                     <React.Fragment>

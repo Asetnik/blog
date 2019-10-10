@@ -152,7 +152,7 @@ class Category extends PostsList {
                                     }
                                 </div>
                                 <div className="col-3">
-                                    <TopAuthors />
+                                    <TopAuthors category_id={this.state.category.id}/>
                                 </div>
                             </div>
                         </React.Fragment>

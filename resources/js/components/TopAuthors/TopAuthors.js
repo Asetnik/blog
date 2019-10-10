@@ -12,8 +12,8 @@ class TopAuthors extends Component{
         };
     }
 
-    componentWillMount() {
-        axios.get('/api/popularauthors')
+    componentDidMount() {
+        axios.get('/api/popularauthors/' + this.props.category_id)
             .then(response => {
                 this.setState({
                     authors: response.data

@@ -4,6 +4,7 @@ import axios from "axios";
 import Post from "../Post";
 import Spinner from "../../Spinner/Spinner";
 import {Link} from "react-router-dom";
+import PostCommentForm from "../../PostCommentForm/PostCommentForm";
 
 class PostFull extends Post {
 
@@ -58,11 +59,9 @@ class PostFull extends Post {
     }
 
     commentDisplayToggle() {
-        if(this.state.post.comments.length > 0) {
-            this.setState({
-                commentsIsDisplayed: !this.state.commentsIsDisplayed,
-            });
-        }
+        this.setState({
+            commentsIsDisplayed: !this.state.commentsIsDisplayed,
+        });
     }
 
     render() {
@@ -104,10 +103,13 @@ class PostFull extends Post {
                             </div>
                         </div>
                         { (this.state.commentsIsDisplayed) &&
-                            <div className="comments">
-                                <h4>Коментарии</h4>
-                                {this.renderComments(this.state.post.comments)}
-                            </div>
+                            <React.Fragment>
+                                <div className="comments">
+                                    <h4>Коментарии</h4>
+                                    {this.renderComments(this.state.post.comments)}
+                                </div>
+                                <PostCommentForm />
+                            </React.Fragment>
                         }
                     </div>
                 )}

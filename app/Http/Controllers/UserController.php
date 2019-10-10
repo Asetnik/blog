@@ -31,8 +31,10 @@ class UserController extends Controller
         return response()->json($isAuth);
     }
 
-    public function getPopularAuthors() {
-        $authors = User::withCount('posts')->orderBy('posts_count', 'desc')->limit(5)->get();
+    public function getPopularAuthors($categoryId) {
+        $authors = User::withCount(['posts' => function ($query) use ($categoryId){
+            $query->where('category_id', $categoryId);
+        }])->orderBy('posts_count', 'desc')->limit(5)->get();
         return response()->json($authors);
     }
 

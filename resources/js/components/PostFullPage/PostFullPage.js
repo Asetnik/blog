@@ -15,9 +15,8 @@ class PostFullPage extends Component{
                 <PostFull {...this.props} />
             </div>
             <div className="col-3">
-                <TopAuthors />
                 <TopCategories />
-                <SimilarPosts post_id={this.props.match.params.id}/>
+                <SimilarPosts post_id={this.props.match.params.id} />
             </div>
         </div>
     }

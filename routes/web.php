@@ -24,9 +24,10 @@ Route::middleware('auth')->resource('/api/categories', 'PostCategoryController')
 Route::middleware('auth')->resource('/api/roles', 'UserRoleController');
 Route::middleware('auth')->get('/api/userstatuses', 'UserStatusesController@index');
 Route::middleware('auth')->get('/api/poststatuses', 'PostStatusesController@index');
-Route::middleware('auth')->get('/api/popularauthors', 'UserController@getPopularAuthors');
+Route::middleware('auth')->get('/api/popularauthors/{categoryId}', 'UserController@getPopularAuthors');
 Route::middleware('auth')->get('/api/popularcategories', 'PostCategoryController@getPopularCategories');
 Route::middleware('auth')->get('/api/similarposts/{id}', 'PostController@getSimilarPosts');
+Route::middleware('auth')->get('/api/userpopularposts/{id}', 'PostController@getUserPopularPosts');
 
 Route::middleware('auth')->get('/api/user', function (Request $request) {
     return response()->json($request->user());
