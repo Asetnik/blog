@@ -12247,6 +12247,10 @@ a.text-dark:focus {
   transition: 0.5s;
 }
 
+.text-green {
+  color: #4aa951;
+}
+
 .table {
   color: #4f5050;
 }
@@ -12795,5 +12799,10 @@ li {
 
 .comment-form .comment-container .submit-comment {
   padding: 2px 10px;
+}
+
+.top-posts .top-post {
+  font-size: 23px;
+  line-height: 23px;
 }
 

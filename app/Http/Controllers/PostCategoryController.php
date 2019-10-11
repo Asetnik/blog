@@ -63,6 +63,11 @@ class PostCategoryController extends Controller
         return response()->json($popular_categories);
     }
 
+    public function getTopPosts($id){
+        $posts = Post::where('category_id', $id)->orderBy('views', 'desc')->limit(5)->get();
+        return response()->json($posts);
+    }
+
     /**
      * Display a listing of the resource.
      *

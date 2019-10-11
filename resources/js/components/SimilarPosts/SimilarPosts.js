@@ -27,7 +27,7 @@ class SimilarPosts extends Component{
 
     render() {
         return(<div className="blog-card similar-posts">
-            <h3 className="mb-3">Похожие публикации</h3>
+            <h3 className="mb-3 text-green">Похожие публикации</h3>
             {!this.state.dataIsLoaded ? <Spinner /> : (
                 <React.Fragment>
                     {

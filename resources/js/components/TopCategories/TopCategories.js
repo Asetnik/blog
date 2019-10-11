@@ -29,7 +29,7 @@ class TopCategories extends Component {
     render() {
         return (
             <div className="blog-card top-categories mb-4">
-                <h3 className="mb-3">5 популярных категорий</h3>
+                <h3 className="mb-3 text-green">5 популярных категорий</h3>
                 {!this.state.dataIsLoaded ? <Spinner /> : (
                     <React.Fragment>
                         {

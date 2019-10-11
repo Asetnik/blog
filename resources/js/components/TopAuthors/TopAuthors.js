@@ -27,8 +27,8 @@ class TopAuthors extends Component{
 
     render() {
         return (
-            <div className="blog-card top-authors">
-                <h3 className="mb-3">5 популярных авторов</h3>
+            <div className="blog-card top-authors mb-5">
+                <h3 className="mb-3 text-green">5 популярных авторов</h3>
                 {!this.state.dataIsLoaded ? <Spinner /> : (
                     <React.Fragment>
                         {

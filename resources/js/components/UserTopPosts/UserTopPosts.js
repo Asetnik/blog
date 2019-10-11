@@ -28,7 +28,7 @@ class UserTopPosts extends Component{
     render() {
         return(
             <div className="blog-card user-top-posts mt-5">
-                <h3 className="mb-3">Популярные публикации автора</h3>
+                <h3 className="mb-3 text-green">Популярные публикации автора</h3>
                 {!this.state.dataIsLoaded ? <Spinner /> : (
                     <React.Fragment>
                         {

@@ -4,6 +4,7 @@ import axios from 'axios';
 import Spinner from "../Spinner/Spinner";
 import Filter from "../Filter/Filter";
 import TopAuthors from "../TopAuthors/TopAuthors";
+import CategoryTopPosts from "../CategoryTopPosts/CategoryTopPosts";
 
 class Category extends PostsList {
 
@@ -153,6 +154,7 @@ class Category extends PostsList {
                                 </div>
                                 <div className="col-3">
                                     <TopAuthors category_id={this.state.category.id}/>
+                                    <CategoryTopPosts category_id={this.state.category.id}/>
                                 </div>
                             </div>
                         </React.Fragment>
