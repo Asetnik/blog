@@ -23,6 +23,7 @@ class PostFull extends Post {
             }
         };
         this.commentDisplayToggle = this.commentDisplayToggle.bind(this);
+        this.appendComment = this.appendComment.bind(this);
         this.getPosts = this.getPosts.bind(this);
     }
 
@@ -61,6 +62,18 @@ class PostFull extends Post {
     commentDisplayToggle() {
         this.setState({
             commentsIsDisplayed: !this.state.commentsIsDisplayed,
+        });
+    }
+
+    appendComment(comment){
+        this.setState({
+            post: {
+                ...this.state.post,
+                comments: [
+                    ...this.state.post.comments,
+                    comment
+                ]
+            }
         });
     }
 
@@ -108,7 +121,7 @@ class PostFull extends Post {
                                     <h4>Коментарии</h4>
                                     {this.renderComments(this.state.post.comments)}
                                 </div>
-                                <PostCommentForm />
+                                <PostCommentForm post_id={this.state.post.id} appendComment={this.appendComment}/>
                             </React.Fragment>
                         }
                     </div>

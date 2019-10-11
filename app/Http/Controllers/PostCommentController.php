@@ -35,7 +35,9 @@ class PostCommentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $comment = PostComment::add($request->all());
+        $comment = PostComment::where('id', $comment->id)->with('author')->get();
+        return response()->json($comment);
     }
 
     /**

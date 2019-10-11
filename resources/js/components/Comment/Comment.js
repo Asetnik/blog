@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import {Link} from "react-router-dom";
 
 class Comment extends Component {
 
@@ -6,9 +7,9 @@ class Comment extends Component {
         return(
             <div className="comment">
                 <div className="author-wrapper">
-                    <a href="#"><img src={this.props.comment.author.photo} alt=""/></a>
+                    <Link to={'/users/' + this.props.comment.author.id}><img src={this.props.comment.author.photo} alt=""/></Link>
                     <div className="author-info">
-                        <a href="#" className="text-link author-name">{this.props.comment.author.name + " " + this.props.comment.author.surname}</a>
+                        <Link to={'/users/' + this.props.comment.author.id} className="text-link author-name">{this.props.comment.author.name + " " + this.props.comment.author.surname}</Link>
                         <p>{this.props.comment.created_at}</p>
                     </div>
                 </div>

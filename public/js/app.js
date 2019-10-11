@@ -63502,6 +63502,7 @@ function (_Component) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -63519,6 +63520,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -63540,15 +63542,15 @@ function (_Component) {
         className: "comment"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-wrapper"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: "#"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: '/users/' + this.props.comment.author.id
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.props.comment.author.photo,
         alt: ""
       })), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "author-info"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("a", {
-        href: "#",
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Link"], {
+        to: '/users/' + this.props.comment.author.id,
         className: "text-link author-name"
       }, this.props.comment.author.name + " " + this.props.comment.author.surname), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, this.props.comment.created_at))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comment-content"
@@ -65302,6 +65304,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _PostCommentForm_PostCommentForm__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../../PostCommentForm/PostCommentForm */ "./resources/js/components/PostCommentForm/PostCommentForm.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance"); }
+
+function _iterableToArray(iter) { if (Symbol.iterator in Object(iter) || Object.prototype.toString.call(iter) === "[object Arguments]") return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = new Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -65350,6 +65364,7 @@ function (_Post) {
       }
     };
     _this.commentDisplayToggle = _this.commentDisplayToggle.bind(_assertThisInitialized(_this));
+    _this.appendComment = _this.appendComment.bind(_assertThisInitialized(_this));
     _this.getPosts = _this.getPosts.bind(_assertThisInitialized(_this));
     return _this;
   }
@@ -65398,6 +65413,15 @@ function (_Post) {
     value: function commentDisplayToggle() {
       this.setState({
         commentsIsDisplayed: !this.state.commentsIsDisplayed
+      });
+    }
+  }, {
+    key: "appendComment",
+    value: function appendComment(comment) {
+      this.setState({
+        post: _objectSpread({}, this.state.post, {
+          comments: [].concat(_toConsumableArray(this.state.post.comments), [comment])
+        })
       });
     }
   }, {
@@ -65453,7 +65477,10 @@ function (_Post) {
         "aria-hidden": "true"
       }), " ", this.state.post.views))), this.state.commentsIsDisplayed && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "comments"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), this.renderComments(this.state.post.comments)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PostCommentForm_PostCommentForm__WEBPACK_IMPORTED_MODULE_6__["default"], null))));
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h4", null, "\u041A\u043E\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0438"), this.renderComments(this.state.post.comments)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_PostCommentForm_PostCommentForm__WEBPACK_IMPORTED_MODULE_6__["default"], {
+        post_id: this.state.post.id,
+        appendComment: this.appendComment
+      }))));
     }
   }]);
 
@@ -65479,6 +65506,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -65529,7 +65558,23 @@ function (_Component) {
   }, {
     key: "sendComment",
     value: function sendComment(event) {
+      var _this2 = this;
+
       event.preventDefault();
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/comment', _objectSpread({}, this.state, {
+        post_id: this.props.post_id,
+        author_id: this.props.store.user.id
+      })).then(function (response) {
+        if (response.status === 200) {
+          _this2.setState({
+            content: ''
+          });
+
+          _this2.props.appendComment(response.data[0]);
+
+          window.scrollTo(0, document.body.scrollHeight);
+        }
+      });
     }
   }, {
     key: "render",
@@ -65538,7 +65583,7 @@ function (_Component) {
         className: "comment-form"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
         onSubmit: this.sendComment,
-        "class": "form-inline comment-form-container"
+        className: "form-inline comment-form-container"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         src: this.props.store.user.photo,
         alt: "",
