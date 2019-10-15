@@ -63757,17 +63757,20 @@ function (_Component) {
     _classCallCheck(this, EditPost);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(EditPost).call(this, props));
+    var formData = new FormData();
     _this.state = {
       users: [],
       categories: [],
       tags: [],
       statuses: [],
+      formData: formData,
       post: {
         author_id: undefined,
         created_at: undefined,
         title: '',
         description: '',
         content: '',
+        photo: '',
         category_id: undefined,
         tags_id: [],
         status_id: undefined
@@ -63787,6 +63790,7 @@ function (_Component) {
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.datepickersSpellcheck = _this.datepickersSpellcheck.bind(_assertThisInitialized(_this));
     _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
+    _this.uploadImage = _this.uploadImage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -63839,7 +63843,6 @@ function (_Component) {
       if (this.props.type === "create") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/categories'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/tags')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse) {
           _this2.setState({
-            post: _objectSpread({}, _this2.state.post),
             categories: firstResponse.data,
             tags: secondResponse.data
           }, function () {
@@ -63863,10 +63866,11 @@ function (_Component) {
     }
   }, {
     key: "handleChange",
-    value: function handleChange() {
+    value: function handleChange(event) {
       this.setState({
         post: _objectSpread({}, this.state.post, _defineProperty({}, event.target.name, event.target.value))
       });
+      this.state.formData.set(event.target.name, event.target.value);
     }
   }, {
     key: "datepickersSpellcheck",
@@ -63898,7 +63902,7 @@ function (_Component) {
       }
 
       if (Type === "adminCreate") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', this.state.post).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', this.state.formData).then(function (response) {
           if (response.status === 200) {
             _this3.props.history.push("/admin/posts");
           }
@@ -63910,13 +63914,13 @@ function (_Component) {
       }
 
       if (Type === "create") {
+        this.state.formData.set('author_id', this.props.store.user.id);
         this.setState({
           post: _objectSpread({}, this.state.post, {
-            author_id: this.props.store.user.id,
-            created_at: new Date()
+            author_id: this.props.store.user.id
           })
         }, function () {
-          axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', _this3.state.post).then(function (response) {
+          axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts', _this3.state.formData).then(function (response) {
             if (response.status === 200) {
               if (Type === "adminCreate") {
                 _this3.props.history.push("/admin/posts");
@@ -63931,6 +63935,14 @@ function (_Component) {
           });
         });
       }
+    }
+  }, {
+    key: "uploadImage",
+    value: function uploadImage(e) {
+      e.preventDefault();
+      var photo = e.target.files[0];
+      document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+      this.state.formData.set("photo", photo);
     }
   }, {
     key: "render",
@@ -63961,11 +63973,13 @@ function (_Component) {
         valueField: "id",
         textField: "fullname",
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
               author_id: value.id
             })
           });
+
+          _this4.state.formData.set('author_id', value.id);
         }
       }), this.state.validationErrors.author && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -63981,11 +63995,13 @@ function (_Component) {
       }), Type === "adminCreate" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DateTimePicker__WEBPACK_IMPORTED_MODULE_4___default.a, {
         placeholder: "\u0414\u0430\u0442\u0430 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438",
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
-              created_at: value
+              created_at: new Date(value)
             })
           });
+
+          _this4.state.formData.set('created_at', new Date(value).toISOString());
         }
       }), this.state.validationErrors.created_at && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -64034,6 +64050,21 @@ function (_Component) {
       }, this.state.validationErrors.content[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "custom-file"
+      }, "\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435 \u0432 \u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "custom-file",
+        id: "custom-file"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        onChange: this.uploadImage,
+        className: "custom-file-input",
+        id: "customFile"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "custom-file-label",
+        htmlFor: "customFile"
+      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postCategory"
       }, "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_DropdownList__WEBPACK_IMPORTED_MODULE_2___default.a, {
         placeholder: "\u041A\u0430\u0442\u0435\u0433\u043E\u0440\u0438\u044F",
@@ -64042,11 +64073,13 @@ function (_Component) {
         textField: "category",
         value: this.state.post.category_id,
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
               category_id: value.id
             })
           });
+
+          _this4.state.formData.set('category_id', value.id);
         }
       }), this.state.validationErrors.category_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -64069,6 +64102,10 @@ function (_Component) {
               tags: value
             })
           });
+
+          _this4.state.formData.set('tags_id', value.map(function (item) {
+            return item.id;
+          }));
         }
       }), (Type === "adminCreate" || Type === "create") && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_widgets_lib_Multiselect__WEBPACK_IMPORTED_MODULE_7___default.a, {
         placeholder: "\u0422\u044D\u0433\u0438",
@@ -64076,13 +64113,17 @@ function (_Component) {
         valueField: "id",
         textField: "tag",
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
               tags_id: value.map(function (item) {
                 return item.id;
               })
             })
           });
+
+          _this4.state.formData.set('tags_id', value.map(function (item) {
+            return item.id;
+          }));
         }
       })), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
@@ -64095,11 +64136,13 @@ function (_Component) {
         textField: "status",
         value: this.state.post.status_id,
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             post: _objectSpread({}, _this4.state.post, {
               status_id: value.id
             })
           });
+
+          _this4.state.formData.set('status_id', value.id);
         }
       }), this.state.validationErrors.status_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"

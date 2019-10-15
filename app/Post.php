@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Post extends Model
 {
     protected $fillable = [
-        'author_id', 'title', 'description', 'content', 'category_id'
+        'author_id', 'title', 'description', 'content', 'photo', 'category_id'
     ];
 
     protected $dates = ['created_at'];
@@ -45,8 +45,12 @@ class Post extends Model
         $post = new static();
         $post->fill($fields);
         $post->status_id = 1;
-        $post->created_at = Carbon::create($fields["created_at"]);
-        $post->updated_at = Carbon::create($fields["created_at"]);
+        if(array_key_exists('created_at', $fields)){
+            $post->created_at = Carbon::create($fields["created_at"]);
+        } else {
+            $post->created_at = Carbon::now();
+        }
+        $post->updated_at = Carbon::now();
         $post->save();
         $tags = $fields["tags_id"];
         $post->tags()->sync($tags);

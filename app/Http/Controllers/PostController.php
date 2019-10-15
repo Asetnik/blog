@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Post;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -107,16 +108,20 @@ class PostController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'author_id' => 'required',
-            'created_at' => 'required|date',
+            'created_at' => 'nullable|date',
             'title' => 'required|max:255',
             'description' => 'required|max:255',
             'content' => 'required',
+            'photo' => 'required|image',
             'category_id' => 'required',
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
-        Post::add($request->all());
+        $path =$request->file('photo')->store('postImages', 'public');
+        $image_url = asset('/storage/' . $path);
+        $tags = explode(",", $request->get('tags_id'));
+        Post::add(array_merge($request->all(), ['photo' => $image_url], ['tags_id' => $tags]));
         return response('', 200);
     }
 
@@ -186,6 +191,8 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
+        $photo_name = substr($post->photo, strrpos($post->photo,'/'));
+        Storage::disk('public')->delete('postImages' . $photo_name);
         $post->delete();
     }
 }

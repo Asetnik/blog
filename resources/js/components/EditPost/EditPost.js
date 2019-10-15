@@ -11,17 +11,20 @@ import {connect} from "react-redux";
 class EditPost extends Component{
     constructor(props){
         super(props);
+        const formData = new FormData();
         this.state = {
             users: [],
             categories: [],
             tags: [],
             statuses: [],
+            formData: formData,
             post: {
                 author_id: undefined,
                 created_at: undefined,
                 title: '',
                 description: '',
                 content: '',
+                photo: '',
                 category_id: undefined,
                 tags_id: [],
                 status_id: undefined
@@ -41,6 +44,7 @@ class EditPost extends Component{
         this.handleChange = this.handleChange.bind(this);
         this.datepickersSpellcheck = this.datepickersSpellcheck.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     componentWillMount() {
@@ -101,9 +105,6 @@ class EditPost extends Component{
             ])
                 .then(axios.spread((firstResponse, secondResponse) => {
                     this.setState({
-                        post: {
-                            ...this.state.post,
-                        },
                         categories: firstResponse.data,
                         tags: secondResponse.data,
                     }, () => {
@@ -125,13 +126,14 @@ class EditPost extends Component{
         momentLocalizer();
     }
 
-    handleChange(){
+    handleChange(event){
         this.setState({
             post: {
                 ...this.state.post,
                 [event.target.name]: event.target.value
             }
         });
+        this.state.formData.set(event.target.name, event.target.value);
     }
 
     datepickersSpellcheck() {
@@ -160,7 +162,7 @@ class EditPost extends Component{
         }
 
         if(Type === "adminCreate") {
-            axios.post('/api/posts', this.state.post)
+            axios.post('/api/posts', this.state.formData)
                 .then(response => {
                     if(response.status === 200) {
                         this.props.history.push("/admin/posts");
@@ -174,14 +176,14 @@ class EditPost extends Component{
         }
 
         if(Type === "create") {
+            this.state.formData.set('author_id', this.props.store.user.id);
             this.setState({
                 post: {
                     ...this.state.post,
                     author_id: this.props.store.user.id,
-                    created_at: new Date()
                 }
             }, () => {
-                axios.post('/api/posts', this.state.post)
+                axios.post('/api/posts', this.state.formData)
                     .then(response => {
                         if(response.status === 200) {
                             if(Type === "adminCreate"){
@@ -200,12 +202,19 @@ class EditPost extends Component{
         }
     }
 
+    uploadImage(e){
+        e.preventDefault();
+        let photo = e.target.files[0];
+        document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+        this.state.formData.set("photo", photo);
+    }
+
     render() {
         const Type = this.props.type;
 
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
-                <div className="admin-post-create">{/*исправить*/}
+                <div className="admin-post-create">
                     {(Type === "adminCreate" || Type === "create") && <h3 className="page-header mb-3">Создание статьи</h3>}
                     {Type === "adminEdit" && <h3 className="page-header mb-3">Редактирование статьи</h3>}
                     <form className="post-create-form" onSubmit={this.submitForm}>
@@ -228,13 +237,16 @@ class EditPost extends Component{
                                             data={this.state.users}
                                             valueField="id"
                                             textField="fullname"
-                                            onChange={value => this.setState({
-                                                    post: {
-                                                        ...this.state.post,
-                                                        author_id: value.id
-                                                    }
+                                            onChange={value => {
+                                                    this.setState({
+                                                            post: {
+                                                                ...this.state.post,
+                                                                author_id: value.id
+                                                            }
+                                                        });
+                                                    this.state.formData.set('author_id', value.id);
                                                 }
-                                            )}
+                                            }
                                         />
                                     }
                                     {
@@ -256,12 +268,16 @@ class EditPost extends Component{
                                     {Type === "adminCreate" &&
                                         <DateTimePicker
                                             placeholder="Дата публикации"
-                                            onChange={value => this.setState({
-                                                post: {
-                                                    ...this.state.post,
-                                                    created_at: value
+                                            onChange={value => {
+                                                    this.setState({
+                                                        post: {
+                                                            ...this.state.post,
+                                                            created_at: new Date(value)
+                                                        }
+                                                    });
+                                                    this.state.formData.set('created_at', (new Date(value)).toISOString());
                                                 }
-                                            })}
+                                            }
                                         />
                                     }
                                     {
@@ -296,6 +312,13 @@ class EditPost extends Component{
                             }
                         </div>
                         <div className="form-group">
+                            <label htmlFor="custom-file">Изображение в публикации</label>
+                            <div className="custom-file" id="custom-file">
+                                <input type="file" onChange={this.uploadImage} className="custom-file-input" id="customFile" />
+                                <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>
+                            </div>
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="postCategory">Категория</label>
                             <DropdownList
                                 placeholder="Категория"
@@ -303,13 +326,16 @@ class EditPost extends Component{
                                 valueField="id"
                                 textField="category"
                                 value={this.state.post.category_id}
-                                onChange={value => this.setState({
-                                        post: {
-                                            ...this.state.post,
-                                            category_id: value.id
-                                        }
+                                onChange={value => {
+                                        this.setState({
+                                            post: {
+                                                ...this.state.post,
+                                                category_id: value.id
+                                            }
+                                        });
+                                        this.state.formData.set('category_id', value.id);
                                     }
-                                )}
+                                }
                             />
                             {
                                 this.state.validationErrors.category_id &&
@@ -326,16 +352,18 @@ class EditPost extends Component{
                                     valueField="id"
                                     textField="tag"
                                     onChange={value => {
-                                        this.setState({
-                                            post: {
-                                                ...this.state.post,
-                                                tags_id: value.map((item) => {
-                                                    return item.id;
-                                                }),
-                                                tags: value
-                                            }
+                                            this.setState({
+                                                post: {
+                                                    ...this.state.post,
+                                                    tags_id: value.map((item) => {
+                                                        return item.id;
+                                                    }),
+                                                    tags: value
+                                                }
+                                            });
+                                            this.state.formData.set('tags_id', value.map(item => item.id));
                                         }
-                                    )}}
+                                    }
                                 />
                             }
                             {
@@ -345,15 +373,18 @@ class EditPost extends Component{
                                         data={this.state.tags}
                                         valueField="id"
                                         textField="tag"
-                                        onChange={value => this.setState({
-                                                post: {
-                                                    ...this.state.post,
-                                                    tags_id: value.map((item) => {
-                                                        return item.id;
-                                                    })
-                                                }
+                                        onChange={value => {
+                                                this.setState({
+                                                    post: {
+                                                        ...this.state.post,
+                                                        tags_id: value.map((item) => {
+                                                            return item.id;
+                                                        })
+                                                    }
+                                                });
+                                                this.state.formData.set('tags_id', value.map(item => item.id));
                                             }
-                                        )}
+                                        }
                                     />
                             }
                         </div>
@@ -366,13 +397,16 @@ class EditPost extends Component{
                                 valueField="id"
                                 textField="status"
                                 value={this.state.post.status_id}
-                                onChange={value => this.setState({
-                                        post: {
-                                            ...this.state.post,
-                                            status_id: value.id
-                                        }
+                                onChange={value => {
+                                        this.setState({
+                                                post: {
+                                                    ...this.state.post,
+                                                    status_id: value.id
+                                                }
+                                            });
+                                        this.state.formData.set('status_id', value.id);
                                     }
-                                )}
+                                }
                             />
                             {
                                 this.state.validationErrors.status_id &&
