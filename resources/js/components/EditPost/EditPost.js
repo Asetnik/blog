@@ -148,7 +148,7 @@ class EditPost extends Component{
         const Type = this.props.type;
 
         if(Type === "adminEdit") {
-            axios.put('/api/posts/' + this.props.match.params.id, this.state.post)
+            axios.post('/api/posts/put/' + this.props.match.params.id, this.state.formData)
                 .then(response => {
                     if(response.status === 200) {
                         this.props.history.push("/admin/posts");

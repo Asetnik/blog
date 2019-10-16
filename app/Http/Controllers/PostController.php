@@ -161,19 +161,52 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
+       /* dd($request->all());
         $validator = Validator::make($request->all(), [
-            'title' => 'required|max:255',
-            'description' => 'required|max:255',
-            'content' => 'required',
-            'category_id' => 'required',
+            'title' => 'string|max:255',
+            'description' => 'string|max:255',
+            'photo' => 'nullable|image',
+            'content' => 'sting|string',
+            'category_id' => 'numeric',
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $post = Post::findOrFail($id);
+        if($request->has("photo")){
+            $post->removePhoto();
+            $post->setPhoto($request->file("photo"));
+        }
         $post->fill($request->all());
         if($status = $request->get('status_id')){
-            $post->status = $status;
+            $post->status_id = $status;
+        }
+        $tags = $request->get('tags_id');
+        $post->tags()->sync($tags);
+        $post->updated_at = Carbon::now();
+        $post->save();
+        return response('', 200);*/
+    }
+
+    public function postPut(Request $request, $id){
+        $validator = Validator::make($request->all(), [
+            'title' => 'string|max:255',
+            'description' => 'string|max:255',
+            'photo' => 'nullable|image',
+            'content' => 'sting|string',
+            'category_id' => 'numeric',
+        ]);
+        if ($validator->fails()) {
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        $post = Post::findOrFail($id);
+        if($request->has("photo")){
+            $post->removePhoto();
+            $post->setPhoto($request->file("photo"));
+        }
+        $post->fill($request->all());
+        if($status = $request->get('status_id')){
+            $post->status_id = $status;
         }
         $tags = $request->get('tags_id');
         $post->tags()->sync($tags);
@@ -191,8 +224,6 @@ class PostController extends Controller
     public function destroy($id)
     {
         $post = Post::findOrFail($id);
-        $photo_name = substr($post->photo, strrpos($post->photo,'/'));
-        Storage::disk('public')->delete('postImages' . $photo_name);
         $post->delete();
     }
 }

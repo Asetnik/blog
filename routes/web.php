@@ -18,6 +18,9 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::middleware('auth')->resource('/api/posts', 'PostController');
+Route::middleware('auth')->post('/api/posts/put/{id}', 'PostController@postPut');
+Route::middleware('auth')->resource('/api/users', 'UserController');
+Route::middleware('auth')->post('/api/users/put/{id}', 'UserController@userPut');
 Route::middleware('auth')->get('/api/admin/posts', 'PostController@adminIndex');
 Route::middleware('auth')->get('/api/getuserposts/{id?}', 'PostController@getUserPosts');
 Route::middleware('auth')->resource('/api/categories', 'PostCategoryController');

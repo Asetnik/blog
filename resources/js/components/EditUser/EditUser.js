@@ -7,6 +7,7 @@ import {connect} from "react-redux";
 class EditUser extends Component {
     constructor(props){
         super(props);
+        const formData = new FormData();
         this.state = {
             roles: [],
             statuses: [],
@@ -21,6 +22,7 @@ class EditUser extends Component {
                 status_id: '',
                 role_id: ''
             },
+            formData: formData,
             editedUser: {},
             validationErrors: {
                 name: '',
@@ -36,6 +38,7 @@ class EditUser extends Component {
         };
         this.handleChange = this.handleChange.bind(this);
         this.submitForm = this.submitForm.bind(this);
+        this.uploadImage = this.uploadImage.bind(this);
     }
 
     componentWillMount() {
@@ -107,12 +110,13 @@ class EditUser extends Component {
                 [event.target.name]: event.target.value
             }
         });
+        this.state.formData.set(event.target.name, event.target.value);
     }
 
     submitForm(event){
         event.preventDefault();
         if(this.props.type === "adminCreate"){
-            axios.post('/api/users', this.state.editedUser)
+            axios.post('/api/users', this.state.formData)
                 .then(response => {
                         if(response.status === 200) {
                             this.props.history.push("/admin/users");
@@ -126,7 +130,7 @@ class EditUser extends Component {
                 });
         }
         if(this.props.type === "adminEdit" || this.props.type === "edit"){
-            axios.put('/api/users/' + this.state.user.id, this.state.editedUser)
+            axios.post('/api/users/put/' + this.state.user.id, this.state.formData)
                 .then(response => {
                     if(response.status === 200) {
                         if(this.props.type === "adminEdit"){
@@ -142,6 +146,13 @@ class EditUser extends Component {
                     });
                 })
         }
+    }
+
+    uploadImage(e){
+        e.preventDefault();
+        let photo = e.target.files[0];
+        document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+        this.state.formData.set("photo", photo);
     }
 
     render() {
@@ -185,6 +196,13 @@ class EditUser extends Component {
                             }
                         </div>
                         <div className="form-group">
+                            <label htmlFor="custom-file">Аватар</label>
+                            <div className="custom-file" id="custom-file">
+                                <input type="file" onChange={this.uploadImage} className="custom-file-input" id="customFile" />
+                                <label className="custom-file-label" htmlFor="customFile">Выберите фотографию</label>
+                            </div>
+                        </div>
+                        <div className="form-group">
                             <label htmlFor="email">E-mail</label>
                             <input type="text" className="form-control" id="email" name="email" placeholder="E-mail" onChange={this.handleChange} value={this.state.user.email} autoComplete="username"/>
                             {
@@ -213,17 +231,20 @@ class EditUser extends Component {
                                 valueField="id"
                                 textField="status"
                                 value={this.state.user.status_id}
-                                onChange={value => this.setState({
-                                        user: {
-                                            ...this.state.user,
-                                            status_id: value.id
-                                        },
-                                        editedUser: {
-                                            ...this.state.editedUser,
-                                            status_id: value.id
-                                        }
+                                onChange={value => {
+                                        this.setState({
+                                                user: {
+                                                    ...this.state.user,
+                                                    status_id: value.id
+                                                },
+                                                editedUser: {
+                                                    ...this.state.editedUser,
+                                                    status_id: value.id
+                                                }
+                                        });
+                                        this.state.formData.set('status_id', value.id);
                                     }
-                                )}
+                                }
                             />
                             {
                                 this.state.validationErrors.status_id &&
@@ -238,17 +259,20 @@ class EditUser extends Component {
                                 valueField="id"
                                 textField="role"
                                 value={this.state.user.role_id}
-                                onChange={value => this.setState({
-                                        user: {
-                                            ...this.state.user,
-                                            role_id: value.id
-                                        },
-                                        editedUser: {
-                                            ...this.state.editedUser,
-                                            role_id: value.id
-                                        }
+                                onChange={value => {
+                                        this.setState({
+                                                user: {
+                                                    ...this.state.user,
+                                                    role_id: value.id
+                                                },
+                                                editedUser: {
+                                                    ...this.state.editedUser,
+                                                    role_id: value.id
+                                                }
+                                        });
+                                        this.state.formData.set('role_id', value.id);
                                     }
-                                )}
+                                }
                             />
                             {
                                 this.state.validationErrors.role_id &&

@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -118,6 +119,34 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        /*$validator = Validator::make($request->all(), [
+            'name' => 'string|max:255',
+            'surname' => 'string|max:255',
+            'patronymic' => 'nullable|string|max:255',
+            'description' => 'nullable|string|max:255',
+            'email' => [
+                'string',
+                'email',
+                Rule::unique('users')->ignore($id),
+            ],
+            'password' => 'string|min:8|confirmed',
+            'photo' => 'nullable|image',
+            'status_id' => 'numeric|between:1,2',
+            'role_id' => 'numeric|between:1,3'
+        ]);
+        if($validator->fails()){
+            return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
+        }
+        $user = User::findOrFail($id);
+        $path =$request->file('photo')->store('userImages', 'public');
+        $image_url = asset('/storage/' . $path);
+        $user->fill(array_merge($request->all(), ['photo' => $image_url]));
+        $user->updated_at = Carbon::now();
+        $user->save();
+        return response('', 200);*/
+    }
+
+    public function userPut(Request $request, $id){
         $validator = Validator::make($request->all(), [
             'name' => 'string|max:255',
             'surname' => 'string|max:255',
@@ -129,6 +158,7 @@ class UserController extends Controller
                 Rule::unique('users')->ignore($id),
             ],
             'password' => 'string|min:8|confirmed',
+            'photo' => 'nullable|image',
             'status_id' => 'numeric|between:1,2',
             'role_id' => 'numeric|between:1,3'
         ]);
@@ -136,6 +166,11 @@ class UserController extends Controller
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $user = User::findOrFail($id);
+        if($request->has("photo")){
+            $user->removePhoto();
+            $user->setPhoto($request->file('photo'));
+
+        };
         $user->fill($request->all());
         $user->updated_at = Carbon::now();
         $user->save();

@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 });*/
 
 /*Route::resource('/post', 'PostController');*/
-Route::resource('/users', 'UserController');
+
 Route::resource('/categories', 'PostCategoryController');
 Route::resource('/tags', 'TagController');
 

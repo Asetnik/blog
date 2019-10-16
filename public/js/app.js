@@ -63890,7 +63890,7 @@ function (_Component) {
       var Type = this.props.type;
 
       if (Type === "adminEdit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/posts/' + this.props.match.params.id, this.state.post).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/posts/put/' + this.props.match.params.id, this.state.formData).then(function (response) {
           if (response.status === 200) {
             _this3.props.history.push("/admin/posts");
           }
@@ -64222,6 +64222,7 @@ function (_Component) {
     _classCallCheck(this, EditUser);
 
     _this = _possibleConstructorReturn(this, _getPrototypeOf(EditUser).call(this, props));
+    var formData = new FormData();
     _this.state = {
       roles: [],
       statuses: [],
@@ -64236,6 +64237,7 @@ function (_Component) {
         status_id: '',
         role_id: ''
       },
+      formData: formData,
       editedUser: {},
       validationErrors: {
         name: '',
@@ -64251,6 +64253,7 @@ function (_Component) {
     };
     _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
     _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
+    _this.uploadImage = _this.uploadImage.bind(_assertThisInitialized(_this));
     return _this;
   }
 
@@ -64310,6 +64313,7 @@ function (_Component) {
         user: _objectSpread({}, this.state.user, _defineProperty({}, event.target.name, event.target.value)),
         editedUser: _objectSpread({}, this.state.editedUser, _defineProperty({}, event.target.name, event.target.value))
       });
+      this.state.formData.set(event.target.name, event.target.value);
     }
   }, {
     key: "submitForm",
@@ -64319,7 +64323,7 @@ function (_Component) {
       event.preventDefault();
 
       if (this.props.type === "adminCreate") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/users', this.state.editedUser).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/users', this.state.formData).then(function (response) {
           if (response.status === 200) {
             _this3.props.history.push("/admin/users");
           }
@@ -64331,7 +64335,7 @@ function (_Component) {
       }
 
       if (this.props.type === "adminEdit" || this.props.type === "edit") {
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.put('/api/users/' + this.state.user.id, this.state.editedUser).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/users/put/' + this.state.user.id, this.state.formData).then(function (response) {
           if (response.status === 200) {
             if (_this3.props.type === "adminEdit") {
               _this3.props.history.push("/admin/users");
@@ -64345,6 +64349,14 @@ function (_Component) {
           });
         });
       }
+    }
+  }, {
+    key: "uploadImage",
+    value: function uploadImage(e) {
+      e.preventDefault();
+      var photo = e.target.files[0];
+      document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+      this.state.formData.set("photo", photo);
     }
   }, {
     key: "render",
@@ -64420,6 +64432,21 @@ function (_Component) {
       }, this.state.validationErrors.description[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "custom-file"
+      }, "\u0410\u0432\u0430\u0442\u0430\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "custom-file",
+        id: "custom-file"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "file",
+        onChange: this.uploadImage,
+        className: "custom-file-input",
+        id: "customFile"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        className: "custom-file-label",
+        htmlFor: "customFile"
+      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044E"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "email"
       }, "E-mail"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
         type: "text",
@@ -64471,7 +64498,7 @@ function (_Component) {
         textField: "status",
         value: this.state.user.status_id,
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             user: _objectSpread({}, _this4.state.user, {
               status_id: value.id
             }),
@@ -64479,6 +64506,8 @@ function (_Component) {
               status_id: value.id
             })
           });
+
+          _this4.state.formData.set('status_id', value.id);
         }
       }), this.state.validationErrors.status_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -64493,7 +64522,7 @@ function (_Component) {
         textField: "role",
         value: this.state.user.role_id,
         onChange: function onChange(value) {
-          return _this4.setState({
+          _this4.setState({
             user: _objectSpread({}, _this4.state.user, {
               role_id: value.id
             }),
@@ -64501,6 +64530,8 @@ function (_Component) {
               role_id: value.id
             })
           });
+
+          _this4.state.formData.set('role_id', value.id);
         }
       }), this.state.validationErrors.role_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"

@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->integer('author_id');
             $table->integer('category_id');
-            $table->string('photo')->default('https://lorempixel.com/640/480/');
+            $table->string('photo')->nullable();
             $table->string('title');
             $table->string('description');
             $table->text('content');
