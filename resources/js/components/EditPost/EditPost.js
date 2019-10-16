@@ -203,9 +203,22 @@ class EditPost extends Component{
     }
 
     uploadImage(e){
+        let _this = this;
         e.preventDefault();
         let photo = e.target.files[0];
         document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+        let fr = new FileReader();
+        fr.onload = (function(photo) {
+            return function(e) {
+                _this.setState({
+                    post: {
+                        ..._this.state.post,
+                        photo: e.target.result
+                    }
+                });
+            };
+        })(photo);
+        fr.readAsDataURL(photo);
         this.state.formData.set("photo", photo);
     }
 
@@ -214,7 +227,7 @@ class EditPost extends Component{
 
         return(
             !this.state.dataIsLoaded ? <Spinner /> :
-                <div className="admin-post-create">
+                <div className="edit-post">
                     {(Type === "adminCreate" || Type === "create") && <h3 className="page-header mb-3">Создание статьи</h3>}
                     {Type === "adminEdit" && <h3 className="page-header mb-3">Редактирование статьи</h3>}
                     <form className="post-create-form" onSubmit={this.submitForm}>
@@ -313,6 +326,7 @@ class EditPost extends Component{
                         </div>
                         <div className="form-group">
                             <label htmlFor="custom-file">Изображение в публикации</label>
+                            <img src={this.state.post.photo} alt="" className="post-edit-photo"/>
                             <div className="custom-file" id="custom-file">
                                 <input type="file" onChange={this.uploadImage} className="custom-file-input" id="customFile" />
                                 <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>
