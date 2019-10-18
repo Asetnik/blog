@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Events\PostWasCommented;
 use Illuminate\Database\Eloquent\Model;
 
 class PostComment extends Model
@@ -26,6 +27,8 @@ class PostComment extends Model
         $comment = new static();
         $comment->fill($fields);
         $comment->save();
+        $comment_notification = PostComment::with(['post', 'author'])->findOrFail($comment->id);
+        event(new PostWasCommented($comment_notification));
         return $comment;
     }
 

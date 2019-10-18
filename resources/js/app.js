@@ -5,6 +5,9 @@ import { createStore } from "redux";
 
 import App from './components/App/App';
 
+import EchoLibrary from "laravel-echo";
+import Pusher from "pusher-js";
+
 const initialState = {
     user: {},
     isAuth: false
@@ -13,6 +16,16 @@ const initialState = {
 function reducer(state = initialState, action){
     switch (action.type) {
         case "LOGIN":
+            const pusher = new Pusher('b5b49cafa57d09440d86', {
+                cluster: 'eu',
+                forceTLS: true
+            });
+
+            const channel = pusher.subscribe('channel-user.' + action.data.user.id);
+            channel.bind('post-was-commented', function(data) {
+                console.log(JSON.stringify(data));
+            });
+
             return {
                 ...state,
                 ...action.data
