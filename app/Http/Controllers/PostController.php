@@ -121,7 +121,8 @@ class PostController extends Controller
         $path =$request->file('photo')->store('postImages', 'public');
         $image_url = asset('/storage/' . $path);
         $tags = explode(",", $request->get('tags_id'));
-        Post::add(array_merge($request->all(), ['photo' => $image_url], ['tags_id' => $tags]));
+        $post = Post::add(array_merge($request->all(), ['tags_id' => $tags]));
+        $post->setPhoto($request->file("photo"));
         return response('', 200);
     }
 

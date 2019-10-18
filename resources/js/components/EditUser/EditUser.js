@@ -16,6 +16,7 @@ class EditUser extends Component {
                 surname: '',
                 patronymic: '',
                 description: '',
+                photo: '',
                 email: '',
                 password: '',
                 password_confirmation: '',
@@ -29,6 +30,7 @@ class EditUser extends Component {
                 surname: '',
                 patronymic: '',
                 description: '',
+                photo: '',
                 email: '',
                 password: '',
                 status_id: '',
@@ -149,9 +151,22 @@ class EditUser extends Component {
     }
 
     uploadImage(e){
+        let _this = this;
         e.preventDefault();
         let photo = e.target.files[0];
         document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+        let fr = new FileReader();
+        fr.onload = (function(photo) {
+            return function(e) {
+                _this.setState({
+                    user: {
+                        ..._this.state.user,
+                        photo: e.target.result
+                    }
+                });
+            };
+        })(photo);
+        fr.readAsDataURL(photo);
         this.state.formData.set("photo", photo);
     }
 
@@ -197,10 +212,15 @@ class EditUser extends Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="custom-file">Аватар</label>
+                            <img src={this.state.user.photo} alt="" className="user-edit-photo"/>
                             <div className="custom-file" id="custom-file">
                                 <input type="file" onChange={this.uploadImage} className="custom-file-input" id="customFile" />
-                                <label className="custom-file-label" htmlFor="customFile">Выберите фотографию</label>
+                                <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>
                             </div>
+                            {
+                                this.state.validationErrors.photo &&
+                                <small className="form-text text-danger">{this.state.validationErrors.photo[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="email">E-mail</label>

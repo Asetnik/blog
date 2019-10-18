@@ -34,6 +34,7 @@ class EditPost extends Component{
                 created_at: '',
                 title: '',
                 description: '',
+                photo: '',
                 content: '',
                 category_id: '',
                 status_id: ''
@@ -331,6 +332,10 @@ class EditPost extends Component{
                                 <input type="file" onChange={this.uploadImage} className="custom-file-input" id="customFile" />
                                 <label className="custom-file-label" htmlFor="customFile">Выберите файл</label>
                             </div>
+                            {
+                                this.state.validationErrors.photo &&
+                                <small className="form-text text-danger">{this.state.validationErrors.photo[0]}</small>
+                            }
                         </div>
                         <div className="form-group">
                             <label htmlFor="postCategory">Категория</label>

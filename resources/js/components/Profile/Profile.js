@@ -73,6 +73,26 @@ class Profile extends PostsList {
         });
     }
 
+    toPage(event){
+        event.preventDefault();
+        this.setState({
+            postsIsLoaded: false
+        });
+        axios
+            .get('/api/getuserposts/?page=' + event.target.innerText, {
+                params: this.state.filter
+            })
+            .then(response => {
+                this.setState({
+                    posts: response.data
+                }, () => {
+                    this.setState({
+                        postsIsLoaded: true
+                    });
+                });
+            });
+    }
+
     render() {
         return (
             !this.state.dataIsLoaded ? <Spinner /> :

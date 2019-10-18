@@ -82,7 +82,7 @@ class UserController extends Controller
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $user = User::add($request->all());
-        $user->save();
+        $user->setPhoto($request->file("photo"));
         return response('', 200);
     }
 

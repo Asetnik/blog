@@ -12396,6 +12396,8 @@ li {
 }
 
 .post .post-info img {
+  object-fit: cover;
+  max-height: 700px;
   width: 100%;
   margin: 15px 0;
 }
@@ -12445,6 +12447,7 @@ li {
 
 .post-full .post-content {
   margin-bottom: 35px;
+  word-break: break-word;
 }
 
 .post-full .post-content p {
@@ -12725,6 +12728,12 @@ li {
   margin-bottom: 20px;
 }
 
+.edit-user .user-edit-photo {
+  display: block;
+  max-height: 200px;
+  margin-bottom: 20px;
+}
+
 .page-item {
   cursor: pointer;
 }
@@ -12810,5 +12819,15 @@ li {
 .top-posts .top-post {
   font-size: 23px;
   line-height: 23px;
+}
+
+.page-404 h1 {
+  font-size: 200px;
+  font-weight: bold;
+}
+
+.page-404 h2 {
+  font-size: 100px;
+  font-weight: bold;
 }
 

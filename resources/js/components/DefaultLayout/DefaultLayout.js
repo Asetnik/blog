@@ -12,6 +12,7 @@ import Logout from "../Logout/Logout";
 import Header from "../Header/Header";
 import EditPost from "../EditPost/EditPost";
 import EditUser from "../EditUser/EditUser"
+import Page404 from "../Page404/Page404"
 
 class DefaultLayout extends Component{
 
@@ -20,14 +21,16 @@ class DefaultLayout extends Component{
             <React.Fragment>
                 <Header />
                 <div className="page-content container">
-                    <Route path={'/'} exact component={ PostsList } />
-                    <Route path={'/categories/:id'} exact component={ Category } />
-                    <Route path={'/create/posts'} exact component={ (props) => <EditPost {...props} type="create"/> } />
-                    <Route path={'/posts/:id'} exact component={ PostFullPage } />
-                    <Route path={'/users/:id'} exact component={ UserPage } />
-                    <Route path={'/myprofile'} exact component={ Profile } />
-                    <Route path={'/myprofile/edit'} exact component={ (props) => <EditUser {...props} type="edit"/> } />
-                    <Redirect to={'/'} />
+                    <Switch>
+                        <Route path={'/'} exact component={ PostsList } />
+                        <Route path={'/categories/:id'} exact component={ Category } />
+                        <Route path={'/create/posts'} exact component={ (props) => <EditPost {...props} type="create"/> } />
+                        <Route path={'/posts/:id'} exact component={ PostFullPage } />
+                        <Route path={'/users/:id'} exact component={ UserPage } />
+                        <Route path={'/myprofile'} exact component={ Profile } />
+                        <Route path={'/myprofile/edit'} exact component={ (props) => <EditUser {...props} type="edit"/> } />
+                        <Route path={'*'} component={ Page404 } />
+                    </Switch>
                 </div>
             </React.Fragment>
         );

@@ -63589,6 +63589,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Header_Header__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ../Header/Header */ "./resources/js/components/Header/Header.js");
 /* harmony import */ var _EditPost_EditPost__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ../EditPost/EditPost */ "./resources/js/components/EditPost/EditPost.js");
 /* harmony import */ var _EditUser_EditUser__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ../EditUser/EditUser */ "./resources/js/components/EditUser/EditUser.js");
+/* harmony import */ var _Page404_Page404__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ../Page404/Page404 */ "./resources/js/components/Page404/Page404.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
@@ -63624,6 +63625,7 @@ function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || func
 
 
 
+
 var DefaultLayout =
 /*#__PURE__*/
 function (_Component) {
@@ -63640,7 +63642,7 @@ function (_Component) {
     value: function render() {
       return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Header_Header__WEBPACK_IMPORTED_MODULE_11__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "page-content container"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Switch"], null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         path: '/',
         exact: true,
         component: _PostsList_PostsList__WEBPACK_IMPORTED_MODULE_7__["default"]
@@ -63676,9 +63678,10 @@ function (_Component) {
             type: "edit"
           }));
         }
-      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Redirect"], {
-        to: '/'
-      })));
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
+        path: '*',
+        component: _Page404_Page404__WEBPACK_IMPORTED_MODULE_14__["default"]
+      }))));
     }
   }]);
 
@@ -63780,6 +63783,7 @@ function (_Component) {
         created_at: '',
         title: '',
         description: '',
+        photo: '',
         content: '',
         category_id: '',
         status_id: ''
@@ -64081,7 +64085,9 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "custom-file-label",
         htmlFor: "customFile"
-      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B")), this.state.validationErrors.photo && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.photo[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "postCategory"
@@ -64236,13 +64242,13 @@ function (_Component) {
   _inherits(EditUser, _Component);
 
   function EditUser(props) {
-    var _this;
+    var _this2;
 
     _classCallCheck(this, EditUser);
 
-    _this = _possibleConstructorReturn(this, _getPrototypeOf(EditUser).call(this, props));
+    _this2 = _possibleConstructorReturn(this, _getPrototypeOf(EditUser).call(this, props));
     var formData = new FormData();
-    _this.state = {
+    _this2.state = {
       roles: [],
       statuses: [],
       user: {
@@ -64250,6 +64256,7 @@ function (_Component) {
         surname: '',
         patronymic: '',
         description: '',
+        photo: '',
         email: '',
         password: '',
         password_confirmation: '',
@@ -64263,6 +64270,7 @@ function (_Component) {
         surname: '',
         patronymic: '',
         description: '',
+        photo: '',
         email: '',
         password: '',
         status_id: '',
@@ -64270,24 +64278,24 @@ function (_Component) {
       },
       dataIsLoaded: false
     };
-    _this.handleChange = _this.handleChange.bind(_assertThisInitialized(_this));
-    _this.submitForm = _this.submitForm.bind(_assertThisInitialized(_this));
-    _this.uploadImage = _this.uploadImage.bind(_assertThisInitialized(_this));
-    return _this;
+    _this2.handleChange = _this2.handleChange.bind(_assertThisInitialized(_this2));
+    _this2.submitForm = _this2.submitForm.bind(_assertThisInitialized(_this2));
+    _this2.uploadImage = _this2.uploadImage.bind(_assertThisInitialized(_this2));
+    return _this2;
   }
 
   _createClass(EditUser, [{
     key: "componentWillMount",
     value: function componentWillMount() {
-      var _this2 = this;
+      var _this3 = this;
 
       if (this.props.type === "adminCreate") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/userstatuses')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse) {
-          _this2.setState({
+          _this3.setState({
             roles: firstResponse.data,
             statuses: secondResponse.data
           }, function () {
-            _this2.setState({
+            _this3.setState({
               dataIsLoaded: true
             });
           });
@@ -64296,7 +64304,7 @@ function (_Component) {
 
       if (this.props.type === "adminEdit") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.all([axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/roles'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/userstatuses'), axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.match.params.id + '/edit')]).then(axios__WEBPACK_IMPORTED_MODULE_1___default.a.spread(function (firstResponse, secondResponse, thirdResponse) {
-          _this2.setState({
+          _this3.setState({
             roles: firstResponse.data,
             statuses: secondResponse.data,
             user: _objectSpread({}, thirdResponse.data, {
@@ -64304,7 +64312,7 @@ function (_Component) {
               password_confirmation: ''
             })
           }, function () {
-            _this2.setState({
+            _this3.setState({
               dataIsLoaded: true
             });
           });
@@ -64313,12 +64321,12 @@ function (_Component) {
 
       if (this.props.type === "edit") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.get('/api/users/' + this.props.store.user.id + '/edit').then(function (response) {
-          _this2.setState({
+          _this3.setState({
             user: _objectSpread({}, response.data, {
               patronymic: response.data.patronymic || ""
             })
           }, function () {
-            _this2.setState({
+            _this3.setState({
               dataIsLoaded: true
             });
           });
@@ -64337,17 +64345,17 @@ function (_Component) {
   }, {
     key: "submitForm",
     value: function submitForm(event) {
-      var _this3 = this;
+      var _this4 = this;
 
       event.preventDefault();
 
       if (this.props.type === "adminCreate") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/users', this.state.formData).then(function (response) {
           if (response.status === 200) {
-            _this3.props.history.push("/admin/users");
+            _this4.props.history.push("/admin/users");
           }
         })["catch"](function (error) {
-          _this3.setState({
+          _this4.setState({
             validationErrors: error.response.data.errors
           });
         });
@@ -64356,14 +64364,14 @@ function (_Component) {
       if (this.props.type === "adminEdit" || this.props.type === "edit") {
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post('/api/users/put/' + this.state.user.id, this.state.formData).then(function (response) {
           if (response.status === 200) {
-            if (_this3.props.type === "adminEdit") {
-              _this3.props.history.push("/admin/users");
+            if (_this4.props.type === "adminEdit") {
+              _this4.props.history.push("/admin/users");
             } else {
-              _this3.props.history.push("/myprofile");
+              _this4.props.history.push("/myprofile");
             }
           }
         })["catch"](function (error) {
-          _this3.setState({
+          _this4.setState({
             validationErrors: error.response.data.errors
           });
         });
@@ -64372,15 +64380,30 @@ function (_Component) {
   }, {
     key: "uploadImage",
     value: function uploadImage(e) {
+      var _this = this;
+
       e.preventDefault();
       var photo = e.target.files[0];
       document.getElementsByClassName('custom-file-label')[0].innerText = photo.name;
+      var fr = new FileReader();
+
+      fr.onload = function (photo) {
+        return function (e) {
+          _this.setState({
+            user: _objectSpread({}, _this.state.user, {
+              photo: e.target.result
+            })
+          });
+        };
+      }(photo);
+
+      fr.readAsDataURL(photo);
       this.state.formData.set("photo", photo);
     }
   }, {
     key: "render",
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return !this.state.dataIsLoaded ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Spinner_Spinner__WEBPACK_IMPORTED_MODULE_2__["default"], null) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "edit-user"
@@ -64452,7 +64475,11 @@ function (_Component) {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "custom-file"
-      }, "\u0410\u0432\u0430\u0442\u0430\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u0410\u0432\u0430\u0442\u0430\u0440"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+        src: this.state.user.photo,
+        alt: "",
+        className: "user-edit-photo"
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "custom-file",
         id: "custom-file"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
@@ -64463,7 +64490,9 @@ function (_Component) {
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         className: "custom-file-label",
         htmlFor: "customFile"
-      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u043E\u0442\u043E\u0433\u0440\u0430\u0444\u0438\u044E"))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, "\u0412\u044B\u0431\u0435\u0440\u0438\u0442\u0435 \u0444\u0430\u0439\u043B")), this.state.validationErrors.photo && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.photo[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "email"
@@ -64517,16 +64546,16 @@ function (_Component) {
         textField: "status",
         value: this.state.user.status_id,
         onChange: function onChange(value) {
-          _this4.setState({
-            user: _objectSpread({}, _this4.state.user, {
+          _this5.setState({
+            user: _objectSpread({}, _this5.state.user, {
               status_id: value.id
             }),
-            editedUser: _objectSpread({}, _this4.state.editedUser, {
+            editedUser: _objectSpread({}, _this5.state.editedUser, {
               status_id: value.id
             })
           });
 
-          _this4.state.formData.set('status_id', value.id);
+          _this5.state.formData.set('status_id', value.id);
         }
       }), this.state.validationErrors.status_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -64541,16 +64570,16 @@ function (_Component) {
         textField: "role",
         value: this.state.user.role_id,
         onChange: function onChange(value) {
-          _this4.setState({
-            user: _objectSpread({}, _this4.state.user, {
+          _this5.setState({
+            user: _objectSpread({}, _this5.state.user, {
               role_id: value.id
             }),
-            editedUser: _objectSpread({}, _this4.state.editedUser, {
+            editedUser: _objectSpread({}, _this5.state.editedUser, {
               role_id: value.id
             })
           });
 
-          _this4.state.formData.set('role_id', value.id);
+          _this5.state.formData.set('role_id', value.id);
         }
       }), this.state.validationErrors.role_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
@@ -65130,6 +65159,68 @@ function (_Component) {
     }
   };
 })(Logout));
+
+/***/ }),
+
+/***/ "./resources/js/components/Page404/Page404.js":
+/*!****************************************************!*\
+  !*** ./resources/js/components/Page404/Page404.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+
+
+var Page404 =
+/*#__PURE__*/
+function (_Component) {
+  _inherits(Page404, _Component);
+
+  function Page404() {
+    _classCallCheck(this, Page404);
+
+    return _possibleConstructorReturn(this, _getPrototypeOf(Page404).apply(this, arguments));
+  }
+
+  _createClass(Page404, [{
+    key: "render",
+    value: function render() {
+      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "page-404"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h1", {
+        className: "text-center"
+      }, "404"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("h2", {
+        className: "text-center"
+      }, "\u0421\u0442\u0440\u0430\u043D\u0438\u0446\u0430 \u043D\u0435 \u043D\u0430\u0439\u0434\u0435\u043D\u0430"));
+    }
+  }]);
+
+  return Page404;
+}(react__WEBPACK_IMPORTED_MODULE_0__["Component"]);
+
+/* harmony default export */ __webpack_exports__["default"] = (Page404);
 
 /***/ }),
 
@@ -66168,6 +66259,27 @@ function (_PostsList) {
             _this3.setState({
               postsIsLoaded: true
             });
+          });
+        });
+      });
+    }
+  }, {
+    key: "toPage",
+    value: function toPage(event) {
+      var _this4 = this;
+
+      event.preventDefault();
+      this.setState({
+        postsIsLoaded: false
+      });
+      axios__WEBPACK_IMPORTED_MODULE_4___default.a.get('/api/getuserposts/?page=' + event.target.innerText, {
+        params: this.state.filter
+      }).then(function (response) {
+        _this4.setState({
+          posts: response.data
+        }, function () {
+          _this4.setState({
+            postsIsLoaded: true
           });
         });
       });
