@@ -18,7 +18,7 @@ class App extends Component {
     componentWillMount() {
         axios.get('/api/isauth')
             .then(response => {
-                this.props.onLogin({...response.data});
+                this.props.onISAUTH({...response.data});
                 this.setState({dataIsLoaded: true});
             });
     }
@@ -41,8 +41,8 @@ export default connect(
         store: state
     }),
     dispatch => ({
-        onLogin: (data) => {
-            dispatch({ type: 'LOGIN', data: data })
+        onISAUTH: (data) => {
+            dispatch({ type: 'ISAUTH', data: data })
         }
     })
 )(App);

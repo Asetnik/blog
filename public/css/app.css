@@ -12269,6 +12269,10 @@ a.text-dark:focus {
   box-shadow: 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
+.swal-wide {
+  max-height: 160px !important;
+}
+
 h1,
 h2,
 h3,
@@ -12564,6 +12568,7 @@ li {
 .comment .comment-content p {
   font-size: 14px;
   color: #000000;
+  word-break: break-word;
 }
 
 .comment hr {
