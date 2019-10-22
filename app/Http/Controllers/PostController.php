@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostWasBlocked;
 use App\Events\PostWasPublished;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Post;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -207,26 +207,34 @@ class PostController extends Controller
             'description' => 'string|max:255',
             'photo' => 'nullable|image',
             'content' => 'sting|string',
-            'category_id' => 'numeric',
+            'category_id' => 'nullable|numeric',
+            'status_id' => 'nullable|numeric',
+            'reason_for_rejection' => 'required_if:status_id,3|string'
         ]);
         if ($validator->fails()) {
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $post = Post::findOrFail($id);
-        if($post->status_id != $request->get('status_id') && $request->get('status_id') == 2){
+        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 1) {
+            $post->reason_for_rejection = '';
+        }
+        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 2){
+            $post->reason_for_rejection = '';
             event(new PostWasPublished($post));
+        }
+        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 3){
+            event(new PostWasBlocked($post, $request->get('reason_for_rejection')));
         }
         if($request->has("photo")){
             $post->removePhoto();
             $post->setPhoto($request->file("photo"));
         }
         $post->fill($request->all());
-        if($status = $request->get('status_id')){
+/*        if($status = $request->get('status_id')){
             $post->status_id = $status;
-        }
+        }*/
         $tags = $request->get('tags_id');
         $post->tags()->sync($tags);
-        $post->updated_at = Carbon::now();
         $post->save();
         return response('', 200);
     }

@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Storage;
 class Post extends Model
 {
     protected $fillable = [
-        'author_id', 'title', 'description', 'content', 'category_id'
+        'author_id', 'title', 'description', 'content', 'category_id', 'status_id', 'reason_for_rejection'
     ];
 
     protected $dates = ['created_at'];

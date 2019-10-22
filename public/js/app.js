@@ -73526,6 +73526,17 @@ function subscribePusher(id) {
       timer: 10000
     });
   });
+  channel.bind('post-was-blocked', function (data) {
+    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
+      backdrop: false,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      customClass: 'swal-wide',
+      html: "\u0412\u0430\u0448\u0430 <a href=\"/posts/".concat(data.post_id, "\">\u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F</a> \u0437\u0430\u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u0430\u043D\u0430 \u043F\u043E \u043F\u0440\u0438\u0447\u0438\u043D\u0435: <span class=\"text-danger\">").concat(data.reason_for_rejection, "</span>"),
+      showCloseButton: true,
+      timer: 10000
+    });
+  });
 }
 
 function unsubscribePusher() {
@@ -75329,7 +75340,8 @@ function (_Component) {
         photo: '',
         category_id: undefined,
         tags_id: [],
-        status_id: undefined
+        status_id: undefined,
+        reason_for_rejection: ''
       },
       validationErrors: {
         author: '',
@@ -75339,7 +75351,8 @@ function (_Component) {
         photo: '',
         content: '',
         category_id: '',
-        status_id: ''
+        status_id: '',
+        reason_for_rejection: ''
       },
       dataIsLoaded: false
     };
@@ -75703,7 +75716,7 @@ function (_Component) {
             return item.id;
           }));
         }
-      })), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      })), Type === "adminEdit" && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react__WEBPACK_IMPORTED_MODULE_0___default.a.Fragment, null, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "form-group"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
         htmlFor: "role"
@@ -75724,7 +75737,21 @@ function (_Component) {
         }
       }), this.state.validationErrors.status_id && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
         className: "form-text text-danger"
-      }, this.state.validationErrors.status_id[0])), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, this.state.validationErrors.status_id[0])), this.state.post.status_id === 3 && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+        className: "form-group"
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+        htmlFor: "reasonForRejection"
+      }, "\u041F\u0440\u0438\u0447\u0438\u043D\u0430 \u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u043A\u0438"), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+        type: "text",
+        className: "form-control",
+        id: "reasonForRejection",
+        name: "reason_for_rejection",
+        placeholder: "\u041F\u0440\u0438\u0447\u0438\u043D\u0430 \u0431\u043B\u043E\u043A\u0438\u0440\u043E\u0432\u043A\u0438",
+        onChange: this.handleChange,
+        value: this.state.post.reason_for_rejection
+      }), this.state.validationErrors.reason_for_rejection && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("small", {
+        className: "form-text text-danger"
+      }, this.state.validationErrors.reason_for_rejection[0]))), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         type: "submit",
         className: "btn mt-3"
       }, "\u0421\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C")));

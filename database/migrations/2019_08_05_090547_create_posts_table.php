@@ -23,7 +23,7 @@ class CreatePostsTable extends Migration
             $table->text('content');
             $table->integer('views')->default(0);
             $table->integer('status_id')->default(1);
-            $table->string('reason_for_rejection')->nullable();
+            $table->string('reason_for_rejection')->default('');
             $table->timestamps();
         });
     }

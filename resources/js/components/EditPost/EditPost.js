@@ -27,7 +27,8 @@ class EditPost extends Component{
                 photo: '',
                 category_id: undefined,
                 tags_id: [],
-                status_id: undefined
+                status_id: undefined,
+                reason_for_rejection: ''
             },
             validationErrors: {
                 author: '',
@@ -37,7 +38,8 @@ class EditPost extends Component{
                 photo: '',
                 content: '',
                 category_id: '',
-                status_id: ''
+                status_id: '',
+                reason_for_rejection: ''
             },
             dataIsLoaded: false
         };
@@ -408,30 +410,43 @@ class EditPost extends Component{
                             }
                         </div>
                         {(Type === "adminEdit") &&
-                        <div className="form-group">
-                            <label htmlFor="role">Статус</label>
-                            <DropdownList
-                                placeholder="Статус"
-                                data={this.state.statuses}
-                                valueField="id"
-                                textField="status"
-                                value={this.state.post.status_id}
-                                onChange={value => {
+                        <React.Fragment>
+                            <div className="form-group">
+                                <label htmlFor="role">Статус</label>
+                                <DropdownList
+                                    placeholder="Статус"
+                                    data={this.state.statuses}
+                                    valueField="id"
+                                    textField="status"
+                                    value={this.state.post.status_id}
+                                    onChange={value => {
                                         this.setState({
-                                                post: {
-                                                    ...this.state.post,
-                                                    status_id: value.id
-                                                }
-                                            });
+                                            post: {
+                                                ...this.state.post,
+                                                status_id: value.id
+                                            }
+                                        });
                                         this.state.formData.set('status_id', value.id);
                                     }
+                                    }
+                                />
+                                {
+                                    this.state.validationErrors.status_id &&
+                                    <small className="form-text text-danger">{this.state.validationErrors.status_id[0]}</small>
                                 }
-                            />
+                            </div>
                             {
-                                this.state.validationErrors.status_id &&
-                                <small className="form-text text-danger">{this.state.validationErrors.status_id[0]}</small>
+                                this.state.post.status_id === 3 && <div className="form-group">
+                                    <label htmlFor="reasonForRejection">Причина блокировки</label>
+                                    <input type="text" className="form-control" id="reasonForRejection" name="reason_for_rejection" placeholder="Причина блокировки" onChange={this.handleChange} value={this.state.post.reason_for_rejection}/>
+                                    {
+                                        this.state.validationErrors.reason_for_rejection &&
+                                        <small className="form-text text-danger">{this.state.validationErrors.reason_for_rejection[0]}</small>
+                                    }
+                                </div>
                             }
-                        </div>}
+                        </React.Fragment>
+                        }
                         <button type="submit" className="btn mt-3">Сохранить</button>
                     </form>
                 </div>

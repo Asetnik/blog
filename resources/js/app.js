@@ -68,6 +68,18 @@ function subscribePusher(id) {
             timer: 10000
         });
     });
+    channel.bind('post-was-blocked', function (data) {
+        Swal.fire({
+            backdrop: false,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            customClass: 'swal-wide',
+            html:
+                `Ваша <a href="/posts/${data.post_id}">публикация</a> заблокирована по причине: <span class="text-danger">${data.reason_for_rejection}</span>`,
+            showCloseButton: true,
+            timer: 10000
+        });
+    });
 }
 
 function unsubscribePusher() {
