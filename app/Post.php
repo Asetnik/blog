@@ -45,7 +45,6 @@ class Post extends Model
     public static function add($fields) {
         $post = new static();
         $post->fill($fields);
-        $post->status_id = 1;
         if(array_key_exists('created_at', $fields)){
             $post->created_at = Carbon::create($fields["created_at"]);
         } else {

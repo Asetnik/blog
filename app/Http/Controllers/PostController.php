@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\PostWasPublished;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Post;
@@ -45,12 +46,16 @@ class PostController extends Controller
 
     public function getUserPosts(Request $request, $id = null){
         if($id){
-            $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $id);
+            $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $id)->whereHas('status', function ($status){
+                $status->where('status', 'Опубликована');
+            });
             $filteredPostsQuery = $this->filterPosts($request, $posts);
             $filteredPosts = $filteredPostsQuery->paginate(5);
             return response()->json($filteredPosts);
         }
-        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id);
+        $posts = Post::latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->where('author_id', $request->user()->id)->whereHas('status', function ($status){
+            $status->where('status', 'Опубликована');
+        });
         $filteredPostsQuery = $this->filterPosts($request, $posts);
         $filteredPosts = $filteredPostsQuery->paginate(5);
         return response()->json($filteredPosts);
@@ -66,12 +71,16 @@ class PostController extends Controller
 
     public function getSimilarPosts($id) {
         $post = Post::findOrFail($id);
-        $posts = Post::where('category_id', $post->category_id)->whereNotIn('id', [$post->id])->limit(5)->get();
+        $posts = Post::where('category_id', $post->category_id)->whereNotIn('id', [$post->id])->whereHas('status', function ($status){
+            $status->where('status', 'Опубликована');
+        })->limit(5)->get();
         return response()->json($posts);
     }
 
     public function getUserPopularPosts($id){
-        $posts = Post::where('author_id', $id)->orderBy('views', 'desc')->limit(5)->get();
+        $posts = Post::where('author_id', $id)->orderBy('views', 'desc')->whereHas('status', function ($status){
+            $status->where('status', 'Опубликована');
+        })->limit(5)->get();
         return response()->json($posts);
     }
 
@@ -82,7 +91,9 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category');
+        $posts = Post::query()->latest()->with('author:id,name,surname,photo', 'tags:tag_id,tag', 'comments', 'category:id,category')->whereHas('status', function ($status){
+           $status->where('status', 'Опубликована');
+        });
         $filteredPostsQuery = $this->filterPosts($request, $posts);
         $filteredPosts = $filteredPostsQuery->paginate(5);
         return response()->json($filteredPosts);
@@ -134,8 +145,9 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::with('author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')
-            ->findOrFail($id);
+        $post = Post::with('author:id,name,surname,photo', 'tags', 'comments.author:id,name,surname,photo', 'category:id,category')->whereHas('status', function ($status){
+            $status->where('status', 'Опубликована');
+        })->findOrFail($id);
         $post->updateViews();
         return response()->json($post);
     }
@@ -201,6 +213,9 @@ class PostController extends Controller
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $post = Post::findOrFail($id);
+        if($post->status_id != $request->get('status_id') && $request->get('status_id') == 2){
+            event(new PostWasPublished($post));
+        }
         if($request->has("photo")){
             $post->removePhoto();
             $post->setPhoto($request->file("photo"));

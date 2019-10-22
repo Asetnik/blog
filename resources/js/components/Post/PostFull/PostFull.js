@@ -35,7 +35,13 @@ class PostFull extends Post {
                     post: response.data
                 }, () => {
                     this.setState({dataIsLoaded: true});
+                    this.props.dataIsLoaded(true);
                 });
+            })
+            .catch(error => {
+                if(error.response.status === 404){
+                    this.props.postNotFound();
+                }
             })
     }
 
@@ -52,6 +58,7 @@ class PostFull extends Post {
 
                 this.getPosts();
             });
+            this.props.dataIsLoaded(false);
         }
     }
 

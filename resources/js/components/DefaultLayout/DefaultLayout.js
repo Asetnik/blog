@@ -29,6 +29,7 @@ class DefaultLayout extends Component{
                         <Route path={'/users/:id'} exact component={ UserPage } />
                         <Route path={'/myprofile'} exact component={ Profile } />
                         <Route path={'/myprofile/edit'} exact component={ (props) => <EditUser {...props} type="edit"/> } />
+                        <Route path={'/notfound'} exact component={ Page404 } />
                         <Route path={'*'} component={ Page404 } />
                     </Switch>
                 </div>

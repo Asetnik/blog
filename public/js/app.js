@@ -73505,13 +73505,23 @@ function subscribePusher(id) {
   channelName = 'channel-user.' + id;
   var channel = pusher.subscribe(channelName);
   channel.bind('post-was-commented', function (data) {
-    console.log(data);
     sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
       backdrop: false,
       position: 'bottom-end',
       showConfirmButton: false,
       customClass: 'swal-wide',
       html: "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D \u043D\u043E\u0432\u044B\u0439 \u043A\u043E\u043C\u043C\u0435\u043D\u0442\u0430\u0440\u0438\u0439 \u043A <a href=\"/posts/".concat(data.comment.post.id, "\">\u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u0438</a>") + "<div \n                            style=\"\n                                display: grid;\n                                grid-template-columns: max-content auto;\n                                grid-column-gap: 10px;\n                                margin-top: 10px;\n                            \">\n                            <div>\n                                <a href=".concat('/users/' + data.comment.author.id, ">\n                                    <img\n                                        style=\"\n                                            height: 60px;\n                                            width: 60px;\n                                            border-radius: 60px;\"\n                                        src=").concat(data.comment.author.photo, " alt=\"\"/>\n                                    <p>").concat(data.comment.author.name + (data.comment.surname ? " " + data.comment.surname : ""), "</p>\n                                </a>\n                            </div>\n                            <div>\n                                <p\n                                    style=\"\n                                        font-size: 20px;\n                                        text-align: left;\n                                        word-break: break-word;\n                                \">\n                                    ").concat(data.comment.content.length < 100 ? data.comment.content : data.comment.content.substr(0, 100) + "...", "\n                                </p>\n                            </div>\n                        </div>"),
+      showCloseButton: true,
+      timer: 10000
+    });
+  });
+  channel.bind('post-was-published', function (data) {
+    sweetalert2__WEBPACK_IMPORTED_MODULE_6___default.a.fire({
+      backdrop: false,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      customClass: 'swal-wide',
+      html: "\u0412\u0430\u0448\u0430 <a href=\"/posts/".concat(data.post_id, "\">\u043F\u0443\u0431\u043B\u0438\u043A\u0430\u0446\u0438\u044F</a> \u0434\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0430 \u043D\u0430 \u0441\u0430\u0439\u0442"),
       showCloseButton: true,
       timer: 10000
     });
@@ -75217,6 +75227,10 @@ function (_Component) {
             type: "edit"
           }));
         }
+      }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
+        path: '/notfound',
+        exact: true,
+        component: _Page404_Page404__WEBPACK_IMPORTED_MODULE_14__["default"]
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_6__["Route"], {
         path: '*',
         component: _Page404_Page404__WEBPACK_IMPORTED_MODULE_14__["default"]
@@ -77104,7 +77118,13 @@ function (_Post) {
           _this2.setState({
             dataIsLoaded: true
           });
+
+          _this2.props.dataIsLoaded(true);
         });
+      })["catch"](function (error) {
+        if (error.response.status === 404) {
+          _this2.props.postNotFound();
+        }
       });
     }
   }, {
@@ -77124,6 +77144,7 @@ function (_Post) {
         }, function () {
           _this3.getPosts();
         });
+        this.props.dataIsLoaded(false);
       }
     }
   }, {
@@ -77357,10 +77378,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../Post/PostFull/PostFull */ "./resources/js/components/Post/PostFull/PostFull.js");
-/* harmony import */ var _TopAuthors_TopAuthors__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TopAuthors/TopAuthors */ "./resources/js/components/TopAuthors/TopAuthors.js");
-/* harmony import */ var _TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../TopCategories/TopCategories */ "./resources/js/components/TopCategories/TopCategories.js");
-/* harmony import */ var _SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../SimilarPosts/SimilarPosts */ "./resources/js/components/SimilarPosts/SimilarPosts.js");
+/* harmony import */ var _TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../TopCategories/TopCategories */ "./resources/js/components/TopCategories/TopCategories.js");
+/* harmony import */ var _SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../SimilarPosts/SimilarPosts */ "./resources/js/components/SimilarPosts/SimilarPosts.js");
+/* harmony import */ var _Page404_Page404__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../Page404/Page404 */ "./resources/js/components/Page404/Page404.js");
+/* harmony import */ var _Spinner_Spinner__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../Spinner/Spinner */ "./resources/js/components/Spinner/Spinner.js");
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -77370,13 +77394,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
 
 
 
@@ -77390,23 +77415,50 @@ function (_Component) {
   _inherits(PostFullPage, _Component);
 
   function PostFullPage(props) {
+    var _this;
+
     _classCallCheck(this, PostFullPage);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(PostFullPage).call(this, props));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(PostFullPage).call(this, props));
+    _this.state = {
+      dataIsLoaded: false,
+      postNotFound: false
+    };
+    _this.dataIsLoaded = _this.dataIsLoaded.bind(_assertThisInitialized(_this));
+    _this.postNotFound = _this.postNotFound.bind(_assertThisInitialized(_this));
+    return _this;
   }
 
   _createClass(PostFullPage, [{
+    key: "dataIsLoaded",
+    value: function dataIsLoaded(param) {
+      console.log('call');
+      this.setState({
+        dataIsLoaded: param
+      });
+    }
+  }, {
+    key: "postNotFound",
+    value: function postNotFound() {
+      this.setState({
+        postNotFound: true
+      });
+    }
+  }, {
     key: "render",
     value: function render() {
-      return react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      return !this.state.postNotFound ? react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "post-full-page row"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-9"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_1__["default"], this.props)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Post_PostFull_PostFull__WEBPACK_IMPORTED_MODULE_1__["default"], _extends({}, this.props, {
+        postNotFound: this.postNotFound,
+        dataIsLoaded: this.dataIsLoaded
+      }))), this.state.dataIsLoaded && react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "col-3"
-      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_3__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_TopCategories_TopCategories__WEBPACK_IMPORTED_MODULE_2__["default"], null), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_SimilarPosts_SimilarPosts__WEBPACK_IMPORTED_MODULE_3__["default"], {
         post_id: this.props.match.params.id
-      })));
+      }))) : react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_Page404_Page404__WEBPACK_IMPORTED_MODULE_4__["default"], null);
     }
   }]);
 

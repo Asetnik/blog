@@ -16,7 +16,6 @@ function subscribePusher(id) {
     channelName = 'channel-user.' + id;
     const channel = pusher.subscribe(channelName);
     channel.bind('post-was-commented', function (data) {
-        console.log(data);
         Swal.fire({
             backdrop: false,
             position: 'bottom-end',
@@ -53,6 +52,18 @@ function subscribePusher(id) {
                                 </p>
                             </div>
                         </div>`,
+            showCloseButton: true,
+            timer: 10000
+        });
+    });
+    channel.bind('post-was-published', function (data) {
+        Swal.fire({
+            backdrop: false,
+            position: 'bottom-end',
+            showConfirmButton: false,
+            customClass: 'swal-wide',
+            html:
+                `Ваша <a href="/posts/${data.post_id}">публикация</a> добавлена на сайт`,
             showCloseButton: true,
             timer: 10000
         });
