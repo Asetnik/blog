@@ -202,6 +202,8 @@ class PostController extends Controller
     }
 
     public function postPut(Request $request, $id){
+        $status = $request->get('status_id');
+        $hasStatus = $request->has('status_id');
         $validator = Validator::make($request->all(), [
             'title' => 'string|max:255',
             'description' => 'string|max:255',
@@ -215,14 +217,14 @@ class PostController extends Controller
             return response()->json(["errors" => $validator->errors()])->setStatusCode(422);
         }
         $post = Post::findOrFail($id);
-        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 1) {
+        if($hasStatus && $post->status_id != $status && $status == 1) {
             $post->reason_for_rejection = '';
         }
-        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 2){
+        if($hasStatus && $post->status_id != $status && $status == 2){
             $post->reason_for_rejection = '';
             event(new PostWasPublished($post));
         }
-        if($request->has('status_id') && $post->status_id != $request->get('status_id') && $request->get('status_id') == 3){
+        if($hasStatus && $post->status_id != $status && $status == 3){
             event(new PostWasBlocked($post, $request->get('reason_for_rejection')));
         }
         if($request->has("photo")){
